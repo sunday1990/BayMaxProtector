@@ -258,9 +258,9 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 @implementation BayMaxProtector
 
 + (void)openProtectionsOn:(BayMaxProtectionType)protectionType{
-    if (protectionType > 8) {
+    if (protectionType > (1<<3)) {
         [self openOneProtectionOn:BayMaxProtectionTypeTimer];
-        protectionType = protectionType - 8;
+        protectionType -= (1<<3) ;
     }
     switch ((long)protectionType) {
         case BayMaxProtectionTypeUnrecognizedSelector:
