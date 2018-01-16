@@ -33,7 +33,6 @@ static inline ErrorInfos ErrorInfosMake(const char *function_class,const char *f
 }
 
 static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
-    NSLog(@"className:%@\n unrecognizedSelector:%@",[NSString stringWithCString:errors.function_class encoding:NSUTF8StringEncoding],[NSString stringWithCString:errors.function_name encoding:NSUTF8StringEncoding]);
 #ifdef DEBUG
 #else
 #endif
@@ -49,9 +48,6 @@ static NSString *const ErrorClassName = @"BMP_ErrorClassName";
 static NSString *const ErrorFunctionName = @"BMP_ErrorFunctionName";
 static NSString *const ErrorViewController = @"BMP_ErrorViewController";
 
-+ (void)load{
-    MethodEXChange([self class], @selector(forwardingTargetForSelector:), [self class], @selector(BMP_forwardingTargetForSelector:));
-}
 //将崩溃信息转发到一个指定的类中执行FastForwarding
 - (id)BMP_forwardingTargetForSelector:(SEL)selector{
     /*判断当前类有没有重写消息转发的相关方法*/
@@ -90,14 +86,12 @@ static NSString *const ErrorViewController = @"BMP_ErrorViewController";
     if (appRootVC.presentedViewController) {
         nextResponder = appRootVC.presentedViewController;
     }else{
-        NSLog(@"===%@",[window subviews]);
         UIView *frontView = [[window subviews] objectAtIndex:0];
         nextResponder = [frontView nextResponder];
     }
     if ([nextResponder isKindOfClass:[UITabBarController class]]){
         UITabBarController * tabbar = (UITabBarController *)nextResponder;
         UINavigationController * nav = (UINavigationController *)tabbar.viewControllers[tabbar.selectedIndex];
-        // UINavigationController * nav = tabbar.selectedViewController ; 上下两种写法都行
         result = nav.childViewControllers.lastObject;
     }else if ([nextResponder isKindOfClass:[UINavigationController class]]){
         UIViewController * nav = (UIViewController *)nextResponder;
@@ -158,12 +152,6 @@ static void *KVOProtectorKey = &KVOProtectorKey;
 static NSString *const KVOProtectorValue = @"BMP_KVOProtector";
 static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
 
-+ (void)load{
-    MethodEXChange([self class], @selector(addObserver:forKeyPath:options:context:), [self class], @selector(BMP_addObserver:forKeyPath:options:context:));
-    MethodEXChange([self class], @selector(removeObserver:forKeyPath:), [self class], @selector(BMP_removeObserver:forKeyPath:));
-    MethodEXChange([self class], NSSelectorFromString(@"dealloc"), [self class], @selector(BMPKVO_dealloc));
-}
-
 - (void)setBayMaxKVODelegate:(BayMaxKVODelegate *)BayMaxKVODelegate{
     objc_setAssociatedObject(self, BayMaxKVODelegateKey, BayMaxKVODelegate, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
@@ -184,7 +172,8 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         [self.bayMaxKVODelegate addKVOInfoToMapsWithObserver:observer forKeyPath:keyPath options:options context:context success:^{
             [weakSelf BMP_addObserver:weakSelf.bayMaxKVODelegate forKeyPath:keyPath options:options context:context];
         } failure:^(NSError *error) {
-            NSLog(@"error:%@",error.description);
+            NSLog(@"BMPError_KVO_Details:\n%@",error.description);
+            
         }];
     }else{
         [self BMP_addObserver:observer forKeyPath:keyPath options:options context:context];
@@ -244,11 +233,6 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 @end
 
 @implementation NSNotificationCenter (NotificationProtector)
-
-+ (void)load{
-    MethodEXChange([self class], @selector(addObserver:selector:name:object:), [self class], @selector(BMP_addObserver:selector:name:object:));
-}
-
 - (void)BMP_addObserver:(id)observer selector:(SEL)aSelector name:(NSNotificationName)aName object:(id)anObject{
     objc_setAssociatedObject(observer, NSNotificationProtectorKey, NSNotificationProtectorValue, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self BMP_addObserver:observer selector:aSelector name:aName object:anObject];
@@ -257,10 +241,6 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 @end
 
 @implementation UIViewController (NotificationProtector)
-+ (void)load{
-    MethodEXChange([self class], NSSelectorFromString(@"dealloc"), [self class], NSSelectorFromString(@"BMP_dealloc"));
-}
-
 - (void)BMP_dealloc{
     NSString *value = (NSString *)objc_getAssociatedObject(self, NSNotificationProtectorKey);
     if ([value isEqualToString:NSNotificationProtectorValue]) {
@@ -276,5 +256,94 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 @end
 
 @implementation BayMaxProtector
+
++ (void)openProtectionsOn:(BayMaxProtectionType)protectionType{
+    if (protectionType > 8) {
+        [self openOneProtectionOn:BayMaxProtectionTypeTimer];
+        protectionType = protectionType - 8;
+    }
+    switch ((long)protectionType) {
+        case BayMaxProtectionTypeUnrecognizedSelector:
+        case BayMaxProtectionTypeKVO:
+        case BayMaxProtectionTypeNotification:
+        case BayMaxProtectionTypeTimer:
+        case BayMaxProtectionTypeAll:
+        {
+            [self openOneProtectionOn:protectionType];
+        }
+            break;
+        case 3:
+        {
+            [self openOneProtectionOn:BayMaxProtectionTypeUnrecognizedSelector];
+            [self openOneProtectionOn:BayMaxProtectionTypeKVO];
+        }
+            break;
+        case 5:
+        {
+            [self openOneProtectionOn:BayMaxProtectionTypeUnrecognizedSelector];
+            [self openOneProtectionOn:BayMaxProtectionTypeNotification];
+        }
+            break;
+        case 6:
+        {
+            [self openOneProtectionOn:BayMaxProtectionTypeKVO];
+            [self openOneProtectionOn:BayMaxProtectionTypeNotification];
+        }
+            break;
+        case 7:
+        {
+            [self openOneProtectionOn:BayMaxProtectionTypeUnrecognizedSelector];
+            [self openOneProtectionOn:BayMaxProtectionTypeKVO];
+            [self openOneProtectionOn:BayMaxProtectionTypeNotification];
+        }
+            break;
+      
+        default:
+            break;
+    }
+}
+
++ (void)openOneProtectionOn:(BayMaxProtectionType)protectionType{
+    switch (protectionType) {
+        case BayMaxProtectionTypeUnrecognizedSelector:
+        {
+          MethodEXChange([NSObject class], @selector(forwardingTargetForSelector:), [NSObject class], @selector(BMP_forwardingTargetForSelector:));
+        }
+            break;
+    case BayMaxProtectionTypeKVO:
+        {
+            MethodEXChange([NSObject class], @selector(addObserver:forKeyPath:options:context:), [NSObject class], @selector(BMP_addObserver:forKeyPath:options:context:));
+            MethodEXChange([NSObject class], @selector(removeObserver:forKeyPath:), [NSObject class], @selector(BMP_removeObserver:forKeyPath:));
+            MethodEXChange([NSObject class], NSSelectorFromString(@"dealloc"), [NSObject class], @selector(BMPKVO_dealloc));
+        }
+        break;
+        
+    case BayMaxProtectionTypeNotification:
+        {
+            MethodEXChange([NSNotificationCenter class], @selector(addObserver:selector:name:object:), [NSNotificationCenter class], @selector(BMP_addObserver:selector:name:object:));
+            MethodEXChange([UIViewController class], NSSelectorFromString(@"dealloc"), [self class], NSSelectorFromString(@"BMP_dealloc"));
+        }
+        break;
+    case BayMaxProtectionTypeTimer:
+        {
+            
+        }
+        break;
+    case BayMaxProtectionTypeAll:
+        {
+            MethodEXChange([NSObject class], @selector(forwardingTargetForSelector:), [NSObject class], @selector(BMP_forwardingTargetForSelector:));
+            MethodEXChange([NSObject class], @selector(addObserver:forKeyPath:options:context:), [NSObject class], @selector(BMP_addObserver:forKeyPath:options:context:));
+            MethodEXChange([NSObject class], @selector(removeObserver:forKeyPath:), [NSObject class], @selector(BMP_removeObserver:forKeyPath:));
+            MethodEXChange([NSObject class], NSSelectorFromString(@"dealloc"), [NSObject class], @selector(BMPKVO_dealloc));
+            MethodEXChange([NSNotificationCenter class], @selector(addObserver:selector:name:object:), [NSNotificationCenter class], @selector(BMP_addObserver:selector:name:object:));
+            MethodEXChange([UIViewController class], NSSelectorFromString(@"dealloc"), [self class], NSSelectorFromString(@"BMP_dealloc"));
+        }
+        break;
+   
+        default:
+            break;
+    }
+    
+}
 
 @end

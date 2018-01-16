@@ -81,11 +81,10 @@
         }
     }];
     if (isExist) {//已经存在了
-//        NSLog(@"observer重复添加->observer:%@\n keypath:%@",observer,keyPath);
         if (failure) {
             NSInteger code = -1234;
-            NSString *msg = [NSString stringWithFormat:@"observer重复添加->observer:%@\n keypath:%@",observer,keyPath];
-            NSError * error = [NSError errorWithDomain:@"com.BayMax.BayMaxKVODelegate" code:code userInfo:[NSDictionary dictionaryWithObject:msg?msg:@"" forKey:@"NSLocalizedDescriptionKey"]];
+            NSString *msg = [NSString stringWithFormat:@"\n observer重复添加:\n observer:%@\n keypath:%@ \n",observer,keyPath];
+            NSError * error = [NSError errorWithDomain:@"com.BayMax.BayMaxKVODelegate" code:code userInfo:@{@"NSLocalizedDescriptionKey":msg}];            
             failure(error);
         }
     }else{
