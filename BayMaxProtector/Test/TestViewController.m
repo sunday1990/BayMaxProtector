@@ -10,7 +10,6 @@
 
 @interface TestViewController ()
 {
-    
     NSTimer *timer;
 }
 @end
@@ -20,10 +19,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSNull *null = [NSNull null];
+    [null performSelector:NSSelectorFromString(@"abc")];
+    
     self.view.backgroundColor = [UIColor orangeColor];
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
+//    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
     [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
     [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
+    
+//    [self performSelector:NSSelectorFromString(@"abc")];
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated{

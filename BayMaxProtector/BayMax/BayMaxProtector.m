@@ -45,6 +45,9 @@ static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
 @end
 
 @implementation NSObject (UNRecognizedSelHandler)
+static NSString *const ErrorClassName = @"BMP_ErrorClassName";
+static NSString *const ErrorFunctionName = @"BMP_ErrorFunctionName";
+static NSString *const ErrorViewController = @"BMP_ErrorViewController";
 
 + (void)load{
     MethodEXChange([self class], @selector(forwardingTargetForSelector:), [self class], @selector(BMP_forwardingTargetForSelector:));
@@ -52,18 +55,59 @@ static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
 //将崩溃信息转发到一个指定的类中执行FastForwarding
 - (id)BMP_forwardingTargetForSelector:(SEL)selector{
     /*判断当前类有没有重写消息转发的相关方法*/
-    if (![self isPrivateClass]) {//不是私有类，这一步判断不准确，只会筛选出一些明显的,需要到下一步进行进一步的筛选
+    if ([self isEqual:[NSNull null]] || ![self isPrivateClass]) {//不是私有类，这一步判断不准确，只会筛选出一些明显的,需要到下一步进行进一步的筛选
         if (![self overideForwardingMethods]) {//没有重写消息转发方法
             errors = ErrorInfosMake([NSStringFromClass(self.class) cStringUsingEncoding:NSASCIIStringEncoding], [NSStringFromSelector(selector) cStringUsingEncoding:NSASCIIStringEncoding]);
             class_addMethod([BayMaxCrashHandler class], selector, (IMP)DynamicAddMethodIMP, "v@:");
-            [[BayMaxCrashHandler sharedBayMaxCrashHandler]forwardingCrashMethodInfos:@{@"className":NSStringFromClass(self.class),
-                                                                           @"unRecognizedSelector":NSStringFromSelector(selector)
+           
+            [[BayMaxCrashHandler sharedBayMaxCrashHandler]forwardingCrashMethodInfos:@{ErrorClassName:NSStringFromClass(self.class),
+                                                                                    ErrorFunctionName:NSStringFromSelector(selector),
+                                                                                  ErrorViewController:[self getCurrentVC]
                                                                            }];
             return [BayMaxCrashHandler sharedBayMaxCrashHandler];
         }
     }
     return [self BMP_forwardingTargetForSelector:selector];
 }
+
+- (UIViewController *)getCurrentVC{
+    if ([self isKindOfClass:[UIViewController class]]) {
+        return (UIViewController *)self;
+    }
+    UIViewController *result = nil;
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow]; //app默认windowLevel是UIWindowLevelNormal，如果不是，找到UIWindowLevelNormal的
+    if (window.windowLevel != UIWindowLevelNormal) {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow * tmpWin in windows) {
+            if (tmpWin.windowLevel == UIWindowLevelNormal) {
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    id nextResponder = nil;
+    UIViewController *appRootVC = window.rootViewController; // 如果是present上来的appRootVC.presentedViewController 不为nil
+    if (appRootVC.presentedViewController) {
+        nextResponder = appRootVC.presentedViewController;
+    }else{
+        NSLog(@"===%@",[window subviews]);
+        UIView *frontView = [[window subviews] objectAtIndex:0];
+        nextResponder = [frontView nextResponder];
+    }
+    if ([nextResponder isKindOfClass:[UITabBarController class]]){
+        UITabBarController * tabbar = (UITabBarController *)nextResponder;
+        UINavigationController * nav = (UINavigationController *)tabbar.viewControllers[tabbar.selectedIndex];
+        // UINavigationController * nav = tabbar.selectedViewController ; 上下两种写法都行
+        result = nav.childViewControllers.lastObject;
+    }else if ([nextResponder isKindOfClass:[UINavigationController class]]){
+        UIViewController * nav = (UIViewController *)nextResponder;
+        result = nav.childViewControllers.lastObject;
+    }else{
+        result = nextResponder;
+    }
+    return result;
+}
+
 
 - (BOOL)overideForwardingMethods{
     BOOL overide = NO;
@@ -95,8 +139,8 @@ static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
 - (BOOL)isPrivateClass{
     BOOL isPrivate = NO;
     NSString *className = NSStringFromClass(self.class);
-    if ([className containsString:@"_UI"] ||
-        [className containsString:@"_NS"]||
+    if ([className hasPrefix:@"_UI"] ||
+        [className hasPrefix:@"_NS"]||
         [className hasPrefix:@"_"]||
         [className hasPrefix:@"__"]) {
         isPrivate = YES;
@@ -106,24 +150,17 @@ static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
 @end
 
 #pragma mark KVOProtector
-static void *KVOProtectorKey = &KVOProtectorKey;
-static NSString *const KVOProtectorValue = @"BMP_KVOProtector";
 @interface NSObject (KVOProtector)
-
-//@property (nonatomic, weak)BayMaxKVODelegate *bayMaxKVODelegate;
-
 @end
 
 @implementation NSObject (KVOProtector)
-
+static void *KVOProtectorKey = &KVOProtectorKey;
+static NSString *const KVOProtectorValue = @"BMP_KVOProtector";
 static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
 
 + (void)load{
-   
     MethodEXChange([self class], @selector(addObserver:forKeyPath:options:context:), [self class], @selector(BMP_addObserver:forKeyPath:options:context:));
-    
     MethodEXChange([self class], @selector(removeObserver:forKeyPath:), [self class], @selector(BMP_removeObserver:forKeyPath:));
-    
     MethodEXChange([self class], NSSelectorFromString(@"dealloc"), [self class], @selector(BMPKVO_dealloc));
 }
 
@@ -141,25 +178,25 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
 }
 
 - (void)BMP_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context{
-    if (![self isPrivateClass]) {        //如何过滤自己的类
+    if (![self isPrivateClass]) {
         __weak typeof(self) weakSelf = self;
         objc_setAssociatedObject(self, KVOProtectorKey, KVOProtectorValue, OBJC_ASSOCIATION_RETAIN);
         [self.bayMaxKVODelegate addKVOInfoToMapsWithObserver:observer forKeyPath:keyPath options:options context:context success:^{
             [weakSelf BMP_addObserver:weakSelf.bayMaxKVODelegate forKeyPath:keyPath options:options context:context];
         } failure:^(NSError *error) {
-//            NSLog(@"error:%@",error.description);
+            NSLog(@"error:%@",error.description);
         }];
     }else{
-        [self BMP_addObserver:observer forKeyPath:keyPath options:options context:(__bridge void *)(self)];
+        [self BMP_addObserver:observer forKeyPath:keyPath options:options context:context];
     }
 }
 
 - (void)BMP_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath{
-    if (![self isPrivateClass]) {        //如何过滤自己的类
+    if (![self isPrivateClass]) {
         if ([self.bayMaxKVODelegate removeKVOInfoInMapsWithObserver:observer forKeyPath:keyPath]) {
             [self BMP_removeObserver:self.bayMaxKVODelegate forKeyPath:keyPath];
         }else{
-            NSLog(@"移除的keypath不存在\n{\n keypath：%@\n observer :%@\n}",keyPath,observer);
+//            NSLog(@"移除的keypath不存在\n{\n keypath：%@\n observer :%@\n}",keyPath,observer);
         }
     }else{
         [self BMP_removeObserver:observer forKeyPath:keyPath];
@@ -179,6 +216,7 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
      [self BMPKVO_dealloc];
 }
 
+#pragma mark 以下面这些为前缀的，将不会对其进行kvo保护，默认这些为系统行为，由系统进行管理。
 - (BOOL)isPrivateClass{
     BOOL isPrivate = NO;
     NSString *className = NSStringFromClass(self.class);
@@ -186,13 +224,13 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         [className containsString:@"_NS"]||
         [className hasPrefix:@"_"]||
         [className hasPrefix:@"__"]||
-        [className hasPrefix:@"NSUserDefaults"]||
-        [className hasPrefix:@"CADisplay"]) {
+        [className hasPrefix:@"NS"]||
+        [className hasPrefix:@"CA"]||
+        [className hasPrefix:@"UI"]) {
         isPrivate = YES;
     }
     return isPrivate;
 }
-
 @end
 
 #pragma mark NotificationProtector

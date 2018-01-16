@@ -9,6 +9,10 @@
 #import "BayMaxKVODelegate.h"
 
 @interface KVOInfo: NSObject
+
+@end
+
+@implementation KVOInfo
 {
     @package
     void *_context;
@@ -16,9 +20,6 @@
     __weak NSObject *_observer;
     __weak NSString *_keyPath;
 }
-@end
-
-@implementation KVOInfo
 @end
 
 @implementation BayMaxKVODelegate
@@ -50,7 +51,7 @@
         }
     }];
     if (isExist) {//已经存在了
-        NSLog(@"observer重复添加->observer:%@\n keypath:%@",observer,keyPath);
+//        NSLog(@"observer重复添加->observer:%@\n keypath:%@",observer,keyPath);
         success = NO;
     }else{
         KVOInfo *info = [[KVOInfo alloc]init];
@@ -80,7 +81,7 @@
         }
     }];
     if (isExist) {//已经存在了
-        NSLog(@"observer重复添加->observer:%@\n keypath:%@",observer,keyPath);
+//        NSLog(@"observer重复添加->observer:%@\n keypath:%@",observer,keyPath);
         if (failure) {
             NSInteger code = -1234;
             NSString *msg = [NSString stringWithFormat:@"observer重复添加->observer:%@\n keypath:%@",observer,keyPath];
@@ -144,7 +145,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     NSMutableArray <KVOInfo *> *kvoInfos = [self getKVOInfosForKeypath:keyPath];
     [kvoInfos enumerateObjectsUsingBlock:^(KVOInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj->_keyPath isEqualToString:keyPath]) {//一定相同，这个判断多余了
+        if ([obj->_keyPath isEqualToString:keyPath]) {
             NSObject *observer = obj->_observer;
             if (observer) {
                 [observer observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -157,6 +158,5 @@
     NSArray <NSString *>*keyPaths = _keyPathMaps.allKeys;
     return keyPaths;
 }
-
 
 @end
