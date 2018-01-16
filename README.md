@@ -21,6 +21,6 @@ Crash protector -take care of your application like BayMax
 
 ```
 ## 三、why BayMax Can do This?
-原理分析还未完善，稍后奉上，参考了网易的健康系统，并踩了一些坑。
+主要参考了网易的健康系统，踩了一些坑，然而还有很多需要优化的地方，会不断完善，也希望您能够提供宝贵的建议。
 
 
