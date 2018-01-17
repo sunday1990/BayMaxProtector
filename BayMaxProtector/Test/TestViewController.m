@@ -25,8 +25,8 @@
     self.view.backgroundColor = [UIColor orangeColor];
 //    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
     
-//    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
-//    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
 //    [self performSelector:NSSelectorFromString(@"abc")];
 }
 
