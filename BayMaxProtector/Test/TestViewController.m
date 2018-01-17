@@ -10,7 +10,7 @@
 
 @interface TestViewController ()
 {
-    NSTimer *timer;
+    NSTimer *_timer;
 }
 @end
 
@@ -23,21 +23,21 @@
     [null performSelector:NSSelectorFromString(@"abc")];
     
     self.view.backgroundColor = [UIColor orangeColor];
-//    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
-    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
+//    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
     
+//    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
+//    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
 //    [self performSelector:NSSelectorFromString(@"abc")];
-    
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    [timer invalidate];
-    timer = nil;
+//    [_timer invalidate];
+//    _timer = nil;
 }
 
 - (void)click{
+    NSLog(@"self:%@",self);
     NSLog(@"click");
 }
 

@@ -19,6 +19,7 @@
 		160864C3200CA3340043988C /* BayMaxCrashHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864BE200CA3340043988C /* BayMaxCrashHandler.m */; };
 		160864C4200CA3340043988C /* BayMaxProtector.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864C1200CA3340043988C /* BayMaxProtector.m */; };
 		160864C7200CA35B0043988C /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864C6200CA35B0043988C /* TestViewController.m */; };
+		16E19E0E200DFA870038001A /* BayMaxTimerSubTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E19E0D200DFA870038001A /* BayMaxTimerSubTarget.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,8 @@
 		160864C1200CA3340043988C /* BayMaxProtector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxProtector.m; sourceTree = "<group>"; };
 		160864C5200CA35B0043988C /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		160864C6200CA35B0043988C /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		16E19E0C200DFA870038001A /* BayMaxTimerSubTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BayMaxTimerSubTarget.h; sourceTree = "<group>"; };
+		16E19E0D200DFA870038001A /* BayMaxTimerSubTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BayMaxTimerSubTarget.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +158,8 @@
 				160864BD200CA3340043988C /* BayMaxKVODelegate.m */,
 				160864BF200CA3340043988C /* BayMaxCrashHandler.h */,
 				160864BE200CA3340043988C /* BayMaxCrashHandler.m */,
+				16E19E0C200DFA870038001A /* BayMaxTimerSubTarget.h */,
+				16E19E0D200DFA870038001A /* BayMaxTimerSubTarget.m */,
 			);
 			path = BayMax;
 			sourceTree = "<group>";
@@ -306,6 +311,7 @@
 				160864C4200CA3340043988C /* BayMaxProtector.m in Sources */,
 				16086499200CA30E0043988C /* main.m in Sources */,
 				160864C7200CA35B0043988C /* TestViewController.m in Sources */,
+				16E19E0E200DFA870038001A /* BayMaxTimerSubTarget.m in Sources */,
 				1608648B200CA30E0043988C /* AppDelegate.m in Sources */,
 				160864C2200CA3340043988C /* BayMaxKVODelegate.m in Sources */,
 			);
