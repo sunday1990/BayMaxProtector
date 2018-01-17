@@ -9,7 +9,7 @@
 #import "BayMaxTimerSubTarget.h"
 #import <objc/runtime.h>
 
-#define SuppressPerformSelectorLeakWarning(Stuff)\
+#define BMPSuppressPerformSelectorLeakWarning(Stuff)\
 do { \
     _Pragma("clang diagnostic push") \
     _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
@@ -46,7 +46,7 @@ do { \
 - (void)fireProxyTimer:(NSTimer *)timer{
     if (_aTarget) {
         if ([_aTarget respondsToSelector:_aSelector]) {
-            SuppressPerformSelectorLeakWarning(
+            BMPSuppressPerformSelectorLeakWarning(
                [_aTarget performSelector:_aSelector];
             );
         }
