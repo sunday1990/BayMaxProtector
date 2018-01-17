@@ -19,26 +19,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor orangeColor];
+
+    //1、unrecognizedSelector
     NSNull *null = [NSNull null];
     [null performSelector:NSSelectorFromString(@"abc")];
+    //2、timer未invalidate
+    _timer =  [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
     
-    self.view.backgroundColor = [UIColor orangeColor];
-//    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
-    
+    //3、observer重复添加、
     [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
     [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
-//    [self performSelector:NSSelectorFromString(@"abc")];
+    
+    //4、NSNotification未移除
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notify_test) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-//    [_timer invalidate];
-//    _timer = nil;
 }
 
 - (void)click{
-    NSLog(@"self:%@",self);
-    NSLog(@"click");
+    NSLog(@"timer_test");
+}
+
+- (void)notify_test{
+    
+    NSLog(@"notification_test");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,30 +54,15 @@
 }
 
 - (void)dealloc{
-    NSLog(@"notification dealloc");
-//    [self removeObserver:self forKeyPath:@"progress"];
-//    [self removeObserver:self forKeyPath:@"progressd"];
+    //observer重复移除
+    [self removeObserver:self forKeyPath:@"progress"];
+    [self removeObserver:self forKeyPath:@"progressd"];
     
 }
-
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-#pragma mark ======== NetWork ========
-
-#pragma mark ======== System Delegate ========
-
-#pragma mark ======== Custom Delegate ========
-
-#pragma mark ======== Notifications && Observers ========
-
-#pragma mark ======== Event Response ========
-
-#pragma mark ======== Private Methods ========
-
-#pragma mark ======== Setters && Getters ========
 
 /*
  #pragma mark - Navigation

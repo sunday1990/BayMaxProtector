@@ -8,15 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface BayMaxTimerSubTarget : NSObject{
-    @package
-    NSTimeInterval _ti;
-    __weak id _aTarget;
-    SEL _aSelector;
-    __weak id _userInfo;
-    BOOL _yesOrNo;
-}
+@interface BayMaxTimerSubTarget : NSObject
 
-+ (nonnull instancetype)sharedBayMaxTimerSubTarget;
++ (instancetype)targetWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo;
 
 @end

@@ -50,9 +50,9 @@ static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
 @end
 
 @implementation NSObject (UNRecognizedSelHandler)
-static NSString *const ErrorClassName = @"BMP_ErrorClassName";
-static NSString *const ErrorFunctionName = @"BMP_ErrorFunctionName";
-static NSString *const ErrorViewController = @"BMP_ErrorViewController";
+static NSString *const ErrorClassName = @"BMPError_ClassName";
+static NSString *const ErrorFunctionName = @"BMPError_FunctionName";
+static NSString *const ErrorViewController = @"BMPError_ViewController";
 
 //将崩溃信息转发到一个指定的类中执行FastForwarding
 - (id)BMP_forwardingTargetForSelector:(SEL)selector{
@@ -264,12 +264,16 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 
 @implementation NSTimer (TimerProtector)
 + (NSTimer *)BMP_scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
-    return [self BMP_scheduledTimerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
+    if (![self targetIsPrivateClass:[aTarget class]]) {
+        return [self BMP_scheduledTimerWithTimeInterval:ti target:[BayMaxTimerSubTarget targetWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo] selector:NSSelectorFromString(@"fireProxyTimer:") userInfo:userInfo repeats:yesOrNo];
+    }else{
+        return [self BMP_scheduledTimerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
+    }
 }
 
-- (BOOL)isPrivateClass{
++ (BOOL)targetIsPrivateClass:(Class)cls{
     BOOL isPrivate = NO;
-    NSString *className = NSStringFromClass(self.class);
+    NSString *className = NSStringFromClass(cls);
     if ([className containsString:@"_UI"] ||
         [className containsString:@"_NS"]||
         [className hasPrefix:@"_"]||
