@@ -163,13 +163,13 @@
 			isa = PBXGroup;
 			children = (
 				1676660F201054D90010E6FB /* BayMaxProtector.h */,
-				16766610201054D90010E6FB /* BayMaxKVODelegate.m */,
-				16766611201054D90010E6FB /* BayMaxCrashHandler.m */,
-				16766612201054D90010E6FB /* BayMaxTimerSubTarget.m */,
-				16766613201054D90010E6FB /* BayMaxCrashHandler.h */,
-				16766614201054D90010E6FB /* BayMaxKVODelegate.h */,
 				16766615201054D90010E6FB /* BayMaxProtector.m */,
+				16766614201054D90010E6FB /* BayMaxKVODelegate.h */,
+				16766610201054D90010E6FB /* BayMaxKVODelegate.m */,
+				16766613201054D90010E6FB /* BayMaxCrashHandler.h */,
+				16766611201054D90010E6FB /* BayMaxCrashHandler.m */,
 				16766616201054D90010E6FB /* BayMaxTimerSubTarget.h */,
+				16766612201054D90010E6FB /* BayMaxTimerSubTarget.m */,
 			);
 			path = BayMaxProtector;
 			sourceTree = "<group>";
