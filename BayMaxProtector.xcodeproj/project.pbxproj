@@ -97,7 +97,6 @@
 		1608647D200CA30E0043988C = {
 			isa = PBXGroup;
 			children = (
-				1676660E201054D90010E6FB /* BayMaxProtector */,
 				167665FF201054D90010E6FB /* BayMaxProtectorExample */,
 				160864A1200CA30E0043988C /* BayMaxProtectorTests */,
 				160864AC200CA30E0043988C /* BayMaxProtectorUITests */,
@@ -136,16 +135,17 @@
 		167665FF201054D90010E6FB /* BayMaxProtectorExample */ = {
 			isa = PBXGroup;
 			children = (
-				16766600201054D90010E6FB /* AppDelegate.h */,
+				1676660E201054D90010E6FB /* BayMaxProtector */,
 				16766601201054D90010E6FB /* Test */,
 				16766604201054D90010E6FB /* Assets.xcassets */,
+				1676660D201054D90010E6FB /* ViewController.h */,
 				16766605201054D90010E6FB /* ViewController.m */,
 				16766606201054D90010E6FB /* LaunchScreen.storyboard */,
 				16766608201054D90010E6FB /* Main.storyboard */,
 				1676660A201054D90010E6FB /* main.m */,
+				16766600201054D90010E6FB /* AppDelegate.h */,
 				1676660B201054D90010E6FB /* AppDelegate.m */,
 				1676660C201054D90010E6FB /* Info.plist */,
-				1676660D201054D90010E6FB /* ViewController.h */,
 			);
 			path = BayMaxProtectorExample;
 			sourceTree = "<group>";
