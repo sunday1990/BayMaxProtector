@@ -43,6 +43,33 @@ static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
 #else
 #endif
     return 0;
+    
+}
+
+static NSArray *_ignorePrefixes;
+static inline BOOL IsPrivateClass(Class cls){
+    __block BOOL isPrivate = NO;
+    NSString *className = NSStringFromClass(cls);
+    if ([className containsString:@"_UI"] ||
+        [className containsString:@"_NS"]||
+        [className hasPrefix:@"_"]||
+        [className hasPrefix:@"__"]||
+        [className hasPrefix:@"NS"]||
+        [className hasPrefix:@"CA"]||
+        [className hasPrefix:@"UI"]||
+        [className hasPrefix:@"AV"]) {
+        isPrivate = YES;
+        return isPrivate;
+    }
+    if (_ignorePrefixes.count>0) {
+        [_ignorePrefixes enumerateObjectsUsingBlock:^(NSString * prefix, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([className hasPrefix:prefix]) {
+                isPrivate = YES;
+                *stop = YES;
+            }
+        }];
+    }
+    return isPrivate;
 }
 
 #pragma mark UNRecognizedSelHandler
@@ -172,7 +199,7 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
 }
 
 - (void)BMP_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context{
-    if (![self isPrivateClass]) {
+    if (!IsPrivateClass(self.class)) {
         __weak typeof(self) weakSelf = self;
         objc_setAssociatedObject(self, KVOProtectorKey, KVOProtectorValue, OBJC_ASSOCIATION_RETAIN);
         [self.bayMaxKVODelegate addKVOInfoToMapsWithObserver:observer forKeyPath:keyPath options:options context:context success:^{
@@ -187,7 +214,7 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
 }
 
 - (void)BMP_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath{
-    if (![self isPrivateClass]) {
+    if (!IsPrivateClass(self.class)) {
         if ([self.bayMaxKVODelegate removeKVOInfoInMapsWithObserver:observer forKeyPath:keyPath]) {
             [self BMP_removeObserver:self.bayMaxKVODelegate forKeyPath:keyPath];
         }else{
@@ -199,7 +226,7 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
 }
 
 - (void)BMPKVO_dealloc{
-    if (![self isPrivateClass]) {
+    if (!IsPrivateClass(self.class)) {
         NSString *value = (NSString *)objc_getAssociatedObject(self, KVOProtectorKey);
         if ([value isEqualToString:KVOProtectorValue]) {
             NSArray *keypaths = [self.bayMaxKVODelegate getAllKeypaths];
@@ -211,21 +238,6 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
      [self BMPKVO_dealloc];
 }
 
-#pragma mark 以下面这些为前缀的，将不会对其进行kvo保护，默认这些为系统行为，由系统进行管理。
-- (BOOL)isPrivateClass{
-    BOOL isPrivate = NO;
-    NSString *className = NSStringFromClass(self.class);
-    if ([className containsString:@"_UI"] ||
-        [className containsString:@"_NS"]||
-        [className hasPrefix:@"_"]||
-        [className hasPrefix:@"__"]||
-        [className hasPrefix:@"NS"]||
-        [className hasPrefix:@"CA"]||
-        [className hasPrefix:@"UI"]) {
-        isPrivate = YES;
-    }
-    return isPrivate;
-}
 @end
 
 #pragma mark NotificationProtector
@@ -264,29 +276,15 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 
 @implementation NSTimer (TimerProtector)
 + (NSTimer *)BMP_scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
-    if (![self targetIsPrivateClass:[aTarget class]]) {
+    if (!IsPrivateClass([aTarget class])) {
         return [self BMP_scheduledTimerWithTimeInterval:ti target:[BayMaxTimerSubTarget targetWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo] selector:NSSelectorFromString(@"fireProxyTimer:") userInfo:userInfo repeats:yesOrNo];
     }else{
         return [self BMP_scheduledTimerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
     }
 }
 
-+ (BOOL)targetIsPrivateClass:(Class)cls{
-    BOOL isPrivate = NO;
-    NSString *className = NSStringFromClass(cls);
-    if ([className containsString:@"_UI"] ||
-        [className containsString:@"_NS"]||
-        [className hasPrefix:@"_"]||
-        [className hasPrefix:@"__"]||
-        [className hasPrefix:@"NS"]||
-        [className hasPrefix:@"CA"]||
-        [className hasPrefix:@"UI"]) {
-        isPrivate = YES;
-    }
-    return isPrivate;
-}
-
 @end
+
 
 @interface BayMaxProtector()
 
@@ -381,6 +379,10 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
         default:
             break;
     }
+}
+
++ (void)ignoreProtectionsOnFrameworksWithPrefix:(NSArray *_Nonnull)ignorePrefixes{
+    _ignorePrefixes = ignorePrefixes;
 }
 
 @end

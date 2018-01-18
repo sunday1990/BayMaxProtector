@@ -23,6 +23,10 @@
 //    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];
 //    /*开启某几个组合防护*/
 //    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeKVO|BayMaxProtectionTypeTimer];
+    
+    //设置白名单
+//    [BayMaxProtector ignoreProtectionsOnFrameworksWithPrefix:@[@""]];
+
     return YES;
 }
 

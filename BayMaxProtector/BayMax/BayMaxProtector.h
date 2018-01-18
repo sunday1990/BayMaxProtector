@@ -30,5 +30,27 @@ typedef NS_ENUM(NSInteger, BayMaxProtectionType) {
  */
 + (void)openProtectionsOn:(BayMaxProtectionType)protectionType;
 
+/**
+ 设置白名单
+ 作用：忽略对具有以下指定前缀的框架的保护（多是系统框架），原因一是减少不必要的操作，二是避免kvo异常发生错误
+ 已默认忽略带有[@"_",
+             @"__",
+             @"NS",
+             @"CA",
+             @"UI",
+             @"AV",
+             @"_UI",
+             @"_NS",
+             @"AV"
+             ]前缀的框架
+ 
+使用：如果想忽略带有CS前缀的类，那么ignorePrefixes为@[@"CS"]即可。
+
+注意：设置对unrecognizedSelctor错误不起作用。
+ 
+ @param ignorePrefixes 要忽略的框架的前缀
+ */
++ (void)ignoreProtectionsOnFrameworksWithPrefix:(NSArray *_Nonnull)ignorePrefixes;
+
 @end
 
