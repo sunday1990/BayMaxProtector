@@ -7,19 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1608648B200CA30E0043988C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1608648A200CA30E0043988C /* AppDelegate.m */; };
-		1608648E200CA30E0043988C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1608648D200CA30E0043988C /* ViewController.m */; };
-		16086491200CA30E0043988C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1608648F200CA30E0043988C /* Main.storyboard */; };
-		16086493200CA30E0043988C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16086492200CA30E0043988C /* Assets.xcassets */; };
-		16086496200CA30E0043988C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16086494200CA30E0043988C /* LaunchScreen.storyboard */; };
-		16086499200CA30E0043988C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 16086498200CA30E0043988C /* main.m */; };
 		160864A3200CA30E0043988C /* BayMaxProtectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864A2200CA30E0043988C /* BayMaxProtectorTests.m */; };
 		160864AE200CA30E0043988C /* BayMaxProtectorUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864AD200CA30E0043988C /* BayMaxProtectorUITests.m */; };
-		160864C2200CA3340043988C /* BayMaxKVODelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864BD200CA3340043988C /* BayMaxKVODelegate.m */; };
-		160864C3200CA3340043988C /* BayMaxCrashHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864BE200CA3340043988C /* BayMaxCrashHandler.m */; };
-		160864C4200CA3340043988C /* BayMaxProtector.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864C1200CA3340043988C /* BayMaxProtector.m */; };
-		160864C7200CA35B0043988C /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864C6200CA35B0043988C /* TestViewController.m */; };
-		16E19E0E200DFA870038001A /* BayMaxTimerSubTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 16E19E0D200DFA870038001A /* BayMaxTimerSubTarget.m */; };
+		16766617201054D90010E6FB /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766602201054D90010E6FB /* TestViewController.m */; };
+		16766618201054D90010E6FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16766604201054D90010E6FB /* Assets.xcassets */; };
+		16766619201054D90010E6FB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766605201054D90010E6FB /* ViewController.m */; };
+		1676661A201054D90010E6FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16766606201054D90010E6FB /* LaunchScreen.storyboard */; };
+		1676661B201054D90010E6FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16766608201054D90010E6FB /* Main.storyboard */; };
+		1676661C201054D90010E6FB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1676660A201054D90010E6FB /* main.m */; };
+		1676661D201054D90010E6FB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1676660B201054D90010E6FB /* AppDelegate.m */; };
+		1676661E201054D90010E6FB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1676660C201054D90010E6FB /* Info.plist */; };
+		1676661F201054D90010E6FB /* BayMaxKVODelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766610201054D90010E6FB /* BayMaxKVODelegate.m */; };
+		16766620201054D90010E6FB /* BayMaxCrashHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766611201054D90010E6FB /* BayMaxCrashHandler.m */; };
+		16766621201054D90010E6FB /* BayMaxTimerSubTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766612201054D90010E6FB /* BayMaxTimerSubTarget.m */; };
+		16766622201054D90010E6FB /* BayMaxProtector.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766615201054D90010E6FB /* BayMaxProtector.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,31 +42,31 @@
 
 /* Begin PBXFileReference section */
 		16086486200CA30E0043988C /* BayMaxProtector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BayMaxProtector.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		16086489200CA30E0043988C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		1608648A200CA30E0043988C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1608648C200CA30E0043988C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		1608648D200CA30E0043988C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		16086490200CA30E0043988C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		16086492200CA30E0043988C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		16086495200CA30E0043988C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		16086497200CA30E0043988C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		16086498200CA30E0043988C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1608649E200CA30E0043988C /* BayMaxProtectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BayMaxProtectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		160864A2200CA30E0043988C /* BayMaxProtectorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BayMaxProtectorTests.m; sourceTree = "<group>"; };
 		160864A4200CA30E0043988C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		160864A9200CA30E0043988C /* BayMaxProtectorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BayMaxProtectorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		160864AD200CA30E0043988C /* BayMaxProtectorUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BayMaxProtectorUITests.m; sourceTree = "<group>"; };
 		160864AF200CA30E0043988C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		160864BC200CA3340043988C /* BayMaxProtector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxProtector.h; sourceTree = "<group>"; };
-		160864BD200CA3340043988C /* BayMaxKVODelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxKVODelegate.m; sourceTree = "<group>"; };
-		160864BE200CA3340043988C /* BayMaxCrashHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxCrashHandler.m; sourceTree = "<group>"; };
-		160864BF200CA3340043988C /* BayMaxCrashHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxCrashHandler.h; sourceTree = "<group>"; };
-		160864C0200CA3340043988C /* BayMaxKVODelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxKVODelegate.h; sourceTree = "<group>"; };
-		160864C1200CA3340043988C /* BayMaxProtector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxProtector.m; sourceTree = "<group>"; };
-		160864C5200CA35B0043988C /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
-		160864C6200CA35B0043988C /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
-		16E19E0C200DFA870038001A /* BayMaxTimerSubTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BayMaxTimerSubTarget.h; sourceTree = "<group>"; };
-		16E19E0D200DFA870038001A /* BayMaxTimerSubTarget.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BayMaxTimerSubTarget.m; sourceTree = "<group>"; };
+		16766600201054D90010E6FB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		16766602201054D90010E6FB /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		16766603201054D90010E6FB /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		16766604201054D90010E6FB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		16766605201054D90010E6FB /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		16766607201054D90010E6FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		16766609201054D90010E6FB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1676660A201054D90010E6FB /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1676660B201054D90010E6FB /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1676660C201054D90010E6FB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1676660D201054D90010E6FB /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		1676660F201054D90010E6FB /* BayMaxProtector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxProtector.h; sourceTree = "<group>"; };
+		16766610201054D90010E6FB /* BayMaxKVODelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxKVODelegate.m; sourceTree = "<group>"; };
+		16766611201054D90010E6FB /* BayMaxCrashHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxCrashHandler.m; sourceTree = "<group>"; };
+		16766612201054D90010E6FB /* BayMaxTimerSubTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxTimerSubTarget.m; sourceTree = "<group>"; };
+		16766613201054D90010E6FB /* BayMaxCrashHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxCrashHandler.h; sourceTree = "<group>"; };
+		16766614201054D90010E6FB /* BayMaxKVODelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxKVODelegate.h; sourceTree = "<group>"; };
+		16766615201054D90010E6FB /* BayMaxProtector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxProtector.m; sourceTree = "<group>"; };
+		16766616201054D90010E6FB /* BayMaxTimerSubTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxTimerSubTarget.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +97,8 @@
 		1608647D200CA30E0043988C = {
 			isa = PBXGroup;
 			children = (
-				16086488200CA30E0043988C /* BayMaxProtector */,
+				1676660E201054D90010E6FB /* BayMaxProtector */,
+				167665FF201054D90010E6FB /* BayMaxProtectorExample */,
 				160864A1200CA30E0043988C /* BayMaxProtectorTests */,
 				160864AC200CA30E0043988C /* BayMaxProtectorUITests */,
 				16086487200CA30E0043988C /* Products */,
@@ -111,24 +113,6 @@
 				160864A9200CA30E0043988C /* BayMaxProtectorUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		16086488200CA30E0043988C /* BayMaxProtector */ = {
-			isa = PBXGroup;
-			children = (
-				160864C8200CA35F0043988C /* Test */,
-				160864BB200CA3340043988C /* BayMax */,
-				16086489200CA30E0043988C /* AppDelegate.h */,
-				1608648A200CA30E0043988C /* AppDelegate.m */,
-				1608648C200CA30E0043988C /* ViewController.h */,
-				1608648D200CA30E0043988C /* ViewController.m */,
-				1608648F200CA30E0043988C /* Main.storyboard */,
-				16086492200CA30E0043988C /* Assets.xcassets */,
-				16086494200CA30E0043988C /* LaunchScreen.storyboard */,
-				16086497200CA30E0043988C /* Info.plist */,
-				16086498200CA30E0043988C /* main.m */,
-			);
-			path = BayMaxProtector;
 			sourceTree = "<group>";
 		};
 		160864A1200CA30E0043988C /* BayMaxProtectorTests */ = {
@@ -149,28 +133,45 @@
 			path = BayMaxProtectorUITests;
 			sourceTree = "<group>";
 		};
-		160864BB200CA3340043988C /* BayMax */ = {
+		167665FF201054D90010E6FB /* BayMaxProtectorExample */ = {
 			isa = PBXGroup;
 			children = (
-				160864BC200CA3340043988C /* BayMaxProtector.h */,
-				160864C1200CA3340043988C /* BayMaxProtector.m */,
-				160864C0200CA3340043988C /* BayMaxKVODelegate.h */,
-				160864BD200CA3340043988C /* BayMaxKVODelegate.m */,
-				160864BF200CA3340043988C /* BayMaxCrashHandler.h */,
-				160864BE200CA3340043988C /* BayMaxCrashHandler.m */,
-				16E19E0C200DFA870038001A /* BayMaxTimerSubTarget.h */,
-				16E19E0D200DFA870038001A /* BayMaxTimerSubTarget.m */,
+				16766600201054D90010E6FB /* AppDelegate.h */,
+				16766601201054D90010E6FB /* Test */,
+				16766604201054D90010E6FB /* Assets.xcassets */,
+				16766605201054D90010E6FB /* ViewController.m */,
+				16766606201054D90010E6FB /* LaunchScreen.storyboard */,
+				16766608201054D90010E6FB /* Main.storyboard */,
+				1676660A201054D90010E6FB /* main.m */,
+				1676660B201054D90010E6FB /* AppDelegate.m */,
+				1676660C201054D90010E6FB /* Info.plist */,
+				1676660D201054D90010E6FB /* ViewController.h */,
 			);
-			path = BayMax;
+			path = BayMaxProtectorExample;
 			sourceTree = "<group>";
 		};
-		160864C8200CA35F0043988C /* Test */ = {
+		16766601201054D90010E6FB /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				160864C5200CA35B0043988C /* TestViewController.h */,
-				160864C6200CA35B0043988C /* TestViewController.m */,
+				16766602201054D90010E6FB /* TestViewController.m */,
+				16766603201054D90010E6FB /* TestViewController.h */,
 			);
 			path = Test;
+			sourceTree = "<group>";
+		};
+		1676660E201054D90010E6FB /* BayMaxProtector */ = {
+			isa = PBXGroup;
+			children = (
+				1676660F201054D90010E6FB /* BayMaxProtector.h */,
+				16766610201054D90010E6FB /* BayMaxKVODelegate.m */,
+				16766611201054D90010E6FB /* BayMaxCrashHandler.m */,
+				16766612201054D90010E6FB /* BayMaxTimerSubTarget.m */,
+				16766613201054D90010E6FB /* BayMaxCrashHandler.h */,
+				16766614201054D90010E6FB /* BayMaxKVODelegate.h */,
+				16766615201054D90010E6FB /* BayMaxProtector.m */,
+				16766616201054D90010E6FB /* BayMaxTimerSubTarget.h */,
+			);
+			path = BayMaxProtector;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,9 +280,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16086496200CA30E0043988C /* LaunchScreen.storyboard in Resources */,
-				16086493200CA30E0043988C /* Assets.xcassets in Resources */,
-				16086491200CA30E0043988C /* Main.storyboard in Resources */,
+				1676661E201054D90010E6FB /* Info.plist in Resources */,
+				1676661B201054D90010E6FB /* Main.storyboard in Resources */,
+				16766618201054D90010E6FB /* Assets.xcassets in Resources */,
+				1676661A201054D90010E6FB /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,14 +308,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1608648E200CA30E0043988C /* ViewController.m in Sources */,
-				160864C3200CA3340043988C /* BayMaxCrashHandler.m in Sources */,
-				160864C4200CA3340043988C /* BayMaxProtector.m in Sources */,
-				16086499200CA30E0043988C /* main.m in Sources */,
-				160864C7200CA35B0043988C /* TestViewController.m in Sources */,
-				16E19E0E200DFA870038001A /* BayMaxTimerSubTarget.m in Sources */,
-				1608648B200CA30E0043988C /* AppDelegate.m in Sources */,
-				160864C2200CA3340043988C /* BayMaxKVODelegate.m in Sources */,
+				16766622201054D90010E6FB /* BayMaxProtector.m in Sources */,
+				16766621201054D90010E6FB /* BayMaxTimerSubTarget.m in Sources */,
+				1676661D201054D90010E6FB /* AppDelegate.m in Sources */,
+				1676661F201054D90010E6FB /* BayMaxKVODelegate.m in Sources */,
+				16766620201054D90010E6FB /* BayMaxCrashHandler.m in Sources */,
+				16766619201054D90010E6FB /* ViewController.m in Sources */,
+				1676661C201054D90010E6FB /* main.m in Sources */,
+				16766617201054D90010E6FB /* TestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,20 +351,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1608648F200CA30E0043988C /* Main.storyboard */ = {
+		16766606201054D90010E6FB /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				16086490200CA30E0043988C /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		16086494200CA30E0043988C /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				16086495200CA30E0043988C /* Base */,
+				16766607201054D90010E6FB /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		16766608201054D90010E6FB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				16766609201054D90010E6FB /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -478,7 +480,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RU8Q2UZGJG;
-				INFOPLIST_FILE = BayMaxProtector/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/BayMaxProtectorExample/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lionbridge.help.BayMaxProtector;
@@ -493,7 +495,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RU8Q2UZGJG;
-				INFOPLIST_FILE = BayMaxProtector/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/BayMaxProtectorExample/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lionbridge.help.BayMaxProtector;
