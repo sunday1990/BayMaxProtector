@@ -17,7 +17,7 @@ Crash protector -take care of your application like BayMax
 [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];
 
 /*组合类型*/
-[BayMaxProtector openProtectionsOn:BayMaxProtectionTypeNotification||BayMaxProtectionTypeTimer];
+[BayMaxProtector openProtectionsOn:BayMaxProtectionTypeNotification|BayMaxProtectionTypeTimer];
 
 ```
 ## 三、why BayMax Can do This?
