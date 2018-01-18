@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BayMaxCatchError.h"
 
 @interface BayMaxTimerSubTarget : NSObject
 
-+ (instancetype)targetWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo;
++ (instancetype)targetWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo catchErrorHandler:(void(^)(BayMaxCatchError * error))errorHandler;
 
 @end

@@ -17,6 +17,10 @@ do { \
     _Pragma("clang diagnostic pop") \
 } while (0)
 
+typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
+
+BMPErrorHandler _Nullable _timerErrorHandler;
+
 @implementation BayMaxTimerSubTarget{
     @package
     NSTimeInterval _ti;
@@ -27,11 +31,15 @@ do { \
     NSString *_targetClassName;
 }
 
-+ (instancetype)targetWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
-    return [[self alloc]initWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
++ (instancetype)targetWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo catchErrorHandler:(void(^)(BayMaxCatchError * error))errorHandler{
+    return [[self alloc]initWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo catchErrorHandler:errorHandler];
 }
 
-- (instancetype)initWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
+//+ (instancetype)targetWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
+//    return [[self alloc]initWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
+//}
+
+- (instancetype)initWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo catchErrorHandler:(void(^)(BayMaxCatchError * error))errorHandler{
     if (self = [super init]) {
         _ti = ti;
         _aTarget = aTarget;
@@ -39,6 +47,7 @@ do { \
         _userInfo = userInfo;
         _yesOrNo = yesOrNo;
         _targetClassName = NSStringFromClass([aTarget class]);
+        _timerErrorHandler = errorHandler;
     }
     return self;
 }
@@ -48,14 +57,25 @@ do { \
         if ([_aTarget respondsToSelector:_aSelector]) {
             BMPSuppressPerformSelectorLeakWarning(
                [_aTarget performSelector:_aSelector];
-            );
+            );            
         }
     }else{
         //报错
-        NSLog(@"BMPError_Timer_Details:timer did not invalidate in Class<%@>",_targetClassName);
+        NSString *errorDes = [NSString stringWithFormat:@"timer did not invalidate in Class<%@>",_targetClassName];
+        BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeTimer infos:@{
+                                                                                                     BMPErrorTimer_Target:_targetClassName == nil?@"":_targetClassName,
+                                                                                                     BMPErrorTimer_Reason:errorDes
+                                                                                                   }];        
+        if (_timerErrorHandler) {
+            _timerErrorHandler(bmpError);
+        }
         [timer invalidate];
         timer = nil;
     }
+}
+
+- (void)dealloc{
+//    NSLog(@"timer subtarget dealloced");
 }
 
 @end

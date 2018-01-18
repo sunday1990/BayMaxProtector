@@ -23,7 +23,7 @@
 
     //1、unrecognizedSelector
     NSNull *null = [NSNull null];
-    [null performSelector:NSSelectorFromString(@"abc")];
+    [self performSelector:NSSelectorFromString(@"abc")];
     //2、timer未invalidate
     _timer =  [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
     
@@ -32,7 +32,8 @@
     [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
     
     //4、NSNotification未移除
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notify_test) name:UITextFieldTextDidChangeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notify_test) name:UITextFieldTextDidChangeNotification object:nil];
+
 }
 
 - (void)viewDidDisappear:(BOOL)animated{

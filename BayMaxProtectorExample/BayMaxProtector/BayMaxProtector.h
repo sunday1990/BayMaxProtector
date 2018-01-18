@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BayMaxCatchError.h"
 
 typedef NS_ENUM(NSInteger, BayMaxProtectionType) {
     /*开启全部保护*/
@@ -29,6 +30,14 @@ typedef NS_ENUM(NSInteger, BayMaxProtectionType) {
  @param protectionType protectionType description
  */
 + (void)openProtectionsOn:(BayMaxProtectionType)protectionType;
+
+/**
+开启崩溃保护（支持或运算并且带错误回调）
+
+ @param protectionType 保护类型
+ @param errorHandler 错误回调
+ */
++ (void)openProtectionsOn:(BayMaxProtectionType)protectionType catchErrorHandler:(void(^_Nullable)(BayMaxCatchError * _Nullable error))errorHandler;
 
 /**
  设置白名单

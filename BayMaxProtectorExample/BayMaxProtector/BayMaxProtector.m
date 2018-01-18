@@ -12,6 +12,18 @@
 #import "BayMaxKVODelegate.h"
 #import "BayMaxTimerSubTarget.h"
 
+typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
+BMPErrorHandler _Nullable _errorHandler;
+
+static NSArray *_ignorePrefixes;
+
+struct ErrorBody{
+    const char *function_name;
+    const char *function_class;
+};
+typedef struct ErrorBody ErrorInfos;
+static ErrorInfos errors;
+
 static inline void EXChangeInstanceMethod(Class _originalClass ,SEL _originalSel,Class _targetClass ,SEL _targetSel){
     Method methodOriginal = class_getInstanceMethod(_originalClass, _originalSel);
     Method methodNew = class_getInstanceMethod(_targetClass, _targetSel);
@@ -23,20 +35,6 @@ static inline void EXChangeClassMethod(Class _class ,SEL _originalSel,SEL _excha
     Method methodNew = class_getClassMethod(_class, _exchangeSel);
     method_exchangeImplementations(methodOriginal, methodNew);
 }
-struct ErrorBody{
-    const char *function_name;
-    const char *function_class;
-};
-
-typedef struct ErrorBody ErrorInfos;
-static ErrorInfos errors;
-static inline ErrorInfos ErrorInfosMake(const char *function_class,const char *function_name)
-{
-    ErrorInfos errorInfos;
-    errorInfos.function_name = function_name;
-    errorInfos.function_class = function_class;
-    return errorInfos;
-}
 
 static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
 #ifdef DEBUG
@@ -46,7 +44,14 @@ static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
     
 }
 
-static NSArray *_ignorePrefixes;
+static inline ErrorInfos ErrorInfosMake(const char *function_class,const char *function_name)
+{
+    ErrorInfos errorInfos;
+    errorInfos.function_name = function_name;
+    errorInfos.function_class = function_class;
+    return errorInfos;
+}
+
 static inline BOOL IsPrivateClass(Class cls){
     __block BOOL isPrivate = NO;
     NSString *className = NSStringFromClass(cls);
@@ -93,6 +98,16 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
                                                                                     ErrorFunctionName:NSStringFromSelector(selector),
                                                                                   ErrorViewController:[self getCurrentVC]
                                                                            }];
+            
+            BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
+                                                                                                       BMPErrorUnrecognizedSel_Reason:@"UNRecognized Selector",
+                                                                                                       BMPErrorUnrecognizedSel_Cls:self==nil?@"":self,                                                                                                     BMPErrorUnrecognizedSel_Func:NSStringFromSelector(selector),
+                                                                                                       BMPErrorUnrecognizedSel_VC:[self getCurrentVC] == nil?@"":[self getCurrentVC]
+                                                                                                       }];
+            
+            if (_errorHandler) {
+                _errorHandler(bmpError);
+            }
             return [BayMaxCrashHandler sharedBayMaxCrashHandler];
         }
     }
@@ -205,8 +220,16 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         [self.bayMaxKVODelegate addKVOInfoToMapsWithObserver:observer forKeyPath:keyPath options:options context:context success:^{
             [weakSelf BMP_addObserver:weakSelf.bayMaxKVODelegate forKeyPath:keyPath options:options context:context];
         } failure:^(NSError *error) {
-            NSLog(@"BMPError_KVO_Details:\n%@",error.description);
+            BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
+                                                                                                       BMPErrorKVO_Reason:@"Repeated additions to the observer",
+                                                                                                       BMPErrorKVO_Observer:observer == nil?@"":observer,
+                                                                                                       BMPErrorKVO_Keypath:keyPath == nil?@"":keyPath,
+                                                                                                       BMPErrorKVO_Target:NSStringFromClass(weakSelf.class) == nil?@"":NSStringFromClass(weakSelf.class)
+                                                                                                       }];
             
+            if (_errorHandler) {
+                _errorHandler(bmpError);
+            }            
         }];
     }else{
         [self BMP_addObserver:observer forKeyPath:keyPath options:options context:context];
@@ -277,7 +300,10 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 @implementation NSTimer (TimerProtector)
 + (NSTimer *)BMP_scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
     if (!IsPrivateClass([aTarget class])) {
-        return [self BMP_scheduledTimerWithTimeInterval:ti target:[BayMaxTimerSubTarget targetWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo] selector:NSSelectorFromString(@"fireProxyTimer:") userInfo:userInfo repeats:yesOrNo];
+        BayMaxTimerSubTarget *subtarget = [BayMaxTimerSubTarget targetWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo catchErrorHandler:^(BayMaxCatchError *error) {
+            _errorHandler(error);
+        }];
+        return [self BMP_scheduledTimerWithTimeInterval:ti target:subtarget selector:NSSelectorFromString(@"fireProxyTimer:") userInfo:userInfo repeats:yesOrNo];
     }else{
         return [self BMP_scheduledTimerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
     }
@@ -293,6 +319,11 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 @implementation BayMaxProtector
 
 + (void)openProtectionsOn:(BayMaxProtectionType)protectionType{
+    [self openProtectionsOn:protectionType catchErrorHandler:nil];
+}
+
++ (void)openProtectionsOn:(BayMaxProtectionType)protectionType catchErrorHandler:(void(^_Nullable)(BayMaxCatchError * _Nullable error))errorHandler{
+    _errorHandler = errorHandler;    
     if (protectionType > (1<<3)) {
         [self openOneProtectionOn:BayMaxProtectionTypeTimer];
         protectionType -= (1<<3) ;
@@ -332,7 +363,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
             [self openOneProtectionOn:BayMaxProtectionTypeNotification];
         }
             break;
-      
+            
         default:
             break;
     }

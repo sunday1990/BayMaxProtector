@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		160864A3200CA30E0043988C /* BayMaxProtectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864A2200CA30E0043988C /* BayMaxProtectorTests.m */; };
 		160864AE200CA30E0043988C /* BayMaxProtectorUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864AD200CA30E0043988C /* BayMaxProtectorUITests.m */; };
+		16462E3520108A3300880A10 /* BayMaxCatchError.m in Sources */ = {isa = PBXBuildFile; fileRef = 16462E3420108A3300880A10 /* BayMaxCatchError.m */; };
 		16766617201054D90010E6FB /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766602201054D90010E6FB /* TestViewController.m */; };
 		16766618201054D90010E6FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16766604201054D90010E6FB /* Assets.xcassets */; };
 		16766619201054D90010E6FB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766605201054D90010E6FB /* ViewController.m */; };
@@ -48,6 +49,8 @@
 		160864A9200CA30E0043988C /* BayMaxProtectorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BayMaxProtectorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		160864AD200CA30E0043988C /* BayMaxProtectorUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BayMaxProtectorUITests.m; sourceTree = "<group>"; };
 		160864AF200CA30E0043988C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16462E3320108A3300880A10 /* BayMaxCatchError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BayMaxCatchError.h; sourceTree = "<group>"; };
+		16462E3420108A3300880A10 /* BayMaxCatchError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BayMaxCatchError.m; sourceTree = "<group>"; };
 		16766600201054D90010E6FB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		16766602201054D90010E6FB /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		16766603201054D90010E6FB /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
@@ -170,6 +173,8 @@
 				16766611201054D90010E6FB /* BayMaxCrashHandler.m */,
 				16766616201054D90010E6FB /* BayMaxTimerSubTarget.h */,
 				16766612201054D90010E6FB /* BayMaxTimerSubTarget.m */,
+				16462E3320108A3300880A10 /* BayMaxCatchError.h */,
+				16462E3420108A3300880A10 /* BayMaxCatchError.m */,
 			);
 			path = BayMaxProtector;
 			sourceTree = "<group>";
@@ -316,6 +321,7 @@
 				16766619201054D90010E6FB /* ViewController.m in Sources */,
 				1676661C201054D90010E6FB /* main.m in Sources */,
 				16766617201054D90010E6FB /* TestViewController.m in Sources */,
+				16462E3520108A3300880A10 /* BayMaxCatchError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

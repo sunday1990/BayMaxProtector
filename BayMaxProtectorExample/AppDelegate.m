@@ -18,7 +18,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     /*开启全部防护*/
-    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll];
+    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
+        NSLog(@"infos:%@",error.errorInfos);
+    }];
     /*开启某一指定防护*/
 //    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];
 //    /*开启某几个组合防护*/
