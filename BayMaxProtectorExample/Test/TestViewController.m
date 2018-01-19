@@ -20,10 +20,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor orangeColor];
-
+    /*0、模仿网络错误*/
+    [self imitateNetWorkError];
+  
     //1、unrecognizedSelector
-    NSNull *null = [NSNull null];
     [self performSelector:NSSelectorFromString(@"abc")];
+    
     //2、timer未invalidate
     _timer =  [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
     
@@ -32,8 +34,19 @@
     [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
     
     //4、NSNotification未移除
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notify_test) name:UITextFieldTextDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notify_test) name:UITextFieldTextDidChangeNotification object:nil];
+}
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+}
+
+/*模仿网络错误*/
+- (void)imitateNetWorkError{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSNull *null = [NSNull null];
+        [null performSelector:NSSelectorFromString(@"abc")];
+    });
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
@@ -45,7 +58,6 @@
 }
 
 - (void)notify_test{
-    
     NSLog(@"notification_test");
 }
 

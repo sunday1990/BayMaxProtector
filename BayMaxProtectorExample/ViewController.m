@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "TestViewController.h"
+#import "WebViewController.h"
 
 @interface ViewController ()
 
@@ -25,7 +26,12 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     TestViewController *testVC = [[TestViewController alloc]init];
     [self presentViewController:testVC animated:YES completion:nil];
+//    WebViewController *webVC = [[WebViewController alloc]init];
+//    webVC.url = @"http://www.sqcapital.cn/";
+//    [self presentViewController:webVC animated:YES completion:nil];
+
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

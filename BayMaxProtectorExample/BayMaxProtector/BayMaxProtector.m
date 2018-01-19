@@ -99,12 +99,11 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
                                                                                   ErrorViewController:[self getCurrentVC]
                                                                            }];
             
-            BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
+            BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeUnrecognizedSelector infos:@{
                                                                                                        BMPErrorUnrecognizedSel_Reason:@"UNRecognized Selector",
-                                                                                                       BMPErrorUnrecognizedSel_Cls:self==nil?@"":self,                                                                                                     BMPErrorUnrecognizedSel_Func:NSStringFromSelector(selector),
+                                                                                                       BMPErrorUnrecognizedSel_Receiver:self==nil?@"":self,                                                                                                     BMPErrorUnrecognizedSel_Func:NSStringFromSelector(selector),
                                                                                                        BMPErrorUnrecognizedSel_VC:[self getCurrentVC] == nil?@"":[self getCurrentVC]
                                                                                                        }];
-            
             if (_errorHandler) {
                 _errorHandler(bmpError);
             }
@@ -189,6 +188,8 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
     }
     return isPrivate;
 }
+//||
+//[className hasPrefix:@"UIWeb"]
 @end
 
 #pragma mark KVOProtector

@@ -7,7 +7,8 @@
 //
 
 #import "BayMaxCatchError.h"
-NSString *const BMPErrorUnrecognizedSel_Cls = @"ErrorObject";
+
+NSString *const BMPErrorUnrecognizedSel_Receiver = @"ErrorObject";
 NSString *const BMPErrorUnrecognizedSel_Func = @"ErrorSelector";
 NSString *const BMPErrorUnrecognizedSel_VC = @"ErrorViewController";
 NSString *const BMPErrorUnrecognizedSel_Reason = @"ErrorReason";

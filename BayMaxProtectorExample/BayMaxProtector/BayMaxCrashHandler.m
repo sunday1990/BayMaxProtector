@@ -33,12 +33,6 @@ static BayMaxCrashHandler *_instance;
 }
 
 - (void)forwardingCrashMethodInfos:(NSDictionary *_Nullable)infos{
-//    NSLog(@"BMPError_UnrecgonizedSelector_Details:\n%@",infos);
-    /*
-     1、实现页面降级:需要知道出现问题的页面，
-     2、实现错误信息上传服务器
-     */
-    //获取对应的类，该类的参数、
 #ifdef DEBUG
 #else    
 #endif

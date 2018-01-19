@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "BayMaxProtector.h"
+#import "WebViewController.h"
+
 @interface AppDelegate ()
 
 @end
@@ -19,16 +21,44 @@
     // Override point for customization after application launch.
     /*开启全部防护*/
     [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
-        NSLog(@"infos:%@",error.errorInfos);
+        /*unrecognizedSelector类型的错误，*/
+        if (error.errorType == BayMaxErrorTypeUnrecognizedSelector) {
+            NSLog(@"ErrorUnrecognizedSelectorinfos:%@",error.errorInfos);
+            id object = error.errorInfos[BMPErrorUnrecognizedSel_Receiver];
+            UIViewController *vc = error.errorInfos[BMPErrorUnrecognizedSel_VC];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [vc.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+                WebViewController *webVC = [[WebViewController alloc]init];
+                webVC.url = @"http://www.sqcapital.cn?name=lionBridge&id=10200";
+                [vc addChildViewController:webVC];
+                [vc.view addSubview:webVC.view];
+            });
+            //移除vc的所有视图
+            //获取vc,读取配置信息
+            //获取vc的对应参数
+            //创建webviewcontroller作为vc的子视图
+            
+        }else if (error.errorType == BayMaxErrorTypeTimer){
+            NSLog(@"ErrorTimerinfos:%@",error.errorInfos);
+
+            
+        }else if (error.errorType == BayMaxErrorTypeKVO){
+            NSLog(@"ErrorKVOinfos:%@",error.errorInfos);
+
+            
+        }else{
+            NSLog(@"infos:%@",error.errorInfos);
+        }
     }];
+    
     /*开启某一指定防护*/
 //    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];
 //    /*开启某几个组合防护*/
 //    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeKVO|BayMaxProtectionTypeTimer];
     
+    
     //设置白名单
-//    [BayMaxProtector ignoreProtectionsOnFrameworksWithPrefix:@[@""]];
-
+//    [BayMaxProtector ignoreProtectionsOnFrameworksWithPrefix:@[@"AV"]];
     return YES;
 }
 

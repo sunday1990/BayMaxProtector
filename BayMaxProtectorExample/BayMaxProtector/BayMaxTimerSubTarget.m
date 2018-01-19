@@ -35,10 +35,6 @@ BMPErrorHandler _Nullable _timerErrorHandler;
     return [[self alloc]initWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo catchErrorHandler:errorHandler];
 }
 
-//+ (instancetype)targetWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
-//    return [[self alloc]initWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
-//}
-
 - (instancetype)initWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo catchErrorHandler:(void(^)(BayMaxCatchError * error))errorHandler{
     if (self = [super init]) {
         _ti = ti;
@@ -61,21 +57,17 @@ BMPErrorHandler _Nullable _timerErrorHandler;
         }
     }else{
         //报错
-        NSString *errorDes = [NSString stringWithFormat:@"timer did not invalidate in Class<%@>",_targetClassName];
+        NSString *errorDes = [NSString stringWithFormat:@"Timer %@ did not invalidate in Class<%@>",timer,_targetClassName];
         BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeTimer infos:@{
                                                                                                      BMPErrorTimer_Target:_targetClassName == nil?@"":_targetClassName,
                                                                                                      BMPErrorTimer_Reason:errorDes
-                                                                                                   }];        
+                                                                                                   }];
         if (_timerErrorHandler) {
             _timerErrorHandler(bmpError);
         }
         [timer invalidate];
         timer = nil;
     }
-}
-
-- (void)dealloc{
-//    NSLog(@"timer subtarget dealloced");
 }
 
 @end

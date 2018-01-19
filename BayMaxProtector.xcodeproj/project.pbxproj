@@ -10,6 +10,7 @@
 		160864A3200CA30E0043988C /* BayMaxProtectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864A2200CA30E0043988C /* BayMaxProtectorTests.m */; };
 		160864AE200CA30E0043988C /* BayMaxProtectorUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864AD200CA30E0043988C /* BayMaxProtectorUITests.m */; };
 		16462E3520108A3300880A10 /* BayMaxCatchError.m in Sources */ = {isa = PBXBuildFile; fileRef = 16462E3420108A3300880A10 /* BayMaxCatchError.m */; };
+		16462E382010E5F700880A10 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16462E372010E5F700880A10 /* WebViewController.m */; };
 		16766617201054D90010E6FB /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766602201054D90010E6FB /* TestViewController.m */; };
 		16766618201054D90010E6FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16766604201054D90010E6FB /* Assets.xcassets */; };
 		16766619201054D90010E6FB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766605201054D90010E6FB /* ViewController.m */; };
@@ -51,6 +52,8 @@
 		160864AF200CA30E0043988C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16462E3320108A3300880A10 /* BayMaxCatchError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BayMaxCatchError.h; sourceTree = "<group>"; };
 		16462E3420108A3300880A10 /* BayMaxCatchError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BayMaxCatchError.m; sourceTree = "<group>"; };
+		16462E362010E5F700880A10 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		16462E372010E5F700880A10 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		16766600201054D90010E6FB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		16766602201054D90010E6FB /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		16766603201054D90010E6FB /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
@@ -156,8 +159,10 @@
 		16766601201054D90010E6FB /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				16766602201054D90010E6FB /* TestViewController.m */,
 				16766603201054D90010E6FB /* TestViewController.h */,
+				16766602201054D90010E6FB /* TestViewController.m */,
+				16462E362010E5F700880A10 /* WebViewController.h */,
+				16462E372010E5F700880A10 /* WebViewController.m */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -314,6 +319,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16766622201054D90010E6FB /* BayMaxProtector.m in Sources */,
+				16462E382010E5F700880A10 /* WebViewController.m in Sources */,
 				16766621201054D90010E6FB /* BayMaxTimerSubTarget.m in Sources */,
 				1676661D201054D90010E6FB /* AppDelegate.m in Sources */,
 				1676661F201054D90010E6FB /* BayMaxKVODelegate.m in Sources */,

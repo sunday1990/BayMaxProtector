@@ -8,17 +8,28 @@
 
 #import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT NSString *const BMPErrorUnrecognizedSel_Cls;
+/*发生错误的类或者对象*/
+FOUNDATION_EXPORT NSString *const BMPErrorUnrecognizedSel_Receiver;
+/*发生错误的方法*/
 FOUNDATION_EXPORT NSString *const BMPErrorUnrecognizedSel_Func;
+/*发生错误的视图控制器*/
 FOUNDATION_EXPORT NSString *const BMPErrorUnrecognizedSel_VC;
+/*发生错误的原因简述*/
 FOUNDATION_EXPORT NSString *const BMPErrorUnrecognizedSel_Reason;
 
+
+/*发生KVO重复监听错误的observer*/
 FOUNDATION_EXPORT NSString *const BMPErrorKVO_Observer;
+/*发生KVO重复监听错误的keypath*/
 FOUNDATION_EXPORT NSString *const BMPErrorKVO_Keypath;
+/*被重复观察的target*/
 FOUNDATION_EXPORT NSString *const BMPErrorKVO_Target;
+/*错误原因简述*/
 FOUNDATION_EXPORT NSString *const BMPErrorKVO_Reason;
 
+/*timer绑定的target*/
 FOUNDATION_EXPORT NSString *const BMPErrorTimer_Target;
+/*timer错误原因简述*/
 FOUNDATION_EXPORT NSString *const BMPErrorTimer_Reason;
 
 typedef NS_ENUM(NSInteger, BayMaxErrorType) {
