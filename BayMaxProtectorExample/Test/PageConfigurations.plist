@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>vc</key>
+		<string>TestViewController</string>
+		<key>params</key>
+		<array>
+			<dict>
+				<key>H5_id</key>
+				<string>iOS_ID</string>
+			</dict>
+			<dict>
+				<key>H5_type</key>
+				<string>iOS_typeID</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>vc</key>
+		<string>Test2ViewController</string>
+		<key>params</key>
+		<array>
+			<dict>
+				<key>H5_id</key>
+				<string>iOS_ID</string>
+			</dict>
+			<dict>
+				<key>H5_type</key>
+				<string>iOS_typeID</string>
+			</dict>
+		</array>
+	</dict>
+</array>
+</plist>

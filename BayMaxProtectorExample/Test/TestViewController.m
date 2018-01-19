@@ -12,6 +12,8 @@
 {
     NSTimer *_timer;
 }
+@property (nonatomic, copy) NSString *progress;
+
 @end
 
 @implementation TestViewController
@@ -24,10 +26,10 @@
     [self imitateNetWorkError];
   
     //1、unrecognizedSelector
-    [self performSelector:NSSelectorFromString(@"abc")];
+//    [self performSelector:NSSelectorFromString(@"abc")];
     
     //2、timer未invalidate
-    _timer =  [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
+//    _timer =  [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
     
     //3、observer重复添加、
     [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];

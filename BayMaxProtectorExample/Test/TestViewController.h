@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface TestViewController: UIViewController
-@property (nonatomic, copy) NSString *progress;
+
+@property (nonatomic, copy) NSString *ios_ID;
+
+@property (nonatomic, copy) NSString *ios_typeID;
+
 @end

@@ -20,11 +20,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.view.backgroundColor = [UIColor greenColor];
-    
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     TestViewController *testVC = [[TestViewController alloc]init];
+    testVC.ios_ID = @"10000";
+    testVC.ios_typeID = @"type00";
     [self presentViewController:testVC animated:YES completion:nil];
 //    WebViewController *webVC = [[WebViewController alloc]init];
 //    webVC.url = @"http://www.sqcapital.cn/";
@@ -37,6 +38,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end
