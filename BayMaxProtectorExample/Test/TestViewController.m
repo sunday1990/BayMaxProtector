@@ -7,6 +7,7 @@
 //
 
 #import "TestViewController.h"
+#import "Test2ViewController.h"
 
 @interface TestViewController ()
 {
@@ -23,24 +24,37 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor orangeColor];
     /*0、模仿网络错误*/
-    [self imitateNetWorkError];
+//    [self imitateNetWorkError];
   
     //1、unrecognizedSelector
 //    [self performSelector:NSSelectorFromString(@"abc")];
     
     //2、timer未invalidate
-//    _timer =  [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
+    _timer =  [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
     
     //3、observer重复添加、
-    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
+//    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
+//    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
     
     //4、NSNotification未移除
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notify_test) name:UITextFieldTextDidChangeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notify_test) name:UITextFieldTextDidChangeNotification object:nil];
+    
+    UIButton *dismissBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    dismissBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 80, 12, 40, 20);
+    [dismissBtn setTitle:@"返回" forState:UIControlStateNormal];
+    [dismissBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    dismissBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    [dismissBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:dismissBtn];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+}
+
+- (void)dismiss{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*模仿网络错误*/
@@ -76,7 +90,11 @@
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    Test2ViewController *test2VC = [[Test2ViewController alloc]init];
+//    test2VC.ios_param0 = @"1000";
+//    test2VC.ios_param1 = @"params";
+    [self presentViewController:test2VC animated:YES completion:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*

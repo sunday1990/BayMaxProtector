@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface Test2ViewController : UIViewController
-@property (nonatomic, copy) NSString *param0;
-@property (nonatomic, copy) NSString *param1;
+@property (nonatomic, copy) NSString *ios_param0;
+@property (nonatomic, copy) NSString *ios_param1;
 
 @end

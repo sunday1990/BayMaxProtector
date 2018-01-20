@@ -7,11 +7,12 @@
 //
 
 #import "AppDelegate.h"
-#import "BayMaxProtector.h"
-#import "WebViewController.h"
-#import "BayMaxDegradeHelper.h"
 
-@interface AppDelegate ()<BayMaxDegradeHelperDelegate>
+#import "BayMaxProtector.h"
+#import "BayMaxDegradeAssist.h"
+#import "WebViewController.h"
+
+@interface AppDelegate ()<BayMaxDegradeAssistDelegate>
 {
     NSArray<NSString *> *_vcNames;
     NSArray<NSArray<NSDictionary *> *> *_params;
@@ -24,41 +25,24 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    [BayMaxDegradeHelper sharedBayMaxDegradeHelper].degradeDelegate = self;
-    
+    [BayMaxDegradeAssist Assist].degradeDelegate = self;
     /*开启全部防护*/
     [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
         /*unrecognizedSelector类型的错误，*/
         if (error.errorType == BayMaxErrorTypeUnrecognizedSelector) {
             NSLog(@"ErrorUnrecognizedSelectorinfos:%@",error.errorInfos);
             UIViewController *vc = error.errorInfos[BMPErrorUnrecognizedSel_VC];
-            //移除vc的所有视图
-            //获取vc,读取配置信息
-            //获取vc的对应参数
-            //创建webviewcontroller作为vc的子视图
             dispatch_async(dispatch_get_main_queue(), ^{
                 [vc.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-                NSDictionary *relation = [[BayMaxDegradeHelper sharedBayMaxDegradeHelper]relationForViewController:vc.class];
-                NSString *url = relation[BMPHelperKey_Url];
-                NSArray <NSDictionary *>*params = relation[BMPHelperKey_Params];
-                NSMutableString *appendString = [NSMutableString string];
-                [appendString appendString:@"?"];
-                [params enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    NSString *h5Param = obj.allKeys[0];
-                    NSString *iosParam = obj[h5Param];
-                    NSString *h5Value = [vc valueForKeyPath:iosParam];
-                    //?key=x&key1=x1
-                    //拼接字符串
-                    [appendString appendString:h5Param];
-                    [appendString appendString:@"="];
-                    [appendString appendString:h5Value];
-                    if (idx<params.count-1) {
-                        [appendString appendString:@"&"];
-                    }
-                }];
                 
-                NSLog(@"url for %@ is %@",NSStringFromClass(vc.class),[url stringByAppendingString:appendString]);
+                NSString *url = [[BayMaxDegradeAssist Assist]getCompleteUrlForViewController:vc];
+                NSDictionary *relation = [[BayMaxDegradeAssist Assist]relationForViewController:vc.class];
+                NSArray <NSDictionary *>*params = relation[BMPAssistKey_Params];
+                NSLog(@"url for %@ is %@",NSStringFromClass(vc.class),url);
                 NSLog(@"relation params for %@ is %@",NSStringFromClass(vc.class),params);
+
+                
+                //获取拼接后的url
                 WebViewController *webVC = [[WebViewController alloc]init];
                 webVC.url = url;
                 [vc addChildViewController:webVC];
@@ -81,7 +65,8 @@
 //    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];
     
 //    /*开启某几个组合防护*/
-//    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeKVO|BayMaxProtectionTypeTimer];
+//    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector|BayMaxProtectionTypeTimer];
+    
     //设置白名单
 //    [BayMaxProtector ignoreProtectionsOnFrameworksWithPrefix:@[@"AV"]];
     
@@ -93,7 +78,7 @@
 
 /*配置可以从服务器中获取,然后存到本地*/
 - (void)updateConfigurationsFromWeb{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         _vcNames = @[@"TestViewController",
                      @"Test2ViewController"];
         _params = @[
@@ -106,14 +91,16 @@
                         @{@"H5_param1":@"ios_param1"}
                         ]
                     ];
+        
         _urls = @[
                   @"https://www.baidu.com",
-                  @"http://www.sqcapital.cn"
+                  @"https://www.sina.cn"
                   ];
-        [[BayMaxDegradeHelper sharedBayMaxDegradeHelper]reloadRelations];
+        [[BayMaxDegradeAssist Assist]reloadRelations];
     });
 }
 
+#pragma mark BayMaxDegradeAssistDelegate
 - (NSInteger)numberOfRelations{
     return 2;
 }
@@ -122,7 +109,7 @@
     return _vcNames[index];
 }
 
-- (NSArray *)paramsBetweenH5andIosAtIndex:(NSInteger)index{
+- (NSArray<NSDictionary<NSString * , NSString *> *> *)correspondencesBetweenH5AndIOSParametersAtIndex:(NSInteger)index{
     return _params[index];
 }
 

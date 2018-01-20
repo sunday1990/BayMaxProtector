@@ -98,7 +98,6 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
                                                                                     ErrorFunctionName:NSStringFromSelector(selector),
                                                                                   ErrorViewController:[self getCurrentVC]
                                                                            }];
-            
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeUnrecognizedSelector infos:@{
                                                                                                        BMPErrorUnrecognizedSel_Reason:@"UNRecognized Selector",
                                                                                                        BMPErrorUnrecognizedSel_Receiver:self==nil?@"":self,                                                                                                     BMPErrorUnrecognizedSel_Func:NSStringFromSelector(selector),

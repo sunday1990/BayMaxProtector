@@ -17,6 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor redColor];
+    [self performSelector:NSSelectorFromString(@"abc")];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,7 +39,9 @@
 #pragma mark ======== Private Methods ========
 
 #pragma mark ======== Setters && Getters ========
-
+- (void)dealloc{
+    NSLog(@"dealloc vc2");    
+}
 /*
  #pragma mark - Navigation
  
