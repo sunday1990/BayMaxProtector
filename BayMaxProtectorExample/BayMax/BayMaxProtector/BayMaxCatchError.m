@@ -8,6 +8,8 @@
 
 #import "BayMaxCatchError.h"
 
+NSString *const BMPErrorCallStackSymbols = @"ErrorCallStackSymbols";
+
 NSString *const BMPErrorUnrecognizedSel_Receiver = @"ErrorObject";
 NSString *const BMPErrorUnrecognizedSel_Func = @"ErrorSelector";
 NSString *const BMPErrorUnrecognizedSel_VC = @"ErrorViewController";

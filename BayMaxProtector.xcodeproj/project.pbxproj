@@ -11,7 +11,6 @@
 		160864AE200CA30E0043988C /* BayMaxProtectorUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864AD200CA30E0043988C /* BayMaxProtectorUITests.m */; };
 		16462E3520108A3300880A10 /* BayMaxCatchError.m in Sources */ = {isa = PBXBuildFile; fileRef = 16462E3420108A3300880A10 /* BayMaxCatchError.m */; };
 		16462E382010E5F700880A10 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16462E372010E5F700880A10 /* WebViewController.m */; };
-		165C1ACF2011D804006A13D6 /* PageConfigurations.plist in Resources */ = {isa = PBXBuildFile; fileRef = 165C1ACE2011D804006A13D6 /* PageConfigurations.plist */; };
 		165C1AD22011D98B006A13D6 /* Test2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 165C1AD12011D98B006A13D6 /* Test2ViewController.m */; };
 		165C1ADB2013496F006A13D6 /* BayMaxDegradeAssist.m in Sources */ = {isa = PBXBuildFile; fileRef = 165C1AD92013496F006A13D6 /* BayMaxDegradeAssist.m */; };
 		16766617201054D90010E6FB /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766602201054D90010E6FB /* TestViewController.m */; };
@@ -26,6 +25,7 @@
 		16766620201054D90010E6FB /* BayMaxCrashHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766611201054D90010E6FB /* BayMaxCrashHandler.m */; };
 		16766621201054D90010E6FB /* BayMaxTimerSubTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766612201054D90010E6FB /* BayMaxTimerSubTarget.m */; };
 		16766622201054D90010E6FB /* BayMaxProtector.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766615201054D90010E6FB /* BayMaxProtector.m */; };
+		169F23EA2014442400793E22 /* TestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 169F23E92014442400793E22 /* TestView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +57,6 @@
 		16462E3420108A3300880A10 /* BayMaxCatchError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BayMaxCatchError.m; sourceTree = "<group>"; };
 		16462E362010E5F700880A10 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		16462E372010E5F700880A10 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
-		165C1ACE2011D804006A13D6 /* PageConfigurations.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PageConfigurations.plist; sourceTree = "<group>"; };
 		165C1AD02011D98B006A13D6 /* Test2ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Test2ViewController.h; sourceTree = "<group>"; };
 		165C1AD12011D98B006A13D6 /* Test2ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Test2ViewController.m; sourceTree = "<group>"; };
 		165C1AD92013496F006A13D6 /* BayMaxDegradeAssist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxDegradeAssist.m; sourceTree = "<group>"; };
@@ -81,6 +80,8 @@
 		16766614201054D90010E6FB /* BayMaxKVODelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxKVODelegate.h; sourceTree = "<group>"; };
 		16766615201054D90010E6FB /* BayMaxProtector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxProtector.m; sourceTree = "<group>"; };
 		16766616201054D90010E6FB /* BayMaxTimerSubTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxTimerSubTarget.h; sourceTree = "<group>"; };
+		169F23E82014442400793E22 /* TestView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestView.h; sourceTree = "<group>"; };
+		169F23E92014442400793E22 /* TestView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,7 +182,8 @@
 				16462E372010E5F700880A10 /* WebViewController.m */,
 				165C1AD02011D98B006A13D6 /* Test2ViewController.h */,
 				165C1AD12011D98B006A13D6 /* Test2ViewController.m */,
-				165C1ACE2011D804006A13D6 /* PageConfigurations.plist */,
+				169F23E82014442400793E22 /* TestView.h */,
+				169F23E92014442400793E22 /* TestView.m */,
 			);
 			path = Test;
 			sourceTree = "<group>";
@@ -189,10 +191,10 @@
 		1676660E201054D90010E6FB /* BayMaxProtector */ = {
 			isa = PBXGroup;
 			children = (
-				165C1ADA2013496F006A13D6 /* BayMaxDegradeAssist.h */,
-				165C1AD92013496F006A13D6 /* BayMaxDegradeAssist.m */,
 				1676660F201054D90010E6FB /* BayMaxProtector.h */,
 				16766615201054D90010E6FB /* BayMaxProtector.m */,
+				165C1ADA2013496F006A13D6 /* BayMaxDegradeAssist.h */,
+				165C1AD92013496F006A13D6 /* BayMaxDegradeAssist.m */,
 				16766614201054D90010E6FB /* BayMaxKVODelegate.h */,
 				16766610201054D90010E6FB /* BayMaxKVODelegate.m */,
 				16766613201054D90010E6FB /* BayMaxCrashHandler.h */,
@@ -315,7 +317,6 @@
 				1676661B201054D90010E6FB /* Main.storyboard in Resources */,
 				16766618201054D90010E6FB /* Assets.xcassets in Resources */,
 				1676661A201054D90010E6FB /* LaunchScreen.storyboard in Resources */,
-				165C1ACF2011D804006A13D6 /* PageConfigurations.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +348,7 @@
 				1676661D201054D90010E6FB /* AppDelegate.m in Sources */,
 				1676661F201054D90010E6FB /* BayMaxKVODelegate.m in Sources */,
 				16766620201054D90010E6FB /* BayMaxCrashHandler.m in Sources */,
+				169F23EA2014442400793E22 /* TestView.m in Sources */,
 				16766619201054D90010E6FB /* ViewController.m in Sources */,
 				1676661C201054D90010E6FB /* main.m in Sources */,
 				165C1ADB2013496F006A13D6 /* BayMaxDegradeAssist.m in Sources */,

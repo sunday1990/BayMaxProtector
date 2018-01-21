@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+FOUNDATION_EXPORT NSString *const BMPErrorCallStackSymbols;
+
 /*发生错误的类或者对象*/
 FOUNDATION_EXPORT NSString *const BMPErrorUnrecognizedSel_Receiver;
 /*发生错误的方法*/

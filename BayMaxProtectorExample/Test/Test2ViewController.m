@@ -7,9 +7,13 @@
 //
 
 #import "Test2ViewController.h"
+#import "TestViewController.h"
+#import "TestView.h"
 
 @interface Test2ViewController ()
-
+{
+    TestView *view;
+}
 @end
 
 @implementation Test2ViewController
@@ -17,9 +21,50 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor redColor];
-    [self performSelector:NSSelectorFromString(@"abc")];
+//    [UIImageView performSelector:NSSelectorFromString(@"abcd")];
+    self.view.backgroundColor = [UIColor grayColor];
+    view = [[TestView alloc]initWithFrame:CGRectMake(200, 100, 100, 100)];
+    view.backgroundColor = [UIColor redColor];
+    [self.view addSubview:view];
+
+    [self test];
+    
+    
+    
+    UIButton *dismissBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    dismissBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 80, 12, 40, 20);
+    [dismissBtn setTitle:@"返回" forState:UIControlStateNormal];
+    [dismissBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    dismissBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    [dismissBtn addTarget:self action:@selector(test) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:dismissBtn];
+
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+
+}
+
+- (void)test{
+    [self test1];
+    
+}
+
+- (void)test1{
+    [self test2];
+
+}
+
+- (void)test2{
+    [self test3];
+}
+
+- (void)test3{
+    [[NSNull null] performSelector:NSSelectorFromString(@"abc")];
+//    [view abc];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

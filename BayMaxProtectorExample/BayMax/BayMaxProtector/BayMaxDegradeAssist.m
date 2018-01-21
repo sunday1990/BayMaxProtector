@@ -7,6 +7,7 @@
 //
 
 #import "BayMaxDegradeAssist.h"
+#import "BayMaxCatchError.h"
 
 NSString *const BMPAssistKey_VC = @"BMP_ViewController";
 
@@ -46,12 +47,12 @@ static  BayMaxDegradeAssist*_instance;
 
 - (void)reloadRelations{
     [self.relations removeAllObjects];
-    if (self.degradeDelegate) {
-        NSInteger relations = [self.degradeDelegate numberOfRelations];
+    if (self.degradeDatasource) {
+        NSInteger relations = [self.degradeDatasource numberOfRelations];
         for (int i = 0; i<relations; i++) {
-            NSString *vcName = [self.degradeDelegate nameOfViewControllerAtIndex:i];
-            NSString *vcUrl = [self.degradeDelegate urlOfViewControllerAtIndex:i];
-            NSArray *params = [self.degradeDelegate correspondencesBetweenH5AndIOSParametersAtIndex:i];
+            NSString *vcName = [self.degradeDatasource nameOfViewControllerAtIndex:i];
+            NSString *vcUrl = [self.degradeDatasource urlOfViewControllerAtIndex:i];
+            NSArray *params = [self.degradeDatasource correspondencesBetweenH5AndIOSParametersAtIndex:i];
             NSDictionary *item = @{
                                    BMPAssistKey_VC:vcName == nil?@"":vcName,
                                    BMPAssistKey_Url:vcUrl == nil?@"":vcUrl,
@@ -75,7 +76,33 @@ static  BayMaxDegradeAssist*_instance;
     return relation;
 }
 
-- (NSString *)getCompleteUrlForViewController:(id)vc{
+
+#pragma mark BayMaxDegradeAssistProtocol
+- (void)handleError:(BayMaxCatchError *)error{
+   
+    if (error.errorType == BayMaxErrorTypeUnrecognizedSelector) {
+        id obj = error.errorInfos[BMPErrorUnrecognizedSel_VC];
+        if ([obj isKindOfClass:[UIViewController class]]) {
+            UIViewController *vc = (UIViewController *)obj;
+            NSString *completeURL = [[BayMaxDegradeAssist Assist]getCompleteUrlWithParamsForViewController:vc];
+            NSDictionary *relation = [[BayMaxDegradeAssist Assist]relationForViewController:vc.class];
+            if (self.degradeDelegate) {
+                [self.degradeDelegate degradeViewController:vc occurErrorsWithReplacedCompleteURL:completeURL relation:relation];
+            }
+        }else if([obj isKindOfClass:[NSString class]]){
+            NSString *cls =(NSString *)obj;
+            NSDictionary *relation = [[BayMaxDegradeAssist Assist]relationForViewController:NSClassFromString(obj)];
+            NSString *URL = relation[BMPAssistKey_Url];
+            if (self.degradeDelegate) {
+                [self.degradeDelegate degradeClassOfViewController:NSClassFromString(cls) occurErrorsInViewDidLoadProcessWithReplacedURL:URL relation:relation];
+            }
+        }
+    }
+}
+
+#pragma mark others
+
+- (NSString *)getCompleteUrlWithParamsForViewController:(UIViewController *)vc{
     NSMutableString *appendString = [NSMutableString string];
     NSDictionary *relation = [self relationForViewController:[vc class]];
     NSString *url = relation[BMPAssistKey_Url];
@@ -97,6 +124,42 @@ static  BayMaxDegradeAssist*_instance;
         }
     }];
     return appendString;        
+}
+
+- (UIViewController *)getCurrentVC{
+    if ([self isKindOfClass:[UIViewController class]]) {
+        return (UIViewController *)self;
+    }
+    UIViewController *result = nil;
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow]; //app默认windowLevel是UIWindowLevelNormal，如果不是，找到UIWindowLevelNormal的
+    if (window.windowLevel != UIWindowLevelNormal) {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow * tmpWin in windows) {
+            if (tmpWin.windowLevel == UIWindowLevelNormal) {
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    id nextResponder = nil;
+    UIViewController *appRootVC = window.rootViewController; // 如果是present上来的appRootVC.presentedViewController 不为nil
+    if (appRootVC.presentedViewController) {
+        nextResponder = appRootVC.presentedViewController;
+    }else{
+        UIView *frontView = [[window subviews] objectAtIndex:0];
+        nextResponder = [frontView nextResponder];
+    }
+    if ([nextResponder isKindOfClass:[UITabBarController class]]){
+        UITabBarController * tabbar = (UITabBarController *)nextResponder;
+        UINavigationController * nav = (UINavigationController *)tabbar.viewControllers[tabbar.selectedIndex];
+        result = nav.childViewControllers.lastObject;
+    }else if ([nextResponder isKindOfClass:[UINavigationController class]]){
+        UIViewController * nav = (UIViewController *)nextResponder;
+        result = nav.childViewControllers.lastObject;
+    }else{
+        result = nextResponder;
+    }
+    return result;
 }
 
 @end

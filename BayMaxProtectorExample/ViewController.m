@@ -21,8 +21,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    
     self.view.backgroundColor = [UIColor greenColor];
 }
+
+
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 //    TestViewController *testVC = [[TestViewController alloc]init];
@@ -31,7 +35,7 @@
 //    [self presentViewController:testVC animated:YES completion:nil];
 
     Test2ViewController *test2VC = [[Test2ViewController alloc]init];
-    test2VC.ios_param0 = @"1000";
+//    test2VC.ios_param0 = @"1000";
     test2VC.ios_param1 = @"params";
     [self presentViewController:test2VC animated:YES completion:nil];
 }

@@ -97,6 +97,9 @@
 //    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)abc{
+    [[NSNull null]performSelector:NSSelectorFromString(@"dhak")];
+}
 /*
  #pragma mark - Navigation
  

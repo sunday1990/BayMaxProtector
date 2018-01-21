@@ -14,4 +14,6 @@
 
 @property (nonatomic, copy) NSString *ios_typeID;
 
+- (void)abc;
+
 @end

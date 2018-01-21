@@ -57,7 +57,9 @@
 #pragma mark ======== Private Methods ========
 
 #pragma mark ======== Setters && Getters ========
-
+- (void)dealloc{
+    NSLog(@"dealloc webviewcontroller");
+}
 /*
  #pragma mark - Navigation
  

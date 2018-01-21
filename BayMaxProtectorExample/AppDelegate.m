@@ -12,7 +12,7 @@
 #import "BayMaxDegradeAssist.h"
 #import "WebViewController.h"
 
-@interface AppDelegate ()<BayMaxDegradeAssistDelegate>
+@interface AppDelegate ()<BayMaxDegradeAssistDataSource,BayMaxDegradeAssistDelegate>
 {
     NSArray<NSString *> *_vcNames;
     NSArray<NSArray<NSDictionary *> *> *_params;
@@ -25,30 +25,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    /*设置Assist的代理与数据源*/
     [BayMaxDegradeAssist Assist].degradeDelegate = self;
-    /*开启全部防护*/
+    [BayMaxDegradeAssist Assist].degradeDatasource = self;
+    
+    /*开启防护模式*/
     [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
         /*unrecognizedSelector类型的错误，*/
         if (error.errorType == BayMaxErrorTypeUnrecognizedSelector) {
-            NSLog(@"ErrorUnrecognizedSelectorinfos:%@",error.errorInfos);
-            UIViewController *vc = error.errorInfos[BMPErrorUnrecognizedSel_VC];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [vc.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-                
-                NSString *url = [[BayMaxDegradeAssist Assist]getCompleteUrlForViewController:vc];
-                NSDictionary *relation = [[BayMaxDegradeAssist Assist]relationForViewController:vc.class];
-                NSArray <NSDictionary *>*params = relation[BMPAssistKey_Params];
-                NSLog(@"url for %@ is %@",NSStringFromClass(vc.class),url);
-                NSLog(@"relation params for %@ is %@",NSStringFromClass(vc.class),params);
+            NSLog(@"ErrorUnRecognizedSelInfos:%@",error.errorInfos);
 
-                
-                //获取拼接后的url
-                WebViewController *webVC = [[WebViewController alloc]init];
-                webVC.url = url;
-                [vc addChildViewController:webVC];
-                [vc.view addSubview:webVC.view];
-            });
-            
         }else if (error.errorType == BayMaxErrorTypeTimer){
             NSLog(@"ErrorTimerinfos:%@",error.errorInfos);
 
@@ -63,21 +49,17 @@
     }];
     /*开启某一指定防护*/
 //    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];
-    
 //    /*开启某几个组合防护*/
 //    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector|BayMaxProtectionTypeTimer];
-    
     //设置白名单
 //    [BayMaxProtector ignoreProtectionsOnFrameworksWithPrefix:@[@"AV"]];
-    
-    [self updateConfigurationsFromWeb];
-    
+    [self requestConfigurationsFromWeb];
     return YES;
 }
 
 
 /*配置可以从服务器中获取,然后存到本地*/
-- (void)updateConfigurationsFromWeb{
+- (void)requestConfigurationsFromWeb{
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         _vcNames = @[@"TestViewController",
                      @"Test2ViewController"];
@@ -100,7 +82,7 @@
     });
 }
 
-#pragma mark BayMaxDegradeAssistDelegate
+#pragma mark BayMaxDegradeAssistDataSource
 - (NSInteger)numberOfRelations{
     return 2;
 }
@@ -115,6 +97,29 @@
 
 - (NSString *)urlOfViewControllerAtIndex:(NSInteger)index{
     return _urls[index];
+}
+
+#pragma mark BayMaxDegradeAssistDelegate
+- (void)degradeViewController:(UIViewController *)degradeViewController occurErrorsWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        //一、先获取在操作
+        [degradeViewController.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        NSLog(@"completeUrl for %@ is %@",degradeViewController,completeURL);
+        NSLog(@"relation for %@ is %@",degradeViewController,relation);
+        //获取拼接后的url
+        WebViewController *webVC = [[WebViewController alloc]init];
+        webVC.url = completeURL;
+        [degradeViewController addChildViewController:webVC];
+        [degradeViewController.view addSubview:webVC.view];
+    });
+}
+
+- (void)degradeClassOfViewController:(Class)cls occurErrorsInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation{
+    NSLog(@"url:%@",URL);
+    WebViewController *webVC = [[WebViewController alloc]init];
+    webVC.url = URL;
+    UIViewController *vc = [[BayMaxDegradeAssist Assist]getCurrentVC];
+    [vc presentViewController:webVC animated:YES completion:nil];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

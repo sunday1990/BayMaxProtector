@@ -11,6 +11,7 @@
 #import "BayMaxCrashHandler.h"
 #import "BayMaxKVODelegate.h"
 #import "BayMaxTimerSubTarget.h"
+#import "BayMaxDegradeAssist.h"
 
 typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
 BMPErrorHandler _Nullable _errorHandler;
@@ -91,18 +92,27 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
     /*判断当前类有没有重写消息转发的相关方法*/
     if ([self isEqual:[NSNull null]] || ![self isPrivateClass]) {//不是私有类，这一步判断不准确，只会筛选出一些明显的,需要到下一步进行进一步的筛选
         if (![self overideForwardingMethods]) {//没有重写消息转发方法
+            NSArray *callStackSymbolsArr = [NSThread callStackSymbols];
+            NSString *className = [self getClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols:callStackSymbolsArr];
+//            NSLog(@"错误堆栈信息:%@",callStackSymbolsArr);
+            //判断是否是viewdidload方法出错
             errors = ErrorInfosMake([NSStringFromClass(self.class) cStringUsingEncoding:NSASCIIStringEncoding], [NSStringFromSelector(selector) cStringUsingEncoding:NSASCIIStringEncoding]);
             class_addMethod([BayMaxCrashHandler class], selector, (IMP)DynamicAddMethodIMP, "v@:");
            
+            
+            
+            
             [[BayMaxCrashHandler sharedBayMaxCrashHandler]forwardingCrashMethodInfos:@{ErrorClassName:NSStringFromClass(self.class),
                                                                                     ErrorFunctionName:NSStringFromSelector(selector),
-                                                                                  ErrorViewController:[self getCurrentVC]
+                                                                                  ErrorViewController:[[BayMaxDegradeAssist Assist]getCurrentVC]
                                                                            }];
+            
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeUnrecognizedSelector infos:@{
                                                                                                        BMPErrorUnrecognizedSel_Reason:@"UNRecognized Selector",
                                                                                                        BMPErrorUnrecognizedSel_Receiver:self==nil?@"":self,                                                                                                     BMPErrorUnrecognizedSel_Func:NSStringFromSelector(selector),
-                                                                                                       BMPErrorUnrecognizedSel_VC:[self getCurrentVC] == nil?@"":[self getCurrentVC]
+                                                                                                       BMPErrorUnrecognizedSel_VC:className == nil?([[BayMaxDegradeAssist Assist]getCurrentVC] == nil?@"":[[BayMaxDegradeAssist Assist]getCurrentVC]):className
                                                                                                        }];
+            [[BayMaxDegradeAssist Assist]handleError:bmpError];
             if (_errorHandler) {
                 _errorHandler(bmpError);
             }
@@ -112,42 +122,28 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
     return [self BMP_forwardingTargetForSelector:selector];
 }
 
-- (UIViewController *)getCurrentVC{
-    if ([self isKindOfClass:[UIViewController class]]) {
-        return (UIViewController *)self;
-    }
-    UIViewController *result = nil;
-    UIWindow * window = [[UIApplication sharedApplication] keyWindow]; //app默认windowLevel是UIWindowLevelNormal，如果不是，找到UIWindowLevelNormal的
-    if (window.windowLevel != UIWindowLevelNormal) {
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(UIWindow * tmpWin in windows) {
-            if (tmpWin.windowLevel == UIWindowLevelNormal) {
-                window = tmpWin;
+- (NSString *)getClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols:(NSArray *)callStackSymbolsArr{
+    __block NSString *className;
+    if (callStackSymbolsArr != nil) {
+        for (int i = 3; i<=callStackSymbolsArr.count; i++) {
+            NSString *symbol = callStackSymbolsArr[i];
+            if ([symbol containsString:@"BayMaxProtector"]) {
+                if ([symbol containsString:@"viewDidLoad"]) {
+                    NSRange beginRange = [symbol rangeOfString:@"-["];
+                    NSRange endRange = [symbol rangeOfString:@"viewDidLoad"];
+                    NSInteger length = endRange.location-1-(beginRange.location+beginRange.length);
+                    className = [symbol substringWithRange:NSMakeRange(beginRange.location+beginRange.length, length)];
+                    NSLog(@"className:%@",className);
+                    break;
+                }
+            }else{
                 break;
             }
         }
+        
     }
-    id nextResponder = nil;
-    UIViewController *appRootVC = window.rootViewController; // 如果是present上来的appRootVC.presentedViewController 不为nil
-    if (appRootVC.presentedViewController) {
-        nextResponder = appRootVC.presentedViewController;
-    }else{
-        UIView *frontView = [[window subviews] objectAtIndex:0];
-        nextResponder = [frontView nextResponder];
-    }
-    if ([nextResponder isKindOfClass:[UITabBarController class]]){
-        UITabBarController * tabbar = (UITabBarController *)nextResponder;
-        UINavigationController * nav = (UINavigationController *)tabbar.viewControllers[tabbar.selectedIndex];
-        result = nav.childViewControllers.lastObject;
-    }else if ([nextResponder isKindOfClass:[UINavigationController class]]){
-        UIViewController * nav = (UIViewController *)nextResponder;
-        result = nav.childViewControllers.lastObject;
-    }else{
-        result = nextResponder;
-    }
-    return result;
+    return className;
 }
-
 
 - (BOOL)overideForwardingMethods{
     BOOL overide = NO;
