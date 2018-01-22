@@ -7,15 +7,7 @@
 //
 
 #import "BayMaxTimerSubTarget.h"
-#import <objc/runtime.h>
-
-#define BMPSuppressPerformSelectorLeakWarning(Stuff)\
-do { \
-    _Pragma("clang diagnostic push") \
-    _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
-    Stuff; \
-    _Pragma("clang diagnostic pop") \
-} while (0)
+#import "BayMaxCFunctions.h"
 
 typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
 
@@ -51,7 +43,7 @@ BMPErrorHandler _Nullable _timerErrorHandler;
 - (void)fireProxyTimer:(NSTimer *)timer{
     if (_aTarget) {
         if ([_aTarget respondsToSelector:_aSelector]) {
-            BMPSuppressPerformSelectorLeakWarning(
+            BMP_SuppressPerformSelectorLeakWarning(
                [_aTarget performSelector:_aSelector];
             );            
         }

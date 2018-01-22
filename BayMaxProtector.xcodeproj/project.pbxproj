@@ -82,6 +82,7 @@
 		16766616201054D90010E6FB /* BayMaxTimerSubTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxTimerSubTarget.h; sourceTree = "<group>"; };
 		169F23E82014442400793E22 /* TestView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestView.h; sourceTree = "<group>"; };
 		169F23E92014442400793E22 /* TestView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestView.m; sourceTree = "<group>"; };
+		169F23EE2015AC5200793E22 /* BayMaxCFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BayMaxCFunctions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +204,7 @@
 				16462E3420108A3300880A10 /* BayMaxCatchError.m */,
 				165C1ADA2013496F006A13D6 /* BayMaxDegradeAssist.h */,
 				165C1AD92013496F006A13D6 /* BayMaxDegradeAssist.m */,
+				169F23EE2015AC5200793E22 /* BayMaxCFunctions.h */,
 			);
 			path = BayMaxProtector;
 			sourceTree = "<group>";

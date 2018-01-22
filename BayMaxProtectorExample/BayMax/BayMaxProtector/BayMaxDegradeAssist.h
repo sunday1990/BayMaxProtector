@@ -63,27 +63,37 @@ FOUNDATION_EXPORT NSString *const BMPAssistKey_Url;
  */
 - (NSArray<NSDictionary<NSString * , NSString *> *> *)correspondencesBetweenH5AndIOSParametersAtIndex:(NSInteger)index;
 
+
+//主动降级
+
+- (NSArray *)viewControllersToDegradeInitiative;
+
 @end
 
 @protocol BayMaxDegradeAssistDelegate
 
 /**
+ 自动降级：
  非viewdidload方法出错，可以获取当前页面对应的H5完整url（带参数），然后进行页面降级
 
  @param degradeVC 需要降级的视图控制器实例
  @param completeURL 完整URL
  @param relation 该视图控制器对应的相关信息
  */
-- (void)degradeInstanceOfViewController:(UIViewController *)degradeVC ifErrorHappensInOtherProcessExceptViewDidLoadWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation;
+- (void)autoDegradeInstanceOfViewController:(UIViewController *)degradeVC ifErrorHappensInOtherProcessExceptViewDidLoadWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation;
 
 /**
+ 自动降级：
  在viewdidload方法中出错，可以获取出错页面对应的不完整url（不带参数），然后进行页面降级
 
  @param degradeCls 需要降级的视图控制器类
  @param URL 不带参数的url
  @param relation 该视图控制器对应的相关信息
  */
-- (void)degradeClassOfViewController:(Class)degradeCls ifErrorHappensInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation;
+- (void)autoDegradeClassOfViewController:(Class)degradeCls ifErrorHappensInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation;
+
+
+
 
 @end
 
@@ -115,7 +125,6 @@ FOUNDATION_EXPORT NSString *const BMPAssistKey_Url;
 
  */
 - (NSDictionary *)relationForViewController:(Class)cls;
-
 
 /**
  获取当前显示的视图控制器

@@ -42,7 +42,7 @@
     UIButton *dismissBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     dismissBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 80, 12, 40, 20);
     [dismissBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [dismissBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [dismissBtn setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
     dismissBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [dismissBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:dismissBtn];

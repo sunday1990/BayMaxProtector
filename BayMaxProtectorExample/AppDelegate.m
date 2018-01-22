@@ -17,6 +17,7 @@
     NSArray<NSString *> *_vcNames;
     NSArray<NSArray<NSDictionary *> *> *_params;
     NSArray<NSString *> *_urls;
+    NSArray<NSString *> *_initiativeVCS;
 }
 @end
 
@@ -76,6 +77,11 @@
                   @"https://www.baidu.com",
                   @"https://www.sina.cn"
                   ];
+        
+        _initiativeVCS = @[
+                           @"TestViewController"
+                           ];
+        
         [[BayMaxDegradeAssist Assist]reloadRelations];
     });
 }
@@ -97,8 +103,12 @@
     return _urls[index];
 }
 
+- (NSArray *)viewControllersToDegradeInitiative{
+    return _initiativeVCS;
+}
+
 #pragma mark BayMaxDegradeAssistDelegate
-- (void)degradeInstanceOfViewController:(UIViewController *)degradeVC ifErrorHappensInOtherProcessExceptViewDidLoadWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation{
+- (void)autoDegradeInstanceOfViewController:(UIViewController *)degradeVC ifErrorHappensInOtherProcessExceptViewDidLoadWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation{
     dispatch_async(dispatch_get_main_queue(), ^{
             [degradeVC.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
             NSLog(@"completeUrl for %@ is %@",degradeVC,completeURL);
@@ -111,7 +121,7 @@
         });
 }
 
-- (void)degradeClassOfViewController:(Class)degradeCls ifErrorHappensInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation{
+- (void)autoDegradeClassOfViewController:(Class)degradeCls ifErrorHappensInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation{
     NSLog(@"Url for %@ is %@",degradeCls,URL);
     WebViewController *webVC = [[WebViewController alloc]init];
     webVC.url = URL;

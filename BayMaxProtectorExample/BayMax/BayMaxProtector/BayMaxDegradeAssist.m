@@ -8,6 +8,7 @@
 
 #import "BayMaxDegradeAssist.h"
 #import "BayMaxCatchError.h"
+#import "BayMaxCFunctions.h"
 
 NSString *const BMPAssistKey_VC = @"BMP_ViewController";
 
@@ -15,7 +16,39 @@ NSString *const BMPAssistKey_Params = @"BMP_Params";
 
 NSString *const BMPAssistKey_Url = @"BMP_Url";
 
+static NSArray *_initiativeDegradeVCS;
+
+@interface UIViewController (DegradeAssist)
+@end
+
+@implementation UIViewController (DegradeAssist)
+
+- (void)BMDA_viewDidAppear:(BOOL)animated{
+    id degradeDatasource = [BayMaxDegradeAssist Assist].degradeDatasource;
+    if ([degradeDatasource respondsToSelector:@selector(viewControllersToDegradeInitiative)]) {
+        NSArray *vcs = [degradeDatasource viewControllersToDegradeInitiative];
+        if (![vcs isEqual:[NSNull null]]&&vcs.count>0) {
+            [vcs enumerateObjectsUsingBlock:^(NSString *vcClsName, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([vcClsName isEqualToString:NSStringFromClass(self.class)]) {
+                    BMP_SuppressPerformSelectorLeakWarning(
+                                                           [self performSelector:NSSelectorFromString(@"BayMaxDegradeAssist_degradeViewControllerFromUserInitiative")];
+//                                                           NSLog(@"%@主动降级成功",self);
+                                                           );
+                }
+            }];
+        }else{
+            [self BMDA_viewDidAppear:animated];
+        }
+    }else{
+        [self BMDA_viewDidAppear:animated];
+    }
+}
+
+@end
+
+
 @implementation BayMaxDegradeAssist
+
 static  BayMaxDegradeAssist*_instance;
 
 + (id)allocWithZone:(struct _NSZone *)zone{
@@ -47,20 +80,38 @@ static  BayMaxDegradeAssist*_instance;
 
 - (void)reloadRelations{
     [self.relations removeAllObjects];
-    if (self.degradeDatasource) {
-        NSInteger relations = [self.degradeDatasource numberOfRelations];
-        for (int i = 0; i<relations; i++) {
-            NSString *vcName = [self.degradeDatasource nameOfViewControllerAtIndex:i];
-            NSString *vcUrl = [self.degradeDatasource urlOfViewControllerAtIndex:i];
-            NSArray *params = [self.degradeDatasource correspondencesBetweenH5AndIOSParametersAtIndex:i];
-            NSDictionary *item = @{
-                                   BMPAssistKey_VC:vcName == nil?@"":vcName,
-                                   BMPAssistKey_Url:vcUrl == nil?@"":vcUrl,
-                                   BMPAssistKey_Params:params == nil?@"":params
-                                   };
-            [self.relations addObject:item];
+    
+    id degradeDatasource = [BayMaxDegradeAssist Assist].degradeDatasource;
+    
+    if (degradeDatasource && [degradeDatasource respondsToSelector:@selector(viewControllersToDegradeInitiative)]) {
+        _initiativeDegradeVCS = [degradeDatasource viewControllersToDegradeInitiative];
+        if (_initiativeDegradeVCS.count>0) {
+            BMP_EXChangeInstanceMethod([UIViewController class], @selector(viewDidAppear:), [UIViewController class], @selector(BMDA_viewDidAppear:));
         }
-        NSLog(@"降级配置更新成功");
+    }
+    if (degradeDatasource && [degradeDatasource respondsToSelector:@selector(numberOfRelations)]) {
+            NSInteger relations = [degradeDatasource numberOfRelations];
+            for (int i = 0; i<relations; i++) {
+                NSString *vcName;
+                NSString *vcUrl;
+                NSArray *params;
+                if ([degradeDatasource respondsToSelector:@selector(nameOfViewControllerAtIndex:)]) {
+                    vcName = [degradeDatasource nameOfViewControllerAtIndex:i];
+                }
+                if ([degradeDatasource respondsToSelector:@selector(urlOfViewControllerAtIndex:)]) {
+                    vcUrl = [degradeDatasource urlOfViewControllerAtIndex:i];
+                }
+                if ([degradeDatasource respondsToSelector:@selector(correspondencesBetweenH5AndIOSParametersAtIndex:)]) {
+                    params = [degradeDatasource correspondencesBetweenH5AndIOSParametersAtIndex:i];
+                }
+                NSDictionary *item = @{
+                                       BMPAssistKey_VC:vcName == nil?@"":vcName,
+                                       BMPAssistKey_Url:vcUrl == nil?@"":vcUrl,
+                                       BMPAssistKey_Params:params == nil?@"":params
+                                       };
+                [self.relations addObject:item];
+//                NSLog(@"降级配置更新成功");
+            }
     }
 }
 
@@ -79,33 +130,38 @@ static  BayMaxDegradeAssist*_instance;
 
 #pragma mark BayMaxDegradeAssistProtocol
 - (void)handleError:(BayMaxCatchError *)error{
-   
     if (error.errorType == BayMaxErrorTypeUnrecognizedSelector) {
         id obj = error.errorInfos[BMPErrorUnrecognizedSel_VC];
         if ([obj isKindOfClass:[UIViewController class]]) {
             UIViewController *vc = (UIViewController *)obj;
             NSString *completeURL = [[BayMaxDegradeAssist Assist]getCompleteUrlWithParamsForViewController:vc];
-            NSDictionary *relation = [[BayMaxDegradeAssist Assist]relationForViewController:vc.class];
-            if (self.degradeDelegate) {
-                [self.degradeDelegate degradeInstanceOfViewController:vc ifErrorHappensInOtherProcessExceptViewDidLoadWithReplacedCompleteURL:completeURL relation:relation];
+            if (completeURL.length>0) {
+                NSDictionary *relation = [[BayMaxDegradeAssist Assist]relationForViewController:vc.class];
+                if (self.degradeDelegate) {
+                    [self.degradeDelegate autoDegradeInstanceOfViewController:vc ifErrorHappensInOtherProcessExceptViewDidLoadWithReplacedCompleteURL:completeURL relation:relation];
+                }
             }
         }else if([obj isKindOfClass:[NSString class]]){
             NSString *cls =(NSString *)obj;
             NSDictionary *relation = [[BayMaxDegradeAssist Assist]relationForViewController:NSClassFromString(obj)];
             NSString *URL = relation[BMPAssistKey_Url];
-            if (self.degradeDelegate) {
-                [self.degradeDelegate degradeClassOfViewController:NSClassFromString(cls) ifErrorHappensInViewDidLoadProcessWithReplacedURL:URL relation:relation];
+            if (URL.length>0) {
+                if (self.degradeDelegate) {
+                    [self.degradeDelegate autoDegradeClassOfViewController:NSClassFromString(cls) ifErrorHappensInViewDidLoadProcessWithReplacedURL:URL relation:relation];
+                }
             }
         }
     }
 }
 
 #pragma mark others
-
 - (NSString *)getCompleteUrlWithParamsForViewController:(UIViewController *)vc{
     NSMutableString *appendString = [NSMutableString string];
     NSDictionary *relation = [self relationForViewController:[vc class]];
     NSString *url = relation[BMPAssistKey_Url];
+    if (url == nil) {
+        return @"";
+    }
     NSArray <NSDictionary *>*params = relation[BMPAssistKey_Params];
     [appendString appendString:url];
     [appendString appendString:@"?"];

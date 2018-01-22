@@ -28,7 +28,7 @@
     [self.view addSubview:view];
     
     /*测试viewdidload中方法出错*/
-//    [self test];
+    [self test];
     
     
     
@@ -62,7 +62,9 @@
 }
 
 - (void)test3{
+    /*实例方法*/
     [[NSNull null] performSelector:NSSelectorFromString(@"abc")];
+    /*类方法*/
 //    [UIImageView performSelector:NSSelectorFromString(@"abckd")];
 }
 
