@@ -42,7 +42,6 @@ static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
 #else
 #endif
     return 0;
-    
 }
 
 static inline ErrorInfos ErrorInfosMake(const char *function_class,const char *function_name)
@@ -119,10 +118,6 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
             //判断是否是viewdidload方法出错
             errors = ErrorInfosMake([NSStringFromClass(self.class) cStringUsingEncoding:NSASCIIStringEncoding], [NSStringFromSelector(selector) cStringUsingEncoding:NSASCIIStringEncoding]);
             class_addMethod([BayMaxCrashHandler class], selector, (IMP)DynamicAddMethodIMP, "v@:");
-           
-            
-            
-            
             [[BayMaxCrashHandler sharedBayMaxCrashHandler]forwardingCrashMethodInfos:@{ErrorClassName:NSStringFromClass(self.class),
                                                                                     ErrorFunctionName:NSStringFromSelector(selector),
                                                                                   ErrorViewController:[[BayMaxDegradeAssist Assist]topViewController]

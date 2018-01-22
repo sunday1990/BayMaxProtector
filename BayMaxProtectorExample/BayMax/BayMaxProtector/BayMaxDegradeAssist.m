@@ -87,14 +87,14 @@ static  BayMaxDegradeAssist*_instance;
             NSString *completeURL = [[BayMaxDegradeAssist Assist]getCompleteUrlWithParamsForViewController:vc];
             NSDictionary *relation = [[BayMaxDegradeAssist Assist]relationForViewController:vc.class];
             if (self.degradeDelegate) {
-                [self.degradeDelegate degradeViewController:vc occurErrorsWithReplacedCompleteURL:completeURL relation:relation];
+                [self.degradeDelegate degradeInstanceOfViewController:vc ifErrorHappensInOtherProcessExceptViewDidLoadWithReplacedCompleteURL:completeURL relation:relation];
             }
         }else if([obj isKindOfClass:[NSString class]]){
             NSString *cls =(NSString *)obj;
             NSDictionary *relation = [[BayMaxDegradeAssist Assist]relationForViewController:NSClassFromString(obj)];
             NSString *URL = relation[BMPAssistKey_Url];
             if (self.degradeDelegate) {
-                [self.degradeDelegate degradeClassOfViewController:NSClassFromString(cls) occurErrorsInViewDidLoadProcessWithReplacedURL:URL relation:relation];
+                [self.degradeDelegate degradeClassOfViewController:NSClassFromString(cls) ifErrorHappensInViewDidLoadProcessWithReplacedURL:URL relation:relation];
             }
         }
     }

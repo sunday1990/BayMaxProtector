@@ -56,10 +56,9 @@
     return YES;
 }
 
-
 /*配置可以从服务器中获取,然后存到本地*/
 - (void)requestConfigurationsFromWeb{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         _vcNames = @[@"TestViewController",
                      @"Test2ViewController"];
         _params = @[
@@ -99,21 +98,21 @@
 }
 
 #pragma mark BayMaxDegradeAssistDelegate
-- (void)degradeViewController:(UIViewController *)degradeViewController occurErrorsWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation{
+- (void)degradeInstanceOfViewController:(UIViewController *)degradeVC ifErrorHappensInOtherProcessExceptViewDidLoadWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation{
     dispatch_async(dispatch_get_main_queue(), ^{
-        [degradeViewController.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        NSLog(@"completeUrl for %@ is %@",degradeViewController,completeURL);
-        NSLog(@"relation for %@ is %@",degradeViewController,relation);
-        //获取拼接后的url
-        WebViewController *webVC = [[WebViewController alloc]init];
-        webVC.url = completeURL;
-        [degradeViewController addChildViewController:webVC];
-        [degradeViewController.view addSubview:webVC.view];
-    });
+            [degradeVC.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+            NSLog(@"completeUrl for %@ is %@",degradeVC,completeURL);
+            NSLog(@"relation for %@ is %@",degradeVC,relation);
+            //获取拼接后的url
+            WebViewController *webVC = [[WebViewController alloc]init];
+            webVC.url = completeURL;
+            [degradeVC addChildViewController:webVC];
+            [degradeVC.view addSubview:webVC.view];
+        });
 }
 
-- (void)degradeClassOfViewController:(Class)cls occurErrorsInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation{
-    NSLog(@"Url for %@ is %@",cls,URL);
+- (void)degradeClassOfViewController:(Class)degradeCls ifErrorHappensInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation{
+    NSLog(@"Url for %@ is %@",degradeCls,URL);
     WebViewController *webVC = [[WebViewController alloc]init];
     webVC.url = URL;
     UIViewController *vc = [[BayMaxDegradeAssist Assist]topViewController];
