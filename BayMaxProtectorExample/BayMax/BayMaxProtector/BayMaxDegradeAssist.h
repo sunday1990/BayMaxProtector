@@ -13,17 +13,17 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-@class BayMaxCatchError;
+
 /*vc*/
 FOUNDATION_EXPORT NSString *const BMPAssistKey_VC;
 /*params*/
 FOUNDATION_EXPORT NSString *const BMPAssistKey_Params;
 /*url*/
 FOUNDATION_EXPORT NSString *const BMPAssistKey_Url;
+
+@class BayMaxCatchError;
 @protocol BayMaxDegradeAssistProtocol
-
 - (void)handleError:(BayMaxCatchError *)error;
-
 @end
 
 @protocol BayMaxDegradeAssistDataSource
@@ -65,11 +65,24 @@ FOUNDATION_EXPORT NSString *const BMPAssistKey_Url;
 
 @end
 
-
 @protocol BayMaxDegradeAssistDelegate
 
+/**
+ 非viewdidload方法出错，可以获取当前页面对应的H5完整url（带参数），然后进行页面降级
+
+ @param degradeViewController 需要降级的视图控制器实例
+ @param completeURL 完整URL
+ @param relation 该视图控制器对应的相关信息
+ */
 - (void)degradeViewController:(UIViewController *)degradeViewController occurErrorsWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation;
 
+/**
+ 在viewdidload方法中出错，可以获取出错页面对应的不完整url（不带参数），然后进行页面降级
+
+ @param cls 需要降级的视图控制器类
+ @param URL 不带参数的url
+ @param relation 该视图控制器对应的相关信息
+ */
 - (void)degradeClassOfViewController:(Class)cls occurErrorsInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation;
 
 @end
@@ -104,6 +117,6 @@ FOUNDATION_EXPORT NSString *const BMPAssistKey_Url;
 - (NSDictionary *)relationForViewController:(Class)cls;
 
 #pragma mark 以下方法可以不对外开放，用户可以自行处理。
-- (UIViewController *)getCurrentVC;
+- (UIViewController *)topViewController;
 
 @end

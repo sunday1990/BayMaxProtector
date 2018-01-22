@@ -193,8 +193,6 @@
 			children = (
 				1676660F201054D90010E6FB /* BayMaxProtector.h */,
 				16766615201054D90010E6FB /* BayMaxProtector.m */,
-				165C1ADA2013496F006A13D6 /* BayMaxDegradeAssist.h */,
-				165C1AD92013496F006A13D6 /* BayMaxDegradeAssist.m */,
 				16766614201054D90010E6FB /* BayMaxKVODelegate.h */,
 				16766610201054D90010E6FB /* BayMaxKVODelegate.m */,
 				16766613201054D90010E6FB /* BayMaxCrashHandler.h */,
@@ -203,6 +201,8 @@
 				16766612201054D90010E6FB /* BayMaxTimerSubTarget.m */,
 				16462E3320108A3300880A10 /* BayMaxCatchError.h */,
 				16462E3420108A3300880A10 /* BayMaxCatchError.m */,
+				165C1ADA2013496F006A13D6 /* BayMaxDegradeAssist.h */,
+				165C1AD92013496F006A13D6 /* BayMaxDegradeAssist.m */,
 			);
 			path = BayMaxProtector;
 			sourceTree = "<group>";

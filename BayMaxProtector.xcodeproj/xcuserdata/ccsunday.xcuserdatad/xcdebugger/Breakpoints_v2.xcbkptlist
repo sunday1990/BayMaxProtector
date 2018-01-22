@@ -10,12 +10,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BayMaxProtectorExample/AppDelegate.m"
-            timestampString = "538240800.8175941"
+            timestampString = "538279712.301759"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
-            landmarkName = "-degradeClassOfViewController:occurErrorsInViewDidLoadProcessWithReplacedURL:relation:"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "-degradeViewController:occurErrorsWithReplacedCompleteURL:relation:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BayMaxProtectorExample/Test/Test2ViewController.m"
+            timestampString = "538279712.302106"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "-test3"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BayMaxProtectorExample/Test/Test2ViewController.m"
+            timestampString = "538279712.3029031"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BayMaxProtectorExample/AppDelegate.m"
-            timestampString = "538240854.027458"
+            timestampString = "538279712.303214"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
-            landmarkName = "-degradeViewController:occurErrorsWithReplacedCompleteURL:relation:"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "-degradeClassOfViewController:occurErrorsInViewDidLoadProcessWithReplacedURL:relation:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

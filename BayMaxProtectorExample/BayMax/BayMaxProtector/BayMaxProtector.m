@@ -78,51 +78,7 @@ static inline BOOL IsPrivateClass(Class cls){
     return isPrivate;
 }
 
-#pragma mark UNRecognizedSelHandler
-@interface NSObject (UNRecognizedSelHandler)
-@end
-
-@implementation NSObject (UNRecognizedSelHandler)
-static NSString *const ErrorClassName = @"BMPError_ClassName";
-static NSString *const ErrorFunctionName = @"BMPError_FunctionName";
-static NSString *const ErrorViewController = @"BMPError_ViewController";
-
-//将崩溃信息转发到一个指定的类中执行FastForwarding
-- (id)BMP_forwardingTargetForSelector:(SEL)selector{
-    /*判断当前类有没有重写消息转发的相关方法*/
-    if ([self isEqual:[NSNull null]] || ![self isPrivateClass]) {//不是私有类，这一步判断不准确，只会筛选出一些明显的,需要到下一步进行进一步的筛选
-        if (![self overideForwardingMethods]) {//没有重写消息转发方法
-            NSArray *callStackSymbolsArr = [NSThread callStackSymbols];
-            NSString *className = [self getClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols:callStackSymbolsArr];
-//            NSLog(@"错误堆栈信息:%@",callStackSymbolsArr);
-            //判断是否是viewdidload方法出错
-            errors = ErrorInfosMake([NSStringFromClass(self.class) cStringUsingEncoding:NSASCIIStringEncoding], [NSStringFromSelector(selector) cStringUsingEncoding:NSASCIIStringEncoding]);
-            class_addMethod([BayMaxCrashHandler class], selector, (IMP)DynamicAddMethodIMP, "v@:");
-           
-            
-            
-            
-            [[BayMaxCrashHandler sharedBayMaxCrashHandler]forwardingCrashMethodInfos:@{ErrorClassName:NSStringFromClass(self.class),
-                                                                                    ErrorFunctionName:NSStringFromSelector(selector),
-                                                                                  ErrorViewController:[[BayMaxDegradeAssist Assist]getCurrentVC]
-                                                                           }];
-            
-            BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeUnrecognizedSelector infos:@{
-                                                                                                       BMPErrorUnrecognizedSel_Reason:@"UNRecognized Selector",
-                                                                                                       BMPErrorUnrecognizedSel_Receiver:self==nil?@"":self,                                                                                                     BMPErrorUnrecognizedSel_Func:NSStringFromSelector(selector),
-                                                                                                       BMPErrorUnrecognizedSel_VC:className == nil?([[BayMaxDegradeAssist Assist]getCurrentVC] == nil?@"":[[BayMaxDegradeAssist Assist]getCurrentVC]):className
-                                                                                                       }];
-            [[BayMaxDegradeAssist Assist]handleError:bmpError];
-            if (_errorHandler) {
-                _errorHandler(bmpError);
-            }
-            return [BayMaxCrashHandler sharedBayMaxCrashHandler];
-        }
-    }
-    return [self BMP_forwardingTargetForSelector:selector];
-}
-
-- (NSString *)getClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols:(NSArray *)callStackSymbolsArr{
+static inline NSString *GetClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols(NSArray *callStackSymbolsArr){
     __block NSString *className;
     if (callStackSymbolsArr != nil) {
         for (int i = 3; i<=callStackSymbolsArr.count; i++) {
@@ -140,51 +96,59 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
                 break;
             }
         }
-        
     }
     return className;
 }
 
+#pragma mark UNRecognizedSelHandler
+@interface NSObject (UNRecognizedSelHandler)
+@end
+
+@implementation NSObject (UNRecognizedSelHandler)
+static NSString *const ErrorClassName = @"BMPError_ClassName";
+static NSString *const ErrorFunctionName = @"BMPError_FunctionName";
+static NSString *const ErrorViewController = @"BMPError_ViewController";
+
+//将崩溃信息转发到一个指定的类中执行FastForwarding
+- (id)BMP_forwardingTargetForSelector:(SEL)selector{
+    /*判断当前类有没有重写消息转发的相关方法*/
+        if ([self isEqual:[NSNull null]] || ![self overideForwardingMethods]) {//没有重写消息转发方法
+            NSArray *callStackSymbolsArr = [NSThread callStackSymbols];
+//            NSLog(@"错误堆栈信息:%@",callStackSymbolsArr);
+            NSString *vcClassName = GetClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols(callStackSymbolsArr);
+            //判断是否是viewdidload方法出错
+            errors = ErrorInfosMake([NSStringFromClass(self.class) cStringUsingEncoding:NSASCIIStringEncoding], [NSStringFromSelector(selector) cStringUsingEncoding:NSASCIIStringEncoding]);
+            class_addMethod([BayMaxCrashHandler class], selector, (IMP)DynamicAddMethodIMP, "v@:");
+           
+            
+            
+            
+            [[BayMaxCrashHandler sharedBayMaxCrashHandler]forwardingCrashMethodInfos:@{ErrorClassName:NSStringFromClass(self.class),
+                                                                                    ErrorFunctionName:NSStringFromSelector(selector),
+                                                                                  ErrorViewController:[[BayMaxDegradeAssist Assist]topViewController]
+                                                                           }];
+            
+            BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeUnrecognizedSelector infos:@{
+                                                                                                       BMPErrorUnrecognizedSel_Reason:@"UNRecognized Selector",
+                                                                                                       BMPErrorUnrecognizedSel_Receiver:self==nil?@"":self,                                                                                                     BMPErrorUnrecognizedSel_Func:NSStringFromSelector(selector),
+                                                                                                       BMPErrorUnrecognizedSel_VC:vcClassName == nil?([[BayMaxDegradeAssist Assist]topViewController] == nil?@"":[[BayMaxDegradeAssist Assist]topViewController]):vcClassName
+                                                                                                       }];
+            [[BayMaxDegradeAssist Assist]handleError:bmpError];
+            if (_errorHandler) {
+                _errorHandler(bmpError);
+            }
+            return [BayMaxCrashHandler sharedBayMaxCrashHandler];
+        }
+    return [self BMP_forwardingTargetForSelector:selector];
+}
+
 - (BOOL)overideForwardingMethods{
     BOOL overide = NO;
-    NSArray *methods = [self getAllInstanceMethods];
-    if ([methods containsObject:@"forwardingTargetForSelector:"]||
-        [methods containsObject:@"forwardInvocation:"]) {
-        overide = YES;
-    }
+    overide = (class_getMethodImplementation([NSObject class], @selector(forwardInvocation:)) != class_getMethodImplementation([self class], @selector(forwardInvocation:))) ||
+    (class_getMethodImplementation([NSObject class], @selector(forwardingTargetForSelector:)) != class_getMethodImplementation([self class], @selector(forwardingTargetForSelector:)));
     return overide;
 }
 
--(NSArray *)getAllInstanceMethods{
-    unsigned int methodCount = 0;
-    Method *methodLists = class_copyMethodList([self class],&methodCount);
-    NSMutableArray *methodsArray = [NSMutableArray arrayWithCapacity:methodCount];
-    for(int i=0; i<methodCount; i++)
-    {
-        Method tempM = methodLists[i];
-        //方法
-        SEL selName = method_getName(tempM);
-        NSString *methodString = NSStringFromSelector(selName);
-        [methodsArray addObject:methodString];
-    }
-    free(methodLists);
-    return methodsArray;
-}
-
-#pragma mark 是否是私有，只能初步过滤
-- (BOOL)isPrivateClass{
-    BOOL isPrivate = NO;
-    NSString *className = NSStringFromClass(self.class);
-    if ([className hasPrefix:@"_UI"] ||
-        [className hasPrefix:@"_NS"]||
-        [className hasPrefix:@"_"]||
-        [className hasPrefix:@"__"]) {
-        isPrivate = YES;
-    }
-    return isPrivate;
-}
-//||
-//[className hasPrefix:@"UIWeb"]
 @end
 
 #pragma mark KVOProtector

@@ -26,8 +26,9 @@
     view = [[TestView alloc]initWithFrame:CGRectMake(200, 100, 100, 100)];
     view.backgroundColor = [UIColor redColor];
     [self.view addSubview:view];
-
-    [self test];
+    
+    /*测试viewdidload中方法出错*/
+//    [self test];
     
     
     
@@ -62,7 +63,7 @@
 
 - (void)test3{
     [[NSNull null] performSelector:NSSelectorFromString(@"abc")];
-//    [view abc];
+//    [UIImageView performSelector:NSSelectorFromString(@"abckd")];
 }
 
 

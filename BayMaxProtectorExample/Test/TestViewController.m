@@ -30,11 +30,11 @@
 //    [self performSelector:NSSelectorFromString(@"abc")];
     
     //2、timer未invalidate
-    _timer =  [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
+//    _timer =  [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
     
     //3、observer重复添加、
-//    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
-//    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
     
     //4、NSNotification未移除
 //    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notify_test) name:UITextFieldTextDidChangeNotification object:nil];
@@ -83,23 +83,24 @@
 }
 
 - (void)dealloc{
+    NSLog(@"dealloc testvc");
     //observer重复移除
-    [self removeObserver:self forKeyPath:@"progress"];
-    [self removeObserver:self forKeyPath:@"progressd"];
+//    [self removeObserver:self forKeyPath:@"progress"];
+//    [self removeObserver:self forKeyPath:@"progressd"];
     
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     Test2ViewController *test2VC = [[Test2ViewController alloc]init];
-//    test2VC.ios_param0 = @"1000";
-//    test2VC.ios_param1 = @"params";
+    test2VC.ios_param0 = @"1000";
+    test2VC.ios_param1 = @"params";
     [self presentViewController:test2VC animated:YES completion:nil];
-//    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)abc{
     [[NSNull null]performSelector:NSSelectorFromString(@"dhak")];
 }
+
 /*
  #pragma mark - Navigation
  

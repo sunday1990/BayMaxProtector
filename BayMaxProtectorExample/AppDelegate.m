@@ -28,7 +28,6 @@
     /*设置Assist的代理与数据源*/
     [BayMaxDegradeAssist Assist].degradeDelegate = self;
     [BayMaxDegradeAssist Assist].degradeDatasource = self;
-    
     /*开启防护模式*/
     [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
         /*unrecognizedSelector类型的错误，*/
@@ -102,7 +101,6 @@
 #pragma mark BayMaxDegradeAssistDelegate
 - (void)degradeViewController:(UIViewController *)degradeViewController occurErrorsWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation{
     dispatch_async(dispatch_get_main_queue(), ^{
-        //一、先获取在操作
         [degradeViewController.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         NSLog(@"completeUrl for %@ is %@",degradeViewController,completeURL);
         NSLog(@"relation for %@ is %@",degradeViewController,relation);
@@ -115,10 +113,10 @@
 }
 
 - (void)degradeClassOfViewController:(Class)cls occurErrorsInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation{
-    NSLog(@"url:%@",URL);
+    NSLog(@"Url for %@ is %@",cls,URL);
     WebViewController *webVC = [[WebViewController alloc]init];
     webVC.url = URL;
-    UIViewController *vc = [[BayMaxDegradeAssist Assist]getCurrentVC];
+    UIViewController *vc = [[BayMaxDegradeAssist Assist]topViewController];
     [vc presentViewController:webVC animated:YES completion:nil];
 }
 
