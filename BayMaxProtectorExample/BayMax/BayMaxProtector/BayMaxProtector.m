@@ -40,30 +40,54 @@ static inline ErrorInfos ErrorInfosMake(const char *function_class,const char *f
     return errorInfos;
 }
 
-static inline BOOL IsPrivateClass(Class cls){
-    __block BOOL isPrivate = NO;
+static inline BOOL IsSystemClass(Class cls){
+    __block BOOL isSystem = NO;
     NSString *className = NSStringFromClass(cls);
-    if ([className containsString:@"_UI"] ||
-        [className containsString:@"_NS"]||
-        [className hasPrefix:@"_"]||
-        [className hasPrefix:@"__"]||
-        [className hasPrefix:@"NS"]||
-        [className hasPrefix:@"CA"]||
-        [className hasPrefix:@"UI"]||
-        [className hasPrefix:@"AV"]) {
-        isPrivate = YES;
-        return isPrivate;
+    if ([className hasPrefix:@"NS"]) {
+        isSystem = YES;
+        return isSystem;
+    }
+    NSBundle *mainBundle = [NSBundle bundleForClass:cls];
+    if (mainBundle == [NSBundle mainBundle]) {
+        isSystem = NO;
+    }else{
+        isSystem = YES;
     }
     if (_ignorePrefixes.count>0) {
         [_ignorePrefixes enumerateObjectsUsingBlock:^(NSString * prefix, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([className hasPrefix:prefix]) {
-                isPrivate = YES;
+                isSystem = YES;
                 *stop = YES;
             }
         }];
     }
-    return isPrivate;
+    return isSystem;
 }
+
+//static inline BOOL IsPrivateClass(Class cls){
+//    __block BOOL isPrivate = NO;
+//    NSString *className = NSStringFromClass(cls);
+//    if ([className containsString:@"_UI"] ||
+//        [className containsString:@"_NS"]||
+//        [className hasPrefix:@"_"]||
+//        [className hasPrefix:@"__"]||
+//        [className hasPrefix:@"NS"]||
+//        [className hasPrefix:@"CA"]||
+//        [className hasPrefix:@"UI"]||
+//        [className hasPrefix:@"AV"]) {
+//        isPrivate = YES;
+//        return isPrivate;
+//    }
+//    if (_ignorePrefixes.count>0) {
+//        [_ignorePrefixes enumerateObjectsUsingBlock:^(NSString * prefix, NSUInteger idx, BOOL * _Nonnull stop) {
+//            if ([className hasPrefix:prefix]) {
+//                isPrivate = YES;
+//                *stop = YES;
+//            }
+//        }];
+//    }
+//    return isPrivate;
+//}
 
 static inline NSString *GetClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols(NSArray *callStackSymbolsArr){
     __block NSString *className;
@@ -194,7 +218,7 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
 }
 
 - (void)BMP_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context{
-    if (!IsPrivateClass(self.class)) {
+    if (!IsSystemClass(self.class)) {
         __weak typeof(self) weakSelf = self;
         objc_setAssociatedObject(self, KVOProtectorKey, KVOProtectorValue, OBJC_ASSOCIATION_RETAIN);
         [self.bayMaxKVODelegate addKVOInfoToMapsWithObserver:observer forKeyPath:keyPath options:options context:context success:^{
@@ -219,7 +243,7 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
 }
 
 - (void)BMP_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath{
-    if (!IsPrivateClass(self.class)) {
+    if (!IsSystemClass(self.class)) {
         if ([self.bayMaxKVODelegate removeKVOInfoInMapsWithObserver:observer forKeyPath:keyPath]) {
             [self BMP_removeObserver:self.bayMaxKVODelegate forKeyPath:keyPath];
         }else{
@@ -231,7 +255,7 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
 }
 
 - (void)BMPKVO_dealloc{
-    if (!IsPrivateClass(self.class)) {
+    if (!IsSystemClass(self.class)) {
         NSString *value = (NSString *)objc_getAssociatedObject(self, KVOProtectorKey);
         if ([value isEqualToString:KVOProtectorValue]) {
             NSArray *keypaths = [self.bayMaxKVODelegate getAllKeypaths];
@@ -284,7 +308,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 
 @implementation NSTimer (TimerProtector)
 + (NSTimer *)BMP_scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
-    if (!IsPrivateClass([aTarget class])) {
+    if (!IsSystemClass([aTarget class])) {
         BayMaxTimerSubTarget *subtarget = [BayMaxTimerSubTarget targetWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo catchErrorHandler:^(BayMaxCatchError *error) {
             _errorHandler(error);
         }];
