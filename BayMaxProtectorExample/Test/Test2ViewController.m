@@ -30,8 +30,6 @@
     /*测试viewdidload中方法出错*/
     [self test];
     
-    
-    
     UIButton *dismissBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     dismissBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 80, 12, 40, 20);
     [dismissBtn setTitle:@"返回" forState:UIControlStateNormal];

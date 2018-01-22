@@ -7,16 +7,16 @@
 //
 
 /*
-    页面降级辅助类：保存/刷新对应关系、查找对应关系、转换完整url
-    只针对unrecognizedSelector与容器类错误进行降级处理，其他的情况不予处理 
+    页面降级辅助类：保存/刷新对应关系、查找对应关系、转换完整url。
+    支持手动降级与自动降级。
+    其中自动降级只针对unrecognizedSelector与容器类错误【暂未加入】进行降级处理。
  */
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
 /*vc*/
 FOUNDATION_EXPORT NSString *const BMPAssistKey_VC;
-/*params*/
+/*params:H5-iOS参数对应关系*/
 FOUNDATION_EXPORT NSString *const BMPAssistKey_Params;
 /*url*/
 FOUNDATION_EXPORT NSString *const BMPAssistKey_Url;
@@ -63,9 +63,12 @@ FOUNDATION_EXPORT NSString *const BMPAssistKey_Url;
  */
 - (NSArray<NSDictionary<NSString * , NSString *> *> *)correspondencesBetweenH5AndIOSParametersAtIndex:(NSInteger)index;
 
+@optional
+/**
+ 主动降级某些页面，处理后，最终还是会走BayMaxDegradeAssistDelegate中的自动降级相关方法
 
-//主动降级
-
+ @return 视图控制器类名数组
+ */
 - (NSArray *)viewControllersToDegradeInitiative;
 
 @end
@@ -80,7 +83,7 @@ FOUNDATION_EXPORT NSString *const BMPAssistKey_Url;
  @param completeURL 完整URL
  @param relation 该视图控制器对应的相关信息
  */
-- (void)autoDegradeInstanceOfViewController:(UIViewController *)degradeVC ifErrorHappensInOtherProcessExceptViewDidLoadWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation;
+- (void)autoDegradeInstanceOfViewController:(UIViewController *)degradeVC ifErrorHappensInProcessExceptViewDidLoadWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation;
 
 /**
  自动降级：
@@ -91,9 +94,6 @@ FOUNDATION_EXPORT NSString *const BMPAssistKey_Url;
  @param relation 该视图控制器对应的相关信息
  */
 - (void)autoDegradeClassOfViewController:(Class)degradeCls ifErrorHappensInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation;
-
-
-
 
 @end
 
@@ -113,11 +113,6 @@ FOUNDATION_EXPORT NSString *const BMPAssistKey_Url;
 + (instancetype)Assist;
 
 /**
- 刷新对应关系
- */
-- (void)reloadRelations;
-
-/**
  获取跟Class的对应关系
 
  @param cls 视图控制器类
@@ -125,7 +120,10 @@ FOUNDATION_EXPORT NSString *const BMPAssistKey_Url;
 
  */
 - (NSDictionary *)relationForViewController:(Class)cls;
-
+/**
+ 刷新对应关系相关配置
+ */
+- (void)reloadRelations;
 /**
  获取当前显示的视图控制器
 

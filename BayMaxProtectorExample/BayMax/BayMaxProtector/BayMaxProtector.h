@@ -4,7 +4,7 @@
 //
 //  Created by ccSunday on 2017/3/23.
 //  Copyright © 2018年 ccSunday. All rights reserved.
-//
+//  BayMax前身是NSObject+UnRecognizedSelHandler分类 https://www.jianshu.com/p/d072bfbe1a60，是对分类的升级与改造。
 
 #import <Foundation/Foundation.h>
 #import "BayMaxCatchError.h"
@@ -41,7 +41,7 @@ typedef NS_ENUM(NSInteger, BayMaxProtectionType) {
 
 /**
  设置白名单
- 作用：忽略对具有以下指定前缀的框架的保护（多是系统框架），原因一是减少不必要的操作，二是避免kvo异常发生错误。
+ 作用：忽略对具有以下指定前缀的类的保护（多是系统框架），原因一是减少不必要的操作，二是避免kvo异常发生错误。
  已默认忽略带有[@"_",
              @"__",
              @"NS",
@@ -55,11 +55,11 @@ typedef NS_ENUM(NSInteger, BayMaxProtectionType) {
  
 使用：如果想忽略带有CS前缀的类，那么ignorePrefixes为@[@"CS"]即可。
 
-注意：设置对unrecognizedSelctor错误不起作用。
+注意：该设置对unrecognizedSelctor错误不起作用。
  
  @param ignorePrefixes 要忽略的框架的前缀
  */
-+ (void)ignoreProtectionsOnFrameworksWithPrefix:(NSArray *_Nonnull)ignorePrefixes;
++ (void)ignoreProtectionsOnClassesWithPrefix:(NSArray *_Nonnull)ignorePrefixes;
 
 @end
 

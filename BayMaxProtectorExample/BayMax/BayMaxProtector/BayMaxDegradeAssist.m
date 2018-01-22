@@ -31,8 +31,8 @@ static NSArray *_initiativeDegradeVCS;
             [vcs enumerateObjectsUsingBlock:^(NSString *vcClsName, NSUInteger idx, BOOL * _Nonnull stop) {
                 if ([vcClsName isEqualToString:NSStringFromClass(self.class)]) {
                     BMP_SuppressPerformSelectorLeakWarning(
-                                                           [self performSelector:NSSelectorFromString(@"BayMaxDegradeAssist_degradeViewControllerFromUserInitiative")];
-//                                                           NSLog(@"%@主动降级成功",self);
+                                                           [self performSelector:NSSelectorFromString(@"BayMaxDegradeAssist_degradeViewControllerInitiative")];
+                                                           NSLog(@"%@页面主动降级成功",self);
                                                            );
                 }
             }];
@@ -80,9 +80,7 @@ static  BayMaxDegradeAssist*_instance;
 
 - (void)reloadRelations{
     [self.relations removeAllObjects];
-    
     id degradeDatasource = [BayMaxDegradeAssist Assist].degradeDatasource;
-    
     if (degradeDatasource && [degradeDatasource respondsToSelector:@selector(viewControllersToDegradeInitiative)]) {
         _initiativeDegradeVCS = [degradeDatasource viewControllersToDegradeInitiative];
         if (_initiativeDegradeVCS.count>0) {
@@ -110,7 +108,7 @@ static  BayMaxDegradeAssist*_instance;
                                        BMPAssistKey_Params:params == nil?@"":params
                                        };
                 [self.relations addObject:item];
-//                NSLog(@"降级配置更新成功");
+                NSLog(@"页面降级相关配置更新成功！");
             }
     }
 }
@@ -138,7 +136,7 @@ static  BayMaxDegradeAssist*_instance;
             if (completeURL.length>0) {
                 NSDictionary *relation = [[BayMaxDegradeAssist Assist]relationForViewController:vc.class];
                 if (self.degradeDelegate) {
-                    [self.degradeDelegate autoDegradeInstanceOfViewController:vc ifErrorHappensInOtherProcessExceptViewDidLoadWithReplacedCompleteURL:completeURL relation:relation];
+                    [self.degradeDelegate autoDegradeInstanceOfViewController:vc ifErrorHappensInProcessExceptViewDidLoadWithReplacedCompleteURL:completeURL relation:relation];
                 }
             }
         }else if([obj isKindOfClass:[NSString class]]){

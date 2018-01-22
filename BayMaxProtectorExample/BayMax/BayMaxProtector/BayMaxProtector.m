@@ -8,11 +8,10 @@
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #import "BayMaxProtector.h"
-#import "BayMaxCrashHandler.h"
 #import "BayMaxKVODelegate.h"
 #import "BayMaxTimerSubTarget.h"
-#import "BayMaxDegradeAssist.h"
 #import "BayMaxCFunctions.h"
+#import "BayMaxDegradeAssist.h"
 
 typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
 BMPErrorHandler _Nullable _errorHandler;
@@ -87,7 +86,45 @@ static inline NSString *GetClassNameOfViewControllerIfErrorHappensInViewDidloadP
     return className;
 }
 
-#pragma mark UNRecognizedSelHandler
+#pragma mark  BayMaxCrashHandler
+@interface BayMaxCrashHandler : NSObject
++ (nonnull instancetype)sharedBayMaxCrashHandler;
+- (void)forwardingCrashMethodInfos:(NSDictionary *_Nullable)infos;
+@end
+
+@implementation BayMaxCrashHandler
+
+static BayMaxCrashHandler *_instance;
+
++ (id)allocWithZone:(struct _NSZone *)zone{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instance = [super allocWithZone:zone];
+    });
+    return _instance;
+}
+
++ (nonnull instancetype)sharedBayMaxCrashHandler{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instance = [[self alloc] init];
+    });
+    return _instance;
+}
+
+- (id)copyWithZone:(NSZone *)zone{
+    return _instance;
+}
+
+- (void)forwardingCrashMethodInfos:(NSDictionary *_Nullable)infos{
+#ifdef DEBUG
+#else
+#endif
+}
+
+@end
+
+#pragma mark NSObject + UNRecognizedSelHandler
 @interface NSObject (UNRecognizedSelHandler)
 @end
 
@@ -101,7 +138,6 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
     /*判断当前类有没有重写消息转发的相关方法*/
         if ([self isEqual:[NSNull null]] || ![self overideForwardingMethods]) {//没有重写消息转发方法
             NSArray *callStackSymbolsArr = [NSThread callStackSymbols];
-//            NSLog(@"错误堆栈信息:%@",callStackSymbolsArr);
             NSString *vcClassName = GetClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols(callStackSymbolsArr);
             //判断是否是viewdidload方法出错
             errors = ErrorInfosMake([NSStringFromClass(self.class) cStringUsingEncoding:NSASCIIStringEncoding], [NSStringFromSelector(selector) cStringUsingEncoding:NSASCIIStringEncoding]);
@@ -135,7 +171,7 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
 
 @end
 
-#pragma mark KVOProtector
+#pragma mark NSObject + KVOProtector
 @interface NSObject (KVOProtector)
 @end
 
@@ -164,13 +200,15 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         [self.bayMaxKVODelegate addKVOInfoToMapsWithObserver:observer forKeyPath:keyPath options:options context:context success:^{
             [weakSelf BMP_addObserver:weakSelf.bayMaxKVODelegate forKeyPath:keyPath options:options context:context];
         } failure:^(NSError *error) {
+            
+            //Cannot remove an observer <BayMaxKVODelegate 0x17001eb00> for the key path "state" from <UIScrollViewPanGestureRecognizer 0x1019459a0> because it is not registered as an observer.'
+            
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
-                                                                                                       BMPErrorKVO_Reason:@"Repeated additions to the observer",
+                                                                                                       BMPErrorKVO_Reason:[NSString stringWithFormat:@"Repeated additions to the observer for the key path:'%@' from '%@'",keyPath,NSStringFromClass(weakSelf.class) == nil?@"":NSStringFromClass(weakSelf.class)],
                                                                                                        BMPErrorKVO_Observer:observer == nil?@"":observer,
                                                                                                        BMPErrorKVO_Keypath:keyPath == nil?@"":keyPath,
                                                                                                        BMPErrorKVO_Target:NSStringFromClass(weakSelf.class) == nil?@"":NSStringFromClass(weakSelf.class)
                                                                                                        }];
-            
             if (_errorHandler) {
                 _errorHandler(bmpError);
             }            
@@ -198,7 +236,9 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         if ([value isEqualToString:KVOProtectorValue]) {
             NSArray *keypaths = [self.bayMaxKVODelegate getAllKeypaths];
             [keypaths enumerateObjectsUsingBlock:^(NSString *keyPath, NSUInteger idx, BOOL * _Nonnull stop) {
+                //这个方法容易发生崩溃
                 [self BMP_removeObserver:self.bayMaxKVODelegate forKeyPath:keyPath];
+                
             }];
         }
     }
@@ -207,13 +247,14 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
 
 @end
 
-#pragma mark NotificationProtector
+#pragma mark NSNotificationCenter+NotificationProtector
 static void *NSNotificationProtectorKey = &NSNotificationProtectorKey;
 static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtector";
 
 @interface NSNotificationCenter (NotificationProtector)
 @end
 
+#pragma mark UIViewController+NotificationProtector
 @interface UIViewController (NotificationProtector)
 @end
 
@@ -236,7 +277,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 
 @end
 
-#pragma mark NSTimer
+#pragma mark NSTimer+TimerProtector
 @interface NSTimer (TimerProtector)
 
 @end
@@ -255,6 +296,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 
 @end
 
+#pragma mark BayMaxProtector
 @interface BayMaxProtector()
 
 @end
@@ -355,7 +397,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
     }
 }
 
-+ (void)ignoreProtectionsOnFrameworksWithPrefix:(NSArray *_Nonnull)ignorePrefixes{
++ (void)ignoreProtectionsOnClassesWithPrefix:(NSArray *_Nonnull)ignorePrefixes{
     _ignorePrefixes = ignorePrefixes;
 }
 

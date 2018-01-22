@@ -22,7 +22,6 @@
 		1676661D201054D90010E6FB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1676660B201054D90010E6FB /* AppDelegate.m */; };
 		1676661E201054D90010E6FB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1676660C201054D90010E6FB /* Info.plist */; };
 		1676661F201054D90010E6FB /* BayMaxKVODelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766610201054D90010E6FB /* BayMaxKVODelegate.m */; };
-		16766620201054D90010E6FB /* BayMaxCrashHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766611201054D90010E6FB /* BayMaxCrashHandler.m */; };
 		16766621201054D90010E6FB /* BayMaxTimerSubTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766612201054D90010E6FB /* BayMaxTimerSubTarget.m */; };
 		16766622201054D90010E6FB /* BayMaxProtector.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766615201054D90010E6FB /* BayMaxProtector.m */; };
 		169F23EA2014442400793E22 /* TestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 169F23E92014442400793E22 /* TestView.m */; };
@@ -74,9 +73,7 @@
 		1676660D201054D90010E6FB /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		1676660F201054D90010E6FB /* BayMaxProtector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxProtector.h; sourceTree = "<group>"; };
 		16766610201054D90010E6FB /* BayMaxKVODelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxKVODelegate.m; sourceTree = "<group>"; };
-		16766611201054D90010E6FB /* BayMaxCrashHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxCrashHandler.m; sourceTree = "<group>"; };
 		16766612201054D90010E6FB /* BayMaxTimerSubTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxTimerSubTarget.m; sourceTree = "<group>"; };
-		16766613201054D90010E6FB /* BayMaxCrashHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxCrashHandler.h; sourceTree = "<group>"; };
 		16766614201054D90010E6FB /* BayMaxKVODelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxKVODelegate.h; sourceTree = "<group>"; };
 		16766615201054D90010E6FB /* BayMaxProtector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxProtector.m; sourceTree = "<group>"; };
 		16766616201054D90010E6FB /* BayMaxTimerSubTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxTimerSubTarget.h; sourceTree = "<group>"; };
@@ -196,8 +193,6 @@
 				16766615201054D90010E6FB /* BayMaxProtector.m */,
 				16766614201054D90010E6FB /* BayMaxKVODelegate.h */,
 				16766610201054D90010E6FB /* BayMaxKVODelegate.m */,
-				16766613201054D90010E6FB /* BayMaxCrashHandler.h */,
-				16766611201054D90010E6FB /* BayMaxCrashHandler.m */,
 				16766616201054D90010E6FB /* BayMaxTimerSubTarget.h */,
 				16766612201054D90010E6FB /* BayMaxTimerSubTarget.m */,
 				16462E3320108A3300880A10 /* BayMaxCatchError.h */,
@@ -349,7 +344,6 @@
 				16766621201054D90010E6FB /* BayMaxTimerSubTarget.m in Sources */,
 				1676661D201054D90010E6FB /* AppDelegate.m in Sources */,
 				1676661F201054D90010E6FB /* BayMaxKVODelegate.m in Sources */,
-				16766620201054D90010E6FB /* BayMaxCrashHandler.m in Sources */,
 				169F23EA2014442400793E22 /* TestView.m in Sources */,
 				16766619201054D90010E6FB /* ViewController.m in Sources */,
 				1676661C201054D90010E6FB /* main.m in Sources */,

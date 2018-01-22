@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-
 #import "BayMaxProtector.h"
 #import "BayMaxDegradeAssist.h"
 #import "WebViewController.h"
@@ -22,7 +21,6 @@
 @end
 
 @implementation AppDelegate
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -42,7 +40,6 @@
         }else if (error.errorType == BayMaxErrorTypeKVO){
             NSLog(@"ErrorKVOinfos:%@",error.errorInfos);
 
-            
         }else{
             NSLog(@"infos:%@",error.errorInfos);
         }
@@ -52,7 +49,7 @@
 //    /*开启某几个组合防护*/
 //    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector|BayMaxProtectionTypeTimer];
     //设置白名单
-//    [BayMaxProtector ignoreProtectionsOnFrameworksWithPrefix:@[@"AV"]];
+//    [BayMaxProtector ignoreProtectionsOnClassesWithPrefix:@[@"AV"]];
     [self requestConfigurationsFromWeb];
     return YES;
 }
@@ -78,11 +75,13 @@
                   @"https://www.sina.cn"
                   ];
         
-        _initiativeVCS = @[
-                           @"TestViewController"
-                           ];
-        
         [[BayMaxDegradeAssist Assist]reloadRelations];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            _initiativeVCS = @[
+                               @"TestViewController"
+                               ];
+            [[BayMaxDegradeAssist Assist]reloadRelations];
+        });
     });
 }
 
@@ -108,7 +107,7 @@
 }
 
 #pragma mark BayMaxDegradeAssistDelegate
-- (void)autoDegradeInstanceOfViewController:(UIViewController *)degradeVC ifErrorHappensInOtherProcessExceptViewDidLoadWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation{
+- (void)autoDegradeInstanceOfViewController:(UIViewController *)degradeVC ifErrorHappensInProcessExceptViewDidLoadWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation{
     dispatch_async(dispatch_get_main_queue(), ^{
             [degradeVC.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
             NSLog(@"completeUrl for %@ is %@",degradeVC,completeURL);
