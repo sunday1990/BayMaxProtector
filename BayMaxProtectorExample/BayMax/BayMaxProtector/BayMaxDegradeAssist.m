@@ -135,8 +135,9 @@ static  BayMaxDegradeAssist*_instance;
             NSString *completeURL = [[BayMaxDegradeAssist Assist]getCompleteUrlWithParamsForViewController:vc];
             if (completeURL.length>0) {
                 NSDictionary *relation = [[BayMaxDegradeAssist Assist]relationForViewController:vc.class];
-                if (self.degradeDelegate) {
-                    [self.degradeDelegate autoDegradeInstanceOfViewController:vc ifErrorHappensInProcessExceptViewDidLoadWithReplacedCompleteURL:completeURL relation:relation];
+                id degradeDelegate = self.degradeDelegate;
+                if (degradeDelegate && [degradeDelegate respondsToSelector:@selector(autoDegradeInstanceOfViewController:ifErrorHappensInProcessExceptViewDidLoadWithReplacedCompleteURL:relation:)]) {
+                    [degradeDelegate autoDegradeInstanceOfViewController:vc ifErrorHappensInProcessExceptViewDidLoadWithReplacedCompleteURL:completeURL relation:relation];
                 }
             }
         }else if([obj isKindOfClass:[NSString class]]){
@@ -144,8 +145,9 @@ static  BayMaxDegradeAssist*_instance;
             NSDictionary *relation = [[BayMaxDegradeAssist Assist]relationForViewController:NSClassFromString(obj)];
             NSString *URL = relation[BMPAssistKey_Url];
             if (URL.length>0) {
-                if (self.degradeDelegate) {
-                    [self.degradeDelegate autoDegradeClassOfViewController:NSClassFromString(cls) ifErrorHappensInViewDidLoadProcessWithReplacedURL:URL relation:relation];
+                id degradeDelegate = self.degradeDelegate;
+                if (degradeDelegate && [degradeDelegate respondsToSelector:@selector(autoDegradeClassOfViewController:ifErrorHappensInViewDidLoadProcessWithReplacedURL:relation:)]) {
+                    [degradeDelegate autoDegradeClassOfViewController:NSClassFromString(cls) ifErrorHappensInViewDidLoadProcessWithReplacedURL:URL relation:relation];
                 }
             }
         }
