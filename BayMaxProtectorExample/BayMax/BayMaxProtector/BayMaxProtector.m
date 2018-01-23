@@ -64,31 +64,6 @@ static inline BOOL IsSystemClass(Class cls){
     return isSystem;
 }
 
-//static inline BOOL IsPrivateClass(Class cls){
-//    __block BOOL isPrivate = NO;
-//    NSString *className = NSStringFromClass(cls);
-//    if ([className containsString:@"_UI"] ||
-//        [className containsString:@"_NS"]||
-//        [className hasPrefix:@"_"]||
-//        [className hasPrefix:@"__"]||
-//        [className hasPrefix:@"NS"]||
-//        [className hasPrefix:@"CA"]||
-//        [className hasPrefix:@"UI"]||
-//        [className hasPrefix:@"AV"]) {
-//        isPrivate = YES;
-//        return isPrivate;
-//    }
-//    if (_ignorePrefixes.count>0) {
-//        [_ignorePrefixes enumerateObjectsUsingBlock:^(NSString * prefix, NSUInteger idx, BOOL * _Nonnull stop) {
-//            if ([className hasPrefix:prefix]) {
-//                isPrivate = YES;
-//                *stop = YES;
-//            }
-//        }];
-//    }
-//    return isPrivate;
-//}
-
 static inline NSString *GetClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols(NSArray *callStackSymbolsArr){
     __block NSString *className;
     if (callStackSymbolsArr != nil) {
