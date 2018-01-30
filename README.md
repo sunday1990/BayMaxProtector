@@ -93,8 +93,6 @@ Crash protector -take care of your application like BayMax
 
 4、其他
 
-5、为什么把`BayMaxProtector`做成`pod`组件后，我能搜到，别人也能搜到，但是install的时候却一直报错。。。。😭。😭。😭
-
 
 如果您有兴趣一起做或者有好的建议，可以加我QQ😊：`935143023`
 
