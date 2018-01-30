@@ -13,7 +13,11 @@ Crash protector -take care of your application like BayMax
 
 4、其他功能你可以自己探索
 ## 二、how to use?
-1、 手动方式：将`BayMax`文件夹下的内容拖入拖入项目。
+1、安装
+`CocoaPod`方式:在podFile中添加 `pod 'BayMaxProtector'`：
+
+手动方式：将`BayMax`文件夹下的内容拖入拖入项目。
+
 2、 `Appdelegate` 中设置你想要保护的类型(建议debug模式下不要开启)，保护的类型是枚举类型，支持枚举的或运算。
 ```
 示例：
