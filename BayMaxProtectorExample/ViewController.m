@@ -7,10 +7,10 @@
 //
 
 #import "ViewController.h"
-#import "TestViewController.h"
-#import "Test2ViewController.h"
 
-#import "WebViewController.h"
+#import "TestAutoDegradeVC.h"
+#import "TestManaulDegradeVC.h"
+
 #import "AssistMicros.h"
 
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -46,6 +46,14 @@
                    @{
                        @"title":@"NotificationError",
                        @"class":@"TestNotificationErrorVC"                       
+                       },
+                   @{
+                       @"title":@"AutoDegrade",
+                       @"class":@"TestAutoDegradeVC"
+                       },
+                   @{
+                       @"title":@"ManaulDegrade",
+                       @"class":@"TestManaulDegradeVC"
                        }
                    ];
     [self.view addSubview:self.tableview];

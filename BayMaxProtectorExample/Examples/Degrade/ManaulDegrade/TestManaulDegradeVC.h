@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface TestManaulDegradeVC : UIViewController
+#import "BaseViewController.h"
+@interface TestManaulDegradeVC : BaseViewController
 
 @end

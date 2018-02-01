@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface TestAutoDegradeVC : UIViewController
+#import "BaseViewController.h"
+@interface TestAutoDegradeVC : BaseViewController
 
 @end

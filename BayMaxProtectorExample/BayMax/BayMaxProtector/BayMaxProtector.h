@@ -57,6 +57,11 @@ typedef NS_ENUM(NSInteger, BayMaxProtectionType) {
  @param protectionType 要关闭的类型
  */
 + (void)closeProtectionsOn:(BayMaxProtectionType)protectionType;
+/**
+ 显示debugView
+ 调用后，会将错误信息显示出来
+ */
++ (void)showDebugView;
 
 @end
 

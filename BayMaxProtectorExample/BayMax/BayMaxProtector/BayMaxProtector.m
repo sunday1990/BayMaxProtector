@@ -23,6 +23,7 @@ BMPErrorHandler _Nullable _errorHandler;
 //声明保存需要忽略的类前缀数组
 static NSArray *_ignorePrefixes;
 
+/*动态添加方法的imp*/
 static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
 #ifdef DEBUG
 #else
@@ -30,6 +31,7 @@ static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
     return 0;
 }
 
+/*是否是系统类*/
 static inline BOOL IsSystemClass(Class cls){
     __block BOOL isSystem = NO;
     NSString *className = NSStringFromClass(cls);
@@ -54,6 +56,7 @@ static inline BOOL IsSystemClass(Class cls){
     return isSystem;
 }
 
+/*错误发生在viewdidload中的时候获取发生错误的视图控制器的类名*/
 static inline NSString *GetClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols(NSArray *callStackSymbolsArr){
     __block NSString *className;
     if (callStackSymbolsArr != nil) {
@@ -465,6 +468,11 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 
 + (void)ignoreProtectionsOnClassesWithPrefix:(NSArray *_Nonnull)ignorePrefixes{
     _ignorePrefixes = ignorePrefixes;
+}
+
++ (void)showDebugView{
+    
+    
 }
 
 #pragma mark 映射关系
