@@ -51,7 +51,6 @@
         }
     }];
     if (isExist) {//已经存在了
-//        NSLog(@"observer重复添加->observer:%@\n keypath:%@",observer,keyPath);
         success = NO;
     }else{
         KVOInfo *info = [[KVOInfo alloc]init];
@@ -116,15 +115,11 @@
     if (kvoInfo) {
         [kvoInfos removeObject:kvoInfo];
     }
-    if (isExist) {
-    
-    }else{
-        
-    }
     success = isExist;
     return success;
 }
 
+#pragma mark 获取keypath对应的所有观察者
 - (NSMutableArray *)getKVOInfosForKeypath:(NSString *)keypath{
     if ([_keyPathMaps.allKeys containsObject:keypath]) {
         return [_keyPathMaps objectForKey:keypath];
@@ -133,6 +128,7 @@
     }
 }
 
+#pragma mark  设置keypath对应的观察者数组
 - (void)setKVOInfos:(NSMutableArray *)kvoInfos ForKeypath:(NSString *)keypath{
     if (![_keyPathMaps.allKeys containsObject:keypath]) {
         if (keypath) {
@@ -141,6 +137,7 @@
     }
 }
 
+#pragma mark 实际观察者执行相对应的监听方法
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     NSMutableArray <KVOInfo *> *kvoInfos = [self getKVOInfosForKeypath:keyPath];
     [kvoInfos enumerateObjectsUsingBlock:^(KVOInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -153,6 +150,7 @@
     }];
 }
 
+#pragma mark 获取所有被观察的keypaths
 - (NSArray *)getAllKeypaths{
     NSArray <NSString *>*keyPaths = _keyPathMaps.allKeys;
     return keyPaths;

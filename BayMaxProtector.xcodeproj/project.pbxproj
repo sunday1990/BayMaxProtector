@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		160864A3200CA30E0043988C /* BayMaxProtectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864A2200CA30E0043988C /* BayMaxProtectorTests.m */; };
 		160864AE200CA30E0043988C /* BayMaxProtectorUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 160864AD200CA30E0043988C /* BayMaxProtectorUITests.m */; };
+		16340A6F2022B1C20026E47F /* TestUnrecognizedSelVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 16340A6E2022B1C20026E47F /* TestUnrecognizedSelVC.m */; };
+		16340A722022B1D80026E47F /* TestKVOErrorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 16340A712022B1D80026E47F /* TestKVOErrorVC.m */; };
+		16340A752022B1EA0026E47F /* TestTimerErrorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 16340A742022B1EA0026E47F /* TestTimerErrorVC.m */; };
+		16340A7B2022B20D0026E47F /* TestContainerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 16340A7A2022B20D0026E47F /* TestContainerVC.m */; };
+		16340A7F2022B2EF0026E47F /* TestNotificationErrorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 16340A7E2022B2EF0026E47F /* TestNotificationErrorVC.m */; };
+		16340A832022B34B0026E47F /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16340A822022B34B0026E47F /* BaseViewController.m */; };
 		16462E3520108A3300880A10 /* BayMaxCatchError.m in Sources */ = {isa = PBXBuildFile; fileRef = 16462E3420108A3300880A10 /* BayMaxCatchError.m */; };
 		16462E382010E5F700880A10 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16462E372010E5F700880A10 /* WebViewController.m */; };
 		165C1AD22011D98B006A13D6 /* Test2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 165C1AD12011D98B006A13D6 /* Test2ViewController.m */; };
@@ -52,6 +58,19 @@
 		160864A9200CA30E0043988C /* BayMaxProtectorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BayMaxProtectorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		160864AD200CA30E0043988C /* BayMaxProtectorUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BayMaxProtectorUITests.m; sourceTree = "<group>"; };
 		160864AF200CA30E0043988C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16340A6D2022B1C20026E47F /* TestUnrecognizedSelVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestUnrecognizedSelVC.h; sourceTree = "<group>"; };
+		16340A6E2022B1C20026E47F /* TestUnrecognizedSelVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestUnrecognizedSelVC.m; sourceTree = "<group>"; };
+		16340A702022B1D80026E47F /* TestKVOErrorVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestKVOErrorVC.h; sourceTree = "<group>"; };
+		16340A712022B1D80026E47F /* TestKVOErrorVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestKVOErrorVC.m; sourceTree = "<group>"; };
+		16340A732022B1EA0026E47F /* TestTimerErrorVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestTimerErrorVC.h; sourceTree = "<group>"; };
+		16340A742022B1EA0026E47F /* TestTimerErrorVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestTimerErrorVC.m; sourceTree = "<group>"; };
+		16340A792022B20D0026E47F /* TestContainerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestContainerVC.h; sourceTree = "<group>"; };
+		16340A7A2022B20D0026E47F /* TestContainerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestContainerVC.m; sourceTree = "<group>"; };
+		16340A7D2022B2EF0026E47F /* TestNotificationErrorVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestNotificationErrorVC.h; sourceTree = "<group>"; };
+		16340A7E2022B2EF0026E47F /* TestNotificationErrorVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestNotificationErrorVC.m; sourceTree = "<group>"; };
+		16340A812022B34B0026E47F /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		16340A822022B34B0026E47F /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		16340A842022B3AA0026E47F /* AssistMicros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssistMicros.h; sourceTree = "<group>"; };
 		16462E3320108A3300880A10 /* BayMaxCatchError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BayMaxCatchError.h; sourceTree = "<group>"; };
 		16462E3420108A3300880A10 /* BayMaxCatchError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BayMaxCatchError.m; sourceTree = "<group>"; };
 		16462E362010E5F700880A10 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
@@ -145,6 +164,107 @@
 			path = BayMaxProtectorUITests;
 			sourceTree = "<group>";
 		};
+		16340A632022B0BB0026E47F /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				16340A802022B3420026E47F /* Base */,
+				16340A6A2022B1620026E47F /* Degrade */,
+				16340A682022B1270026E47F /* Containers */,
+				16340A672022B11A0026E47F /* NSNotifitication */,
+				16340A662022B1140026E47F /* Timer */,
+				16340A652022B10E0026E47F /* KVO */,
+				16340A642022B1020026E47F /* UnrecognizedSelector */,
+			);
+			path = Examples;
+			sourceTree = "<group>";
+		};
+		16340A642022B1020026E47F /* UnrecognizedSelector */ = {
+			isa = PBXGroup;
+			children = (
+				16340A6D2022B1C20026E47F /* TestUnrecognizedSelVC.h */,
+				16340A6E2022B1C20026E47F /* TestUnrecognizedSelVC.m */,
+			);
+			path = UnrecognizedSelector;
+			sourceTree = "<group>";
+		};
+		16340A652022B10E0026E47F /* KVO */ = {
+			isa = PBXGroup;
+			children = (
+				16340A702022B1D80026E47F /* TestKVOErrorVC.h */,
+				16340A712022B1D80026E47F /* TestKVOErrorVC.m */,
+			);
+			path = KVO;
+			sourceTree = "<group>";
+		};
+		16340A662022B1140026E47F /* Timer */ = {
+			isa = PBXGroup;
+			children = (
+				16340A732022B1EA0026E47F /* TestTimerErrorVC.h */,
+				16340A742022B1EA0026E47F /* TestTimerErrorVC.m */,
+			);
+			path = Timer;
+			sourceTree = "<group>";
+		};
+		16340A672022B11A0026E47F /* NSNotifitication */ = {
+			isa = PBXGroup;
+			children = (
+				16340A7D2022B2EF0026E47F /* TestNotificationErrorVC.h */,
+				16340A7E2022B2EF0026E47F /* TestNotificationErrorVC.m */,
+			);
+			path = NSNotifitication;
+			sourceTree = "<group>";
+		};
+		16340A682022B1270026E47F /* Containers */ = {
+			isa = PBXGroup;
+			children = (
+				16340A792022B20D0026E47F /* TestContainerVC.h */,
+				16340A7A2022B20D0026E47F /* TestContainerVC.m */,
+			);
+			path = Containers;
+			sourceTree = "<group>";
+		};
+		16340A6A2022B1620026E47F /* Degrade */ = {
+			isa = PBXGroup;
+			children = (
+				16340A7C2022B2360026E47F /* Webview */,
+				16340A6C2022B1770026E47F /* ManaulDegrade */,
+				16340A6B2022B16D0026E47F /* AutoDegrade */,
+			);
+			path = Degrade;
+			sourceTree = "<group>";
+		};
+		16340A6B2022B16D0026E47F /* AutoDegrade */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AutoDegrade;
+			sourceTree = "<group>";
+		};
+		16340A6C2022B1770026E47F /* ManaulDegrade */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ManaulDegrade;
+			sourceTree = "<group>";
+		};
+		16340A7C2022B2360026E47F /* Webview */ = {
+			isa = PBXGroup;
+			children = (
+				16462E362010E5F700880A10 /* WebViewController.h */,
+				16462E372010E5F700880A10 /* WebViewController.m */,
+			);
+			path = Webview;
+			sourceTree = "<group>";
+		};
+		16340A802022B3420026E47F /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				16340A812022B34B0026E47F /* BaseViewController.h */,
+				16340A822022B34B0026E47F /* BaseViewController.m */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		165C1AD82012FAD1006A13D6 /* BayMax */ = {
 			isa = PBXGroup;
 			children = (
@@ -156,11 +276,13 @@
 		167665FF201054D90010E6FB /* BayMaxProtectorExample */ = {
 			isa = PBXGroup;
 			children = (
+				16340A632022B0BB0026E47F /* Examples */,
 				165C1AD82012FAD1006A13D6 /* BayMax */,
 				16766601201054D90010E6FB /* Test */,
 				16766604201054D90010E6FB /* Assets.xcassets */,
 				1676660D201054D90010E6FB /* ViewController.h */,
 				16766605201054D90010E6FB /* ViewController.m */,
+				16340A842022B3AA0026E47F /* AssistMicros.h */,
 				16766606201054D90010E6FB /* LaunchScreen.storyboard */,
 				16766608201054D90010E6FB /* Main.storyboard */,
 				1676660A201054D90010E6FB /* main.m */,
@@ -176,8 +298,6 @@
 			children = (
 				16766603201054D90010E6FB /* TestViewController.h */,
 				16766602201054D90010E6FB /* TestViewController.m */,
-				16462E362010E5F700880A10 /* WebViewController.h */,
-				16462E372010E5F700880A10 /* WebViewController.m */,
 				165C1AD02011D98B006A13D6 /* Test2ViewController.h */,
 				165C1AD12011D98B006A13D6 /* Test2ViewController.m */,
 				169F23E82014442400793E22 /* TestView.h */,
@@ -338,18 +458,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16340A7F2022B2EF0026E47F /* TestNotificationErrorVC.m in Sources */,
+				16340A832022B34B0026E47F /* BaseViewController.m in Sources */,
 				165C1AD22011D98B006A13D6 /* Test2ViewController.m in Sources */,
 				16766622201054D90010E6FB /* BayMaxProtector.m in Sources */,
 				16462E382010E5F700880A10 /* WebViewController.m in Sources */,
 				16766621201054D90010E6FB /* BayMaxTimerSubTarget.m in Sources */,
 				1676661D201054D90010E6FB /* AppDelegate.m in Sources */,
 				1676661F201054D90010E6FB /* BayMaxKVODelegate.m in Sources */,
+				16340A722022B1D80026E47F /* TestKVOErrorVC.m in Sources */,
 				169F23EA2014442400793E22 /* TestView.m in Sources */,
 				16766619201054D90010E6FB /* ViewController.m in Sources */,
+				16340A7B2022B20D0026E47F /* TestContainerVC.m in Sources */,
 				1676661C201054D90010E6FB /* main.m in Sources */,
 				165C1ADB2013496F006A13D6 /* BayMaxDegradeAssist.m in Sources */,
 				16766617201054D90010E6FB /* TestViewController.m in Sources */,
+				16340A6F2022B1C20026E47F /* TestUnrecognizedSelVC.m in Sources */,
 				16462E3520108A3300880A10 /* BayMaxCatchError.m in Sources */,
+				16340A752022B1EA0026E47F /* TestTimerErrorVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

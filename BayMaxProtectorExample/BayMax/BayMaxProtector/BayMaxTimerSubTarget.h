@@ -11,6 +11,17 @@
 
 @interface BayMaxTimerSubTarget : NSObject
 
+/**
+ BayMaxTimerSubTarget初始化方法
+
+ @param ti ti
+ @param aTarget aTarget 
+ @param aSelector aSelector
+ @param userInfo userInfo
+ @param yesOrNo yesOrNo
+ @param errorHandler 错误回调
+ @return subTarget实例
+ */
 + (instancetype)targetWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo catchErrorHandler:(void(^)(BayMaxCatchError * error))errorHandler;
 
 @end

@@ -66,7 +66,7 @@ FOUNDATION_EXPORT NSString *const BMPAssistKey_Url;
 @optional
 /**
  主动降级某些页面，处理后，最终还是会走BayMaxDegradeAssistDelegate中的自动降级相关方法
-
+ 注意：主动降级也就是让向该对象发送一个不能响应的消息，然后走消息转发流程
  @return 视图控制器类名数组
  */
 - (NSArray *)viewControllersToDegradeInitiative;

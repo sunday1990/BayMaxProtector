@@ -47,10 +47,23 @@ typedef NS_ENUM(NSInteger, BayMaxErrorType) {
 
 @interface BayMaxCatchError : NSObject
 
+/**
+ 错误类型
+ */
 @property (nonatomic, assign) BayMaxErrorType errorType;
 
+/**
+ 错误信息字典，通过相对应的key获取
+ */
 @property (nonatomic, copy) NSDictionary *errorInfos;
 
+/**
+ 初始化方法
+
+ @param errorType 错误类型
+ @param errorInfos 错误信息字典
+ @return 错误实例
+ */
 + (instancetype)BMPErrorWithType:(BayMaxErrorType)errorType infos:(NSDictionary *)errorInfos;
 
 @end

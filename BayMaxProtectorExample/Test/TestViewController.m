@@ -14,6 +14,7 @@
     NSTimer *_timer;
 }
 @property (nonatomic, copy) NSString *progress;
+@property (nonatomic, copy) NSString *progress1;
 
 @end
 
@@ -26,18 +27,17 @@
     /*0、模仿网络错误*/
 //    [self imitateNetWorkError];
   
-    //1、unrecognizedSelector
+//    1、unrecognizedSelector
 //    [self performSelector:NSSelectorFromString(@"abc")];
     
-    //2、timer未invalidate
+//    2、timer未invalidate
 //    _timer =  [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(click) userInfo:nil repeats:YES];
     
     //3、observer重复添加、
     [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
-    
-    //4、NSNotification未移除
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notify_test) name:UITextFieldTextDidChangeNotification object:nil];
+//    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
+    //同一个observer，观察不同的keypath
+    [self addObserver:self forKeyPath:@"progress1" options:NSKeyValueObservingOptionNew context:nil];
     
     UIButton *dismissBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     dismissBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 80, 12, 40, 20);

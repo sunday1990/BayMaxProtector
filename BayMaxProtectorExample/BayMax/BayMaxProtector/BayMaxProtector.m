@@ -200,8 +200,6 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
             [weakSelf BMP_addObserver:weakSelf.bayMaxKVODelegate forKeyPath:keyPath options:options context:context];
         } failure:^(NSError *error) {
             
-            //Cannot remove an observer <BayMaxKVODelegate 0x17001eb00> for the key path "state" from <UIScrollViewPanGestureRecognizer 0x1019459a0> because it is not registered as an observer.'
-            
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
                                                                                                        BMPErrorKVO_Reason:[NSString stringWithFormat:@"Repeated additions to the observer for the key path:'%@' from '%@'",keyPath,NSStringFromClass(weakSelf.class) == nil?@"":NSStringFromClass(weakSelf.class)],
                                                                                                        BMPErrorKVO_Observer:observer == nil?@"":observer,
@@ -222,7 +220,7 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         if ([self.bayMaxKVODelegate removeKVOInfoInMapsWithObserver:observer forKeyPath:keyPath]) {
             [self BMP_removeObserver:self.bayMaxKVODelegate forKeyPath:keyPath];
         }else{
-//            NSLog(@"移除的keypath不存在\n{\n keypath：%@\n observer :%@\n}",keyPath,observer);            
+
         }
     }else{
         [self BMP_removeObserver:observer forKeyPath:keyPath];

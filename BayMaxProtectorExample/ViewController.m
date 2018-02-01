@@ -11,8 +11,16 @@
 #import "Test2ViewController.h"
 
 #import "WebViewController.h"
+#import "AssistMicros.h"
 
-@interface ViewController ()
+@interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    NSArray *titleArray;
+}
+/**
+ tableView
+ */
+@property (nonatomic, strong) UITableView *tableview;
 
 @end
 
@@ -22,18 +30,74 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.view.backgroundColor = [UIColor greenColor];
+    titleArray = @[
+                   @{
+                       @"title":@"UnrecognizedSelector",
+                       @"class":@"TestUnrecognizedSelVC"
+                       },
+                   @{
+                       @"title":@"TimerError",
+                       @"class":@"TestTimerErrorVC"
+                       },
+                   @{
+                       @"title":@"KVOError",
+                       @"class":@"TestKVOErrorVC"
+                       },
+                   @{
+                       @"title":@"NotificationError",
+                       @"class":@"TestNotificationErrorVC"                       
+                       }
+                   ];
+    [self.view addSubview:self.tableview];
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    TestViewController *testVC = [[TestViewController alloc]init];
-    testVC.ios_ID = @"10000";
-    testVC.ios_typeID = @"type00";
-    [self presentViewController:testVC animated:YES completion:nil];
+#pragma mark ======== System Delegate ========
 
-//    Test2ViewController *test2VC = [[Test2ViewController alloc]init];
-//    test2VC.ios_param0 = @"1000";
-//    test2VC.ios_param1 = @"params";
-//    [self presentViewController:test2VC animated:YES completion:nil];
+#pragma mark UITableViewDataSource && UITableViewDelegate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return titleArray.count;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *CellID = @"mainCellID";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellID];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellID];
+    }
+    cell.textLabel.text = [titleArray[indexPath.row]objectForKey:@"title"];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSDictionary *item =  titleArray[indexPath.row];
+    Class cls = NSClassFromString([item objectForKey:@"class"]);
+    [self presentViewController:[[cls alloc]init] animated:YES completion:nil];
+}
+
+#pragma mark ======== Custom Delegate ========
+
+
+#pragma mark ======== Private Methods ========
+
+
+#pragma mark ======== Setters && Getters ========
+
+
+- (UITableView *)tableview{
+    if (!_tableview) {
+        _tableview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) style:UITableViewStyleGrouped];
+        _tableview.delegate = self;
+        _tableview.dataSource = self;
+        _tableview.rowHeight = 44;
+        _tableview.tableFooterView = [[UIView alloc]init];
+    }
+    return _tableview;
 }
 
 - (void)didReceiveMemoryWarning {

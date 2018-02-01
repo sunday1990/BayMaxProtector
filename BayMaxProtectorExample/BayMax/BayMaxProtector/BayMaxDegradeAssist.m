@@ -16,6 +16,8 @@ NSString *const BMPAssistKey_Params = @"BMP_Params";
 
 NSString *const BMPAssistKey_Url = @"BMP_Url";
 
+NSString *const InitiativeMethodName = @"com.bayMaxProtector.degradeViewControllerInitiative";
+
 static NSArray *_initiativeDegradeVCS;
 
 @interface UIViewController (DegradeAssist)
@@ -30,9 +32,8 @@ static NSArray *_initiativeDegradeVCS;
         if (![vcs isEqual:[NSNull null]]&&vcs.count>0) {
             [vcs enumerateObjectsUsingBlock:^(NSString *vcClsName, NSUInteger idx, BOOL * _Nonnull stop) {
                 if ([vcClsName isEqualToString:NSStringFromClass(self.class)]) {
-                    BMP_SuppressPerformSelectorLeakWarning(
-                                                           [self performSelector:NSSelectorFromString(@"BayMaxDegradeAssist_degradeViewControllerInitiative")];
-                                                           NSLog(@"%@页面主动降级成功",self);
+                    BMP_SuppressPerformSelectorLeakWarning(                                                           
+                                                           [self performSelector:NSSelectorFromString(InitiativeMethodName)];
                                                            );
                 }
             }];
