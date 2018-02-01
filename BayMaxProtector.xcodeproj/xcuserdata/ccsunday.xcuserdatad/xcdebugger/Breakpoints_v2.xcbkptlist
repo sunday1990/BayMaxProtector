@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BayMaxProtectorExample/AppDelegate.m"
-            timestampString = "539146303.963443"
+            timestampString = "539165208.436883"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BayMaxProtectorExample/BayMax/BayMaxProtector/BayMaxKVODelegate.m"
-            timestampString = "539146303.963517"
+            timestampString = "539165208.4370151"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "76"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BayMaxProtectorExample/BayMax/BayMaxProtector/BayMaxKVODelegate.m"
-            timestampString = "539146303.963572"
+            timestampString = "539165208.437091"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "82"
@@ -58,28 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BayMaxProtectorExample/BayMax/BayMaxProtector/BayMaxKVODelegate.m"
-            timestampString = "539146303.963621"
+            timestampString = "539165208.437152"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "78"
             endingLineNumber = "78"
             landmarkName = "-addKVOInfoToMapsWithObserver:forKeyPath:options:context:success:failure:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BayMaxProtectorExample/BayMax/BayMaxProtector/BayMaxProtector.m"
-            timestampString = "539146303.96367"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
-            landmarkName = "-bayMaxKVODelegate"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

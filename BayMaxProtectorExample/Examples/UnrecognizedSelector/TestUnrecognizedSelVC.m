@@ -7,7 +7,6 @@
 //
 
 #import "TestUnrecognizedSelVC.h"
-#import "BayMaxProtector.h"
 
 @interface TestUnrecognizedSelVC ()
 
@@ -18,8 +17,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];    
-    [[NSNull null]performSelector:NSSelectorFromString(@"abc")];
+//    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];    
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {

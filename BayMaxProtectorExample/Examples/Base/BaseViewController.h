@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BayMaxProtector.h"
 @interface BaseViewController : UIViewController
 
 @end

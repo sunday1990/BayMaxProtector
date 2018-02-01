@@ -13,6 +13,34 @@
 #import "BayMaxCFunctions.h"
 #import "BayMaxDegradeAssist.h"
 
+typedef struct IMPNode *PtrToIMP;
+typedef PtrToIMP IMPlist;
+struct IMPNode{
+    IMP imp;
+    PtrToIMP next;
+};
+/*向IMP链表中追加imp*/
+void BMP_InsertIMPToList(IMPlist list,IMP imp){
+    PtrToIMP nextNode = malloc(sizeof(struct IMPNode));
+    nextNode->imp = imp;
+    nextNode->next = list->next;
+    list->next = nextNode;
+}
+/*判断IMP链表中有没有此元素，对libobjc中的c函数无效*/
+BOOL BMP_ImpExistInList(IMPlist list, IMP imp){
+    if (list->imp == imp) {
+        return YES;
+    }else{
+        if (list->next != NULL) {
+            return BMP_ImpExistInList(list->next,imp);
+        }else{
+            return NO;
+        }
+    }
+}
+//声明一个全局的IMP链表
+static IMPlist impList;
+
 typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
 BMPErrorHandler _Nullable _errorHandler;
 
@@ -280,6 +308,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 @end
 
 @implementation NSTimer (TimerProtector)
+
 + (NSTimer *)BMP_scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
     if (!IsSystemClass([aTarget class])) {
         BayMaxTimerSubTarget *subtarget = [BayMaxTimerSubTarget targetWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo catchErrorHandler:^(BayMaxCatchError *error) {
@@ -300,14 +329,80 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 
 @implementation BayMaxProtector
 
-+ (void)openProtectionsOn:(BayMaxProtectionType)protectionType{
-    [self openProtectionsOn:protectionType catchErrorHandler:nil];
++ (void)load{
+    //保存方法交换前的IMP
+    IMP maping_ForwardingTarget_IMP = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingForwardingTargetForSelectorMethod));
+    IMP KVO_IMP = class_getMethodImplementation([NSObject class], @selector(addObserver:forKeyPath:options:context:));
+    IMP maping_Timer_IMP = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingTimerMethod));
+    IMP notification_IMP = class_getMethodImplementation([NSNotificationCenter class], @selector(addObserver:selector:name:object:));
+    impList = malloc(sizeof(struct IMPNode));
+    impList->next = NULL;
+    BMP_InsertIMPToList(impList, maping_ForwardingTarget_IMP);
+    BMP_InsertIMPToList(impList, KVO_IMP);
+    BMP_InsertIMPToList(impList, maping_Timer_IMP);
+    BMP_InsertIMPToList(impList, notification_IMP);
+    NSLog(@"IMP链表初始化成功");
 }
 
++ (void)openProtectionsOn:(BayMaxProtectionType)protectionType{
+    [self filterProtectionsOn:protectionType operation:YES];
+}
 
 + (void)closeProtectionsOn:(BayMaxProtectionType)protectionType{
-    //需要判断之前有没有交换，如果没有交换过的话，那么不需要调换
-    [self openProtectionsOn:protectionType catchErrorHandler:nil];
+    [self filterProtectionsOn:protectionType operation:NO];
+}
+
++ (void)filterProtectionsOn:(BayMaxProtectionType)protectionType operation:(BOOL)openOperation{
+    IMP imp;
+    if (protectionType > (1<<3)) {
+        imp = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingTimerMethod));
+        [self filterProtectionsOn:protectionType operation:openOperation imp:imp];
+        protectionType -= (1<<3) ;
+    }
+    switch (protectionType) {
+        case BayMaxProtectionTypeUnrecognizedSelector:
+            imp = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingForwardingTargetForSelectorMethod));
+            [self filterProtectionsOn:protectionType operation:openOperation imp:imp];
+            break;
+            
+        case BayMaxProtectionTypeKVO:
+            imp = class_getMethodImplementation([NSObject class], @selector(addObserver:forKeyPath:options:context:));
+            [self filterProtectionsOn:protectionType operation:openOperation imp:imp];
+            break;
+        case BayMaxProtectionTypeNotification:
+            imp = class_getMethodImplementation([NSNotificationCenter class], @selector(addObserver:selector:name:object:));
+            [self filterProtectionsOn:protectionType operation:openOperation imp:imp];
+            break;
+        case BayMaxProtectionTypeTimer:
+            imp = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingTimerMethod));
+            [self filterProtectionsOn:protectionType operation:openOperation imp:imp];
+            break;
+        case BayMaxProtectionTypeAll:
+            [self filterProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector operation:openOperation imp:class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingForwardingTargetForSelectorMethod))];
+            [self filterProtectionsOn:BayMaxProtectionTypeKVO operation:openOperation imp:class_getMethodImplementation([NSObject class], @selector(addObserver:forKeyPath:options:context:))];
+            [self filterProtectionsOn:BayMaxProtectionTypeNotification operation:openOperation imp:class_getMethodImplementation([NSNotificationCenter class], @selector(addObserver:selector:name:object:))];
+            [self filterProtectionsOn:BayMaxProtectionTypeTimer operation:openOperation imp:class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingTimerMethod))];
+        default:
+            break;
+    }
+}
+
++ (void)filterProtectionsOn:(BayMaxProtectionType)protectionType operation:(BOOL)openOperation imp:(IMP)imp{
+    if (openOperation) {//开启
+        if (BMP_ImpExistInList(impList, imp)) {//存在该imp，说明没有被交换，此时应该进行交换
+            NSLog(@"开启保护:%ld",protectionType);
+            [self openProtectionsOn:protectionType catchErrorHandler:nil];
+        }else{//说明此时已经被交换过了，不需要再次进行交换，空处理即可。
+            NSLog(@"%ld已受保护，不需要再次进行保护",protectionType);
+        }
+    }else{             //关闭防护
+        if (!BMP_ImpExistInList(impList, imp)) {//如果此时不存在该imp,说明发生过方法交换，此时应该进行再次交换，已关闭崩溃保护
+            NSLog(@"关闭保护:%ld",protectionType);
+            [self openProtectionsOn:protectionType catchErrorHandler:nil];
+        }else{//说明该方法没有被交换，即没有列在保护名单里，空处理即可
+            NSLog(@"%ld没有开启保护，不需要移除保护",protectionType);
+        }
+    }
 }
 
 + (void)openProtectionsOn:(BayMaxProtectionType)protectionType catchErrorHandler:(void(^_Nullable)(BayMaxCatchError * _Nullable error))errorHandler{
@@ -362,6 +457,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
         case BayMaxProtectionTypeUnrecognizedSelector:
         {
           BMP_EXChangeInstanceMethod([NSObject class], @selector(forwardingTargetForSelector:), [NSObject class], @selector(BMP_forwardingTargetForSelector:));
+          BMP_EXChangeInstanceMethod([BayMaxProtector class], @selector(BMP_mappingForwardingTargetForSelectorMethod), [BayMaxProtector class], @selector(BMP_excMappingForwardingTargetForSelectorMethod));
         }
             break;
     case BayMaxProtectionTypeKVO:
@@ -375,23 +471,28 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
     case BayMaxProtectionTypeNotification:
         {
             BMP_EXChangeInstanceMethod([NSNotificationCenter class], @selector(addObserver:selector:name:object:), [NSNotificationCenter class], @selector(BMP_addObserver:selector:name:object:));
-            BMP_EXChangeInstanceMethod([UIViewController class], NSSelectorFromString(@"dealloc"), [self class], NSSelectorFromString(@"BMP_dealloc"));
+            BMP_EXChangeInstanceMethod([UIViewController class], NSSelectorFromString(@"dealloc"), [UIViewController class], NSSelectorFromString(@"BMP_dealloc"));
         }
         break;
     case BayMaxProtectionTypeTimer:
         {
             BMP_EXChangeInstanceMethod([NSTimer class], @selector(scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:), [NSTimer class], @selector(BMP_scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:));
+            BMP_EXChangeInstanceMethod([BayMaxProtector class], @selector(BMP_mappingTimerMethod), [BayMaxProtector class], @selector(BMP_excMappingTimerMethod));
         }
         break;
     case BayMaxProtectionTypeAll:
         {
             BMP_EXChangeInstanceMethod([NSObject class], @selector(forwardingTargetForSelector:), [NSObject class], @selector(BMP_forwardingTargetForSelector:));
+            BMP_EXChangeInstanceMethod([self class], @selector(BMP_mappingForwardingTargetForSelectorMethod), [self class], @selector(BMP_excMappingForwardingTargetForSelectorMethod));
+            
             BMP_EXChangeInstanceMethod([NSObject class], @selector(addObserver:forKeyPath:options:context:), [NSObject class], @selector(BMP_addObserver:forKeyPath:options:context:));
             BMP_EXChangeInstanceMethod([NSObject class], @selector(removeObserver:forKeyPath:), [NSObject class], @selector(BMP_removeObserver:forKeyPath:));
             BMP_EXChangeInstanceMethod([NSObject class], NSSelectorFromString(@"dealloc"), [NSObject class], @selector(BMPKVO_dealloc));
             BMP_EXChangeInstanceMethod([NSNotificationCenter class], @selector(addObserver:selector:name:object:), [NSNotificationCenter class], @selector(BMP_addObserver:selector:name:object:));
-            BMP_EXChangeInstanceMethod([UIViewController class], NSSelectorFromString(@"dealloc"), [self class], NSSelectorFromString(@"BMP_dealloc"));
+            BMP_EXChangeInstanceMethod([UIViewController class], NSSelectorFromString(@"dealloc"), [UIViewController class], NSSelectorFromString(@"BMP_dealloc"));
+            
             BMP_EXChangeClassMethod([NSTimer class], @selector(scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:),  @selector(BMP_scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:));
+            BMP_EXChangeInstanceMethod([self class], @selector(BMP_mappingTimerMethod), [self class], @selector(BMP_excMappingTimerMethod));
         }
         break;
    
@@ -404,6 +505,21 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
     _ignorePrefixes = ignorePrefixes;
 }
 
+#pragma mark 映射关系
+/**
+ NSObject ForwardingTargetForSelector方法的映射
+ */
+- (void)BMP_mappingForwardingTargetForSelectorMethod{
+}
 
+- (void)BMP_excMappingForwardingTargetForSelectorMethod{
+}
+/**
+ NSTimer  scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:方法的映射
+ */
+- (void)BMP_mappingTimerMethod{
+}
 
+- (void)BMP_excMappingTimerMethod{
+}
 @end
