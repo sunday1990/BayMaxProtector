@@ -304,10 +304,16 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
     [self openProtectionsOn:protectionType catchErrorHandler:nil];
 }
 
+
++ (void)closeProtectionsOn:(BayMaxProtectionType)protectionType{
+    //需要判断之前有没有交换，如果没有交换过的话，那么不需要调换
+    [self openProtectionsOn:protectionType catchErrorHandler:nil];
+}
+
 + (void)openProtectionsOn:(BayMaxProtectionType)protectionType catchErrorHandler:(void(^_Nullable)(BayMaxCatchError * _Nullable error))errorHandler{
     _errorHandler = errorHandler;    
     if (protectionType > (1<<3)) {
-        [self openOneProtectionOn:BayMaxProtectionTypeTimer];
+        [self exchangeMethodWithType:BayMaxProtectionTypeTimer];
         protectionType -= (1<<3) ;
     }
     switch ((long)protectionType) {
@@ -317,32 +323,32 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
         case BayMaxProtectionTypeTimer:
         case BayMaxProtectionTypeAll:
         {
-            [self openOneProtectionOn:protectionType];
+            [self exchangeMethodWithType:protectionType];
         }
             break;
         case 3:
         {
-            [self openOneProtectionOn:BayMaxProtectionTypeUnrecognizedSelector];
-            [self openOneProtectionOn:BayMaxProtectionTypeKVO];
+            [self exchangeMethodWithType:BayMaxProtectionTypeUnrecognizedSelector];
+            [self exchangeMethodWithType:BayMaxProtectionTypeKVO];
         }
             break;
         case 5:
         {
-            [self openOneProtectionOn:BayMaxProtectionTypeUnrecognizedSelector];
-            [self openOneProtectionOn:BayMaxProtectionTypeNotification];
+            [self exchangeMethodWithType:BayMaxProtectionTypeUnrecognizedSelector];
+            [self exchangeMethodWithType:BayMaxProtectionTypeNotification];
         }
             break;
         case 6:
         {
-            [self openOneProtectionOn:BayMaxProtectionTypeKVO];
-            [self openOneProtectionOn:BayMaxProtectionTypeNotification];
+            [self exchangeMethodWithType:BayMaxProtectionTypeKVO];
+            [self exchangeMethodWithType:BayMaxProtectionTypeNotification];
         }
             break;
         case 7:
         {
-            [self openOneProtectionOn:BayMaxProtectionTypeUnrecognizedSelector];
-            [self openOneProtectionOn:BayMaxProtectionTypeKVO];
-            [self openOneProtectionOn:BayMaxProtectionTypeNotification];
+            [self exchangeMethodWithType:BayMaxProtectionTypeUnrecognizedSelector];
+            [self exchangeMethodWithType:BayMaxProtectionTypeKVO];
+            [self exchangeMethodWithType:BayMaxProtectionTypeNotification];
         }
             break;
             
@@ -351,7 +357,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
     }
 }
 
-+ (void)openOneProtectionOn:(BayMaxProtectionType)protectionType{
++ (void)exchangeMethodWithType:(BayMaxProtectionType)protectionType{
     switch (protectionType) {
         case BayMaxProtectionTypeUnrecognizedSelector:
         {
@@ -397,5 +403,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 + (void)ignoreProtectionsOnClassesWithPrefix:(NSArray *_Nonnull)ignorePrefixes{
     _ignorePrefixes = ignorePrefixes;
 }
+
+
 
 @end

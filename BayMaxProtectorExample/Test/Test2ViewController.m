@@ -8,12 +8,9 @@
 
 #import "Test2ViewController.h"
 #import "TestViewController.h"
-#import "TestView.h"
 
 @interface Test2ViewController ()
-{
-    TestView *view;
-}
+
 @end
 
 @implementation Test2ViewController
@@ -23,9 +20,6 @@
     // Do any additional setup after loading the view.
 //    [UIImageView performSelector:NSSelectorFromString(@"abcd")];
     self.view.backgroundColor = [UIColor grayColor];
-    view = [[TestView alloc]initWithFrame:CGRectMake(200, 100, 100, 100)];
-    view.backgroundColor = [UIColor redColor];
-    [self.view addSubview:view];
     
     /*测试viewdidload中方法出错*/
     [self test];

@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, BayMaxProtectionType) {
 /**
  开启崩溃保护（支持或运算）
 
- @param protectionType protectionType description
+ @param protectionType 要保护的类型protectionType
  */
 + (void)openProtectionsOn:(BayMaxProtectionType)protectionType;
 
@@ -50,6 +50,13 @@ typedef NS_ENUM(NSInteger, BayMaxProtectionType) {
  @param ignorePrefixes 要忽略的类的前缀
  */
 + (void)ignoreProtectionsOnClassesWithPrefix:(NSArray *_Nonnull)ignorePrefixes;
+
+/**
+ 关闭崩溃保护（支持或运算）
+
+ @param protectionType 要关闭的类型
+ */
++ (void)closeProtectionsOn:(BayMaxProtectionType)protectionType;
 
 @end
 

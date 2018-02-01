@@ -1,25 +1,22 @@
 //
-//  TestUnrecognizedSelVC.m
+//  TestAutoDegradeVC.m
 //  BayMaxProtector
 //
 //  Created by ccSunday on 2018/2/1.
 //  Copyright © 2018年 ccSunday. All rights reserved.
 //
 
-#import "TestUnrecognizedSelVC.h"
-#import "BayMaxProtector.h"
+#import "TestAutoDegradeVC.h"
 
-@interface TestUnrecognizedSelVC ()
+@interface TestAutoDegradeVC ()
 
 @end
 
-@implementation TestUnrecognizedSelVC
+@implementation TestAutoDegradeVC
 #pragma mark ======== Life Cycle ========
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];    
-    [[NSNull null]performSelector:NSSelectorFromString(@"abc")];
 }
 
 - (void)didReceiveMemoryWarning {
