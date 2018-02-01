@@ -4,7 +4,7 @@
 //
 //  Created by ccSunday on 2017/3/23.
 //  Copyright © 2018年 ccSunday. All rights reserved.
-//  BayMax前身是NSObject+UnRecognizedSelHandler分类 https://www.jianshu.com/p/d072bfbe1a60，是对分类的升级与改造。
+//
 
 #import <Foundation/Foundation.h>
 #import "BayMaxCatchError.h"

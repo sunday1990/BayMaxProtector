@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [[NSNull null]performSelector:NSSelectorFromString(@"abc")];
 //    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];    
 }
 

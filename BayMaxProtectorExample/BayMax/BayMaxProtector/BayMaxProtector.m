@@ -13,59 +13,21 @@
 #import "BayMaxCFunctions.h"
 #import "BayMaxDegradeAssist.h"
 
-typedef struct IMPNode *PtrToIMP;
-typedef PtrToIMP IMPlist;
-struct IMPNode{
-    IMP imp;
-    PtrToIMP next;
-};
-/*向IMP链表中追加imp*/
-void BMP_InsertIMPToList(IMPlist list,IMP imp){
-    PtrToIMP nextNode = malloc(sizeof(struct IMPNode));
-    nextNode->imp = imp;
-    nextNode->next = list->next;
-    list->next = nextNode;
-}
-/*判断IMP链表中有没有此元素，对libobjc中的c函数无效*/
-BOOL BMP_ImpExistInList(IMPlist list, IMP imp){
-    if (list->imp == imp) {
-        return YES;
-    }else{
-        if (list->next != NULL) {
-            return BMP_ImpExistInList(list->next,imp);
-        }else{
-            return NO;
-        }
-    }
-}
+typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
 //声明一个全局的IMP链表
 static IMPlist impList;
-
-typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
-BMPErrorHandler _Nullable _errorHandler;
-
-static NSArray *_ignorePrefixes;
-
-struct ErrorBody{
-    const char *function_name;
-    const char *function_class;
-};
-typedef struct ErrorBody ErrorInfos;
+//声明错误信息
 static ErrorInfos errors;
+//声明错误信息处理handler
+BMPErrorHandler _Nullable _errorHandler;
+//声明保存需要忽略的类前缀数组
+static NSArray *_ignorePrefixes;
 
 static inline int DynamicAddMethodIMP(id self,SEL _cmd,...){
 #ifdef DEBUG
 #else
 #endif
     return 0;
-}
-
-static inline ErrorInfos ErrorInfosMake(const char *function_class,const char *function_name)
-{
-    ErrorInfos errorInfos;
-    errorInfos.function_name = function_name;
-    errorInfos.function_class = function_class;
-    return errorInfos;
 }
 
 static inline BOOL IsSystemClass(Class cls){

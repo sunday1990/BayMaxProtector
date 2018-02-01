@@ -9,7 +9,9 @@
 #import "TestTimerErrorVC.h"
 
 @interface TestTimerErrorVC ()
-
+{
+    NSTimer *_timer;
+}
 @end
 
 @implementation TestTimerErrorVC
@@ -17,13 +19,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeTimer];
-
+    //_timer未移除
+    _timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerEvent) userInfo:nil repeats:YES];
+    [_timer fire];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)timerEvent{
+    NSLog(@"timer");
 }
 
 #pragma mark ======== NetWork ========

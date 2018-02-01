@@ -10,6 +10,8 @@
 
 @interface TestKVOErrorVC ()
 
+@property (nonatomic,assign)CGFloat progress;
+
 @end
 
 @implementation TestKVOErrorVC
@@ -18,12 +20,22 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 //    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeKVO];
+    //keypath重复添加
+    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)dealloc{
+    //keypath未移除或者移除了不存在的keypath
+    [self removeObserver:self forKeyPath:@"xxs"];
+}
+
 
 #pragma mark ======== NetWork ========
 
@@ -38,7 +50,6 @@
 #pragma mark ======== Private Methods ========
 
 #pragma mark ======== Setters && Getters ========
-
 /*
  #pragma mark - Navigation
  

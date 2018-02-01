@@ -24,7 +24,6 @@ static NSArray *_initiativeDegradeVCS;
 @end
 
 @implementation UIViewController (DegradeAssist)
-
 - (void)BMDA_viewDidAppear:(BOOL)animated{
     id degradeDatasource = [BayMaxDegradeAssist Assist].degradeDatasource;
     if ([degradeDatasource respondsToSelector:@selector(viewControllersToDegradeInitiative)]) {
