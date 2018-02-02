@@ -129,7 +129,7 @@
 		1608647D200CA30E0043988C = {
 			isa = PBXGroup;
 			children = (
-				167665FF201054D90010E6FB /* BayMaxProtectorExample */,
+				167665FF201054D90010E6FB /* BayMaxProtector */,
 				160864A1200CA30E0043988C /* BayMaxProtectorTests */,
 				160864AC200CA30E0043988C /* BayMaxProtectorUITests */,
 				16086487200CA30E0043988C /* Products */,
@@ -277,7 +277,7 @@
 			path = BayMax;
 			sourceTree = "<group>";
 		};
-		167665FF201054D90010E6FB /* BayMaxProtectorExample */ = {
+		167665FF201054D90010E6FB /* BayMaxProtector */ = {
 			isa = PBXGroup;
 			children = (
 				16340A632022B0BB0026E47F /* Examples */,
@@ -293,7 +293,7 @@
 				1676660B201054D90010E6FB /* AppDelegate.m */,
 				1676660C201054D90010E6FB /* Info.plist */,
 			);
-			path = BayMaxProtectorExample;
+			path = BayMaxProtector;
 			sourceTree = "<group>";
 		};
 		1676660E201054D90010E6FB /* BayMaxProtector */ = {
@@ -632,8 +632,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RU8Q2UZGJG;
-				INFOPLIST_FILE = "$(SRCROOT)/BayMaxProtectorExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				INFOPLIST_FILE = "$(SRCROOT)/BayMaxProtector/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lionbridge.help.BayMaxProtector;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -647,8 +647,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = RU8Q2UZGJG;
-				INFOPLIST_FILE = "$(SRCROOT)/BayMaxProtectorExample/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				INFOPLIST_FILE = "$(SRCROOT)/BayMaxProtector/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lionbridge.help.BayMaxProtector;
 				PRODUCT_NAME = "$(TARGET_NAME)";
