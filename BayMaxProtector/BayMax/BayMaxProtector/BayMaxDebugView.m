@@ -79,6 +79,7 @@ static BayMaxDebugView *_instance;
 - (void)dismissDebugView{
     [self.errorInfos removeAllObjects];
     [_bubbleView setTitle:@"Debug" forState:UIControlStateNormal];
+    [_bubbleView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [UIView animateWithDuration:0.5 animations:^{
         self.textView.frame = CGRectMake(0, BMPScreenHeight, BMPScreenWidth, BMPScreenHeight);
         self.dismissBtn.frame = CGRectMake(BMPScreenWidth-12-100, BMPScreenHeight+12, 100, 40);
@@ -89,12 +90,33 @@ static BayMaxDebugView *_instance;
     }];
 }
 
+- (void) handlePan:(UIPanGestureRecognizer*) recognizer{
+    CGPoint translation = [recognizer translationInView:[self getWindow]];//self.window.rootViewController.view
+    CGFloat centerX = recognizer.view.center.x + translation.x;
+    CGFloat thecenter = 0;
+    recognizer.view.center=CGPointMake(centerX,
+                                       recognizer.view.center.y+ translation.y);
+    [recognizer setTranslation:CGPointZero inView:[self getWindow]];//self.window.rootViewController.view
+    if(recognizer.state==UIGestureRecognizerStateEnded || recognizer.state==UIGestureRecognizerStateCancelled) {
+        if(centerX > BMPScreenWidth/2) {
+            thecenter = BMPScreenWidth-self.bubbleView.frame.size.width/2-12;
+        }else{
+            thecenter = self.bubbleView.frame.size.width/2+12;
+        }
+        [UIView animateWithDuration:0.3 animations:^{
+            recognizer.view.center=CGPointMake(thecenter,
+                                               recognizer.view.center.y+ translation.y);
+        }];
+    }
+}
+
 #pragma mark ========= Private Methods =========
 
 - (void)addErrorInfo:(NSDictionary *_Nonnull)errorInfo{
     [self.errorInfos addObject:errorInfo];
     NSString *num = [NSString stringWithFormat:@"%ld",self.errorInfos.count];
     [self.bubbleView setTitle:[NSString stringWithFormat:@"+%@",num] forState:UIControlStateNormal];
+    [self.bubbleView setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
 }
 
 - (UIWindow *)getWindow{
@@ -107,12 +129,15 @@ static BayMaxDebugView *_instance;
 - (UIButton *)bubbleView{
     if (!_bubbleView) {
         _bubbleView = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_bubbleView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _bubbleView.frame = CGRectMake(BMPScreenWidth-12- 50, 12, 50, 30);
+        _bubbleView.frame = CGRectMake(BMPScreenWidth-12- 50, 30, 50, 30);
         _bubbleView.titleLabel.font = [UIFont systemFontOfSize:12];
         [_bubbleView setTitle:@"Debug" forState:UIControlStateNormal];
+        [_bubbleView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _bubbleView.layer.cornerRadius = 3;
         _bubbleView.backgroundColor = [UIColor grayColor];
         [_bubbleView addTarget:self action:@selector(showDebugView) forControlEvents:UIControlEventTouchUpInside];
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
+        [_bubbleView addGestureRecognizer:pan];
     }
     return _bubbleView;
 }
