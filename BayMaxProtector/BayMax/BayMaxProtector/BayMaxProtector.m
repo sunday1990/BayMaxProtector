@@ -303,7 +303,6 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 @implementation BayMaxProtector
 
 + (void)load{
-    //    IMP forwardingIMP = class_getMethodImplementation([NSObject class], @selector(forwardingTargetForSelector:));
     IMP maping_ForwardingTarget_IMP = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingForwardingTargetForSelectorMethod));
     IMP KVO_IMP = class_getMethodImplementation([NSObject class], @selector(addObserver:forKeyPath:options:context:));
     IMP maping_Timer_IMP = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingTimerMethod));
@@ -362,16 +361,15 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 + (void)filterProtectionsOn:(BayMaxProtectionType)protectionType protectionName:(NSString *)protectionName operation:(BOOL)openOperation imp:(IMP)imp{
     if (openOperation) {//开启
         if (BMP_ImpExistInList(impList, imp)) {//存在该imp，说明没有被交换，此时应该进行交换
-            NSLog(@"开启保护:%ld",protectionType);
+            NSLog(@"开启保护:%@",protectionName);
             [self openProtectionsOn:protectionType catchErrorHandler:nil];
         }else{//说明此时已经被交换过了，不需要再次进行交换，空处理即可。
             NSString * duplicateProtection = [NSString stringWithFormat:@"[%@] Is Already In The Protection State And Do not Need To Open This Protection mode again",protectionName];
             [[BayMaxDebugView sharedDebugView]addErrorInfo:@{@"waring":duplicateProtection}];
-            
         }
     }else{             //关闭防护
         if (!BMP_ImpExistInList(impList, imp)) {//如果此时不存在该imp,说明发生过方法交换，此时应该进行再次交换，已关闭崩溃保护
-            NSLog(@"关闭保护:%ld",protectionType);
+            NSLog(@"关闭保护:%@",protectionName);
             [self openProtectionsOn:protectionType catchErrorHandler:nil];
         }else{//说明该方法没有被交换，即没有列在保护名单里，空处理即可
             NSString * duplicateClose = [NSString stringWithFormat:@"[%@] Is Not In The Protection State Before And Don't Need To Close This Protection Again",protectionName];

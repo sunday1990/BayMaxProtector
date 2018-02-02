@@ -13,18 +13,24 @@
 @end
 
 @implementation TestUnrecognizedSelVC
+{
+    NSArray *_titleArray;
+}
 #pragma mark ======== Life Cycle ========
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [[NSNull null]performSelector:NSSelectorFromString(@"abc")];
-//    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];
-    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];
+    
+    _titleArray = @[
+                    @"找不到btn响应事件",
+                    @"找不到vc中的方法",
+                    @"向null对象发送length消息"
+                    ];
+    [self setupSubviews];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-//    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeAll];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,9 +47,51 @@
 #pragma mark ======== Notifications && Observers ========
 
 #pragma mark ======== Event Response ========
+- (void)btnClick:(UIButton *)btn{
+    NSInteger btnTag = btn.tag;
+    if (1000 == btnTag) {
+    }else if (1001 == btnTag){
+        [self performSelector:@selector(undefinedVCSelector)];
+    }else if (1002 == btnTag){
+        [[NSNull null]performSelector:@selector(length)];
+    }
+}
 
 #pragma mark ======== Private Methods ========
+- (void)setupSubviews{
+    CGFloat btnWidth = ([self getMaxLength]+8)>(WIDTH/2-24)?(WIDTH/2-24):([self getMaxLength]+8);
+    CGFloat btnHeight = 44;
+    CGFloat borderSpace = 12;
+    CGFloat btnSpace = (WIDTH - 2 * borderSpace - 2 * btnWidth);
+    for (int i = 0; i<_titleArray.count; i++) {
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.tag = 1000+i;
+        [btn setTitle:_titleArray[i] forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+        btn.titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+        btn.frame = CGRectMake(borderSpace + (btnSpace + btnWidth)*(i%2), 60+(btnHeight+borderSpace)*(i/2), btnWidth, btnHeight);
+        if (i == 0) {
+            [btn addTarget:self action:@selector(undefinedBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        }else{
+            [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        btn.layer.cornerRadius = 5;
+        btn.titleLabel.font = [UIFont systemFontOfSize:14];
+        btn.backgroundColor = [UIColor colorWithRed:214/255.0 green:235/255.0 blue:253/255.0 alpha:1];
+        [self.view addSubview:btn];
+    }
+}
 
+- (CGFloat)getMaxLength{
+    CGFloat maxLength = 0;
+    for (int i = 0; i<_titleArray.count; i++) {
+        CGFloat tempLength = [_titleArray[i] widthForFont:[UIFont systemFontOfSize:14]];
+        if (tempLength>maxLength) {
+            maxLength = tempLength;
+        }
+    }
+    return maxLength;
+}
 #pragma mark ======== Setters && Getters ========
 
 /*

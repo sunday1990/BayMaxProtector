@@ -20,6 +20,10 @@
 		16340A8D202310D10026E47F /* BayMaxDebugView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16340A8C202310D10026E47F /* BayMaxDebugView.m */; };
 		16462E3520108A3300880A10 /* BayMaxCatchError.m in Sources */ = {isa = PBXBuildFile; fileRef = 16462E3420108A3300880A10 /* BayMaxCatchError.m */; };
 		16462E382010E5F700880A10 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16462E372010E5F700880A10 /* WebViewController.m */; };
+		16554DC6202409F3000EF4D3 /* TestViewDidloadUnrecognizedSelVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 16554DC5202409F3000EF4D3 /* TestViewDidloadUnrecognizedSelVC.m */; };
+		16554DD120241665000EF4D3 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 16554DCC20241665000EF4D3 /* SVProgressHUD.m */; };
+		16554DD220241665000EF4D3 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16554DCD20241665000EF4D3 /* SVIndefiniteAnimatedView.m */; };
+		16554DD320241665000EF4D3 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 16554DCE20241665000EF4D3 /* SVProgressHUD.bundle */; };
 		165C1ADB2013496F006A13D6 /* BayMaxDegradeAssist.m in Sources */ = {isa = PBXBuildFile; fileRef = 165C1AD92013496F006A13D6 /* BayMaxDegradeAssist.m */; };
 		16766618201054D90010E6FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 16766604201054D90010E6FB /* Assets.xcassets */; };
 		16766619201054D90010E6FB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766605201054D90010E6FB /* ViewController.m */; };
@@ -81,6 +85,13 @@
 		16462E3420108A3300880A10 /* BayMaxCatchError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BayMaxCatchError.m; sourceTree = "<group>"; };
 		16462E362010E5F700880A10 /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		16462E372010E5F700880A10 /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		16554DC4202409F3000EF4D3 /* TestViewDidloadUnrecognizedSelVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestViewDidloadUnrecognizedSelVC.h; sourceTree = "<group>"; };
+		16554DC5202409F3000EF4D3 /* TestViewDidloadUnrecognizedSelVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestViewDidloadUnrecognizedSelVC.m; sourceTree = "<group>"; };
+		16554DCA20241665000EF4D3 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
+		16554DCB20241665000EF4D3 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		16554DCC20241665000EF4D3 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		16554DCD20241665000EF4D3 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
+		16554DCE20241665000EF4D3 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		165C1AD92013496F006A13D6 /* BayMaxDegradeAssist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxDegradeAssist.m; sourceTree = "<group>"; };
 		165C1ADA2013496F006A13D6 /* BayMaxDegradeAssist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxDegradeAssist.h; sourceTree = "<group>"; };
 		16766600201054D90010E6FB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -167,6 +178,7 @@
 		16340A632022B0BB0026E47F /* Examples */ = {
 			isa = PBXGroup;
 			children = (
+				16554DC720241655000EF4D3 /* Vender */,
 				16340A802022B3420026E47F /* Base */,
 				16340A6A2022B1620026E47F /* Degrade */,
 				16340A682022B1270026E47F /* Containers（Pending） */,
@@ -183,6 +195,8 @@
 			children = (
 				16340A6D2022B1C20026E47F /* TestUnrecognizedSelVC.h */,
 				16340A6E2022B1C20026E47F /* TestUnrecognizedSelVC.m */,
+				16554DC4202409F3000EF4D3 /* TestViewDidloadUnrecognizedSelVC.h */,
+				16554DC5202409F3000EF4D3 /* TestViewDidloadUnrecognizedSelVC.m */,
 			);
 			path = UnrecognizedSelector;
 			sourceTree = "<group>";
@@ -267,6 +281,34 @@
 				16340A822022B34B0026E47F /* BaseViewController.m */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		16554DC720241655000EF4D3 /* Vender */ = {
+			isa = PBXGroup;
+			children = (
+				16554DC820241665000EF4D3 /* SVProgressHUD */,
+			);
+			path = Vender;
+			sourceTree = "<group>";
+		};
+		16554DC820241665000EF4D3 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				16554DC920241665000EF4D3 /* SVProgressHUD */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		16554DC920241665000EF4D3 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				16554DCA20241665000EF4D3 /* SVIndefiniteAnimatedView.h */,
+				16554DCB20241665000EF4D3 /* SVProgressHUD.h */,
+				16554DCC20241665000EF4D3 /* SVProgressHUD.m */,
+				16554DCD20241665000EF4D3 /* SVIndefiniteAnimatedView.m */,
+				16554DCE20241665000EF4D3 /* SVProgressHUD.bundle */,
+			);
+			path = SVProgressHUD;
 			sourceTree = "<group>";
 		};
 		165C1AD82012FAD1006A13D6 /* BayMax */ = {
@@ -422,6 +464,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16554DD320241665000EF4D3 /* SVProgressHUD.bundle in Resources */,
 				1676661E201054D90010E6FB /* Info.plist in Resources */,
 				1676661B201054D90010E6FB /* Main.storyboard in Resources */,
 				16766618201054D90010E6FB /* Assets.xcassets in Resources */,
@@ -455,7 +498,9 @@
 				16340A832022B34B0026E47F /* BaseViewController.m in Sources */,
 				16766622201054D90010E6FB /* BayMaxProtector.m in Sources */,
 				16462E382010E5F700880A10 /* WebViewController.m in Sources */,
+				16554DD220241665000EF4D3 /* SVIndefiniteAnimatedView.m in Sources */,
 				16766621201054D90010E6FB /* BayMaxTimerSubTarget.m in Sources */,
+				16554DC6202409F3000EF4D3 /* TestViewDidloadUnrecognizedSelVC.m in Sources */,
 				1676661D201054D90010E6FB /* AppDelegate.m in Sources */,
 				1676661F201054D90010E6FB /* BayMaxKVODelegate.m in Sources */,
 				16340A722022B1D80026E47F /* TestKVOErrorVC.m in Sources */,
@@ -466,6 +511,7 @@
 				165C1ADB2013496F006A13D6 /* BayMaxDegradeAssist.m in Sources */,
 				16340A872022B5320026E47F /* TestAutoDegradeVC.m in Sources */,
 				16340A6F2022B1C20026E47F /* TestUnrecognizedSelVC.m in Sources */,
+				16554DD120241665000EF4D3 /* SVProgressHUD.m in Sources */,
 				16462E3520108A3300880A10 /* BayMaxCatchError.m in Sources */,
 				16340A752022B1EA0026E47F /* TestTimerErrorVC.m in Sources */,
 			);

@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "BayMaxProtector.h"
+#import "AssistMicros.h"
 @interface BaseViewController : UIViewController
 
 @end
+
+@interface NSString (BreadcrumbStringSize)
+- (CGFloat)widthForFont:(UIFont *)font;
+@end
+
+

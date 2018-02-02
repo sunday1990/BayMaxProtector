@@ -72,17 +72,17 @@ static BayMaxDebugView *_instance;
     self.textView.text = text;
     [UIView animateWithDuration:0.5 animations:^{
         self.textView.frame = CGRectMake(0, 0, BMPScreenWidth, BMPScreenHeight);
-        self.dismissBtn.frame = CGRectMake(BMPScreenWidth-12-100, 12, 100, 40);
+        self.dismissBtn.frame = CGRectMake(BMPScreenWidth-12-40, 12, 40, 40);
     }];
 }
 
 - (void)dismissDebugView{
     [self.errorInfos removeAllObjects];
     [_bubbleView setTitle:@"Debug" forState:UIControlStateNormal];
-    [_bubbleView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_bubbleView setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [UIView animateWithDuration:0.5 animations:^{
         self.textView.frame = CGRectMake(0, BMPScreenHeight, BMPScreenWidth, BMPScreenHeight);
-        self.dismissBtn.frame = CGRectMake(BMPScreenWidth-12-100, BMPScreenHeight+12, 100, 40);
+        self.dismissBtn.frame = CGRectMake(BMPScreenWidth-12-40, BMPScreenHeight+12, 40, 40);
 
     }completion:^(BOOL finished) {
         self.textView.hidden = self.dismissBtn.hidden = YES;
@@ -110,13 +110,17 @@ static BayMaxDebugView *_instance;
     }
 }
 
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.textView endEditing:YES];
+}
+
 #pragma mark ========= Private Methods =========
 
 - (void)addErrorInfo:(NSDictionary *_Nonnull)errorInfo{
     [self.errorInfos addObject:errorInfo];
     NSString *num = [NSString stringWithFormat:@"%ld",self.errorInfos.count];
     [self.bubbleView setTitle:[NSString stringWithFormat:@"+%@",num] forState:UIControlStateNormal];
-    [self.bubbleView setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [self.bubbleView setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
 }
 
 - (UIWindow *)getWindow{
@@ -136,9 +140,9 @@ static BayMaxDebugView *_instance;
         _bubbleView.frame = CGRectMake(BMPScreenWidth-12- 50, 30, 50, 50);
         _bubbleView.titleLabel.font = [UIFont systemFontOfSize:12];
         [_bubbleView setTitle:@"Debug" forState:UIControlStateNormal];
-        [_bubbleView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_bubbleView setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         _bubbleView.layer.cornerRadius = 10;
-        _bubbleView.backgroundColor = [UIColor grayColor];
+        _bubbleView.backgroundColor = [UIColor colorWithRed:214/255.0 green:235/255.0 blue:253/255.0 alpha:1];
         [_bubbleView addTarget:self action:@selector(showDebugView) forControlEvents:UIControlEventTouchUpInside];
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
         [_bubbleView addGestureRecognizer:pan];
@@ -153,6 +157,7 @@ static BayMaxDebugView *_instance;
         _textView.backgroundColor = [UIColor whiteColor];
         _textView.hidden = YES;
         _textView.textColor = [UIColor blackColor];
+        _textView.editable = NO;
         _textView.font = [UIFont systemFontOfSize:14];
         
     }
@@ -165,7 +170,7 @@ static BayMaxDebugView *_instance;
         [_dismissBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         _dismissBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [_dismissBtn setTitle:@"返回" forState:UIControlStateNormal];
-        _dismissBtn.frame = CGRectMake(BMPScreenWidth-12-100, BMPScreenHeight+12, 100, 40);
+        _dismissBtn.frame = CGRectMake(BMPScreenWidth-12-40, BMPScreenHeight+12, 40, 40);
         _dismissBtn.hidden = YES;
         [_dismissBtn addTarget:self action:@selector(dismissDebugView) forControlEvents:UIControlEventTouchUpInside];
     }

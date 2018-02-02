@@ -1,24 +1,22 @@
 //
-//  TestAutoDegradeVC.m
+//  TestViewDidloadUnrecognizedSelVC.m
 //  BayMaxProtector
 //
-//  Created by ccSunday on 2018/2/1.
+//  Created by ccSunday on 2018/2/2.
 //  Copyright © 2018年 ccSunday. All rights reserved.
 //
 
-#import "TestAutoDegradeVC.h"
+#import "TestViewDidloadUnrecognizedSelVC.h"
 
-@interface TestAutoDegradeVC ()
+@interface TestViewDidloadUnrecognizedSelVC ()
 
 @end
 
-@implementation TestAutoDegradeVC
+@implementation TestViewDidloadUnrecognizedSelVC
 #pragma mark ======== Life Cycle ========
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {

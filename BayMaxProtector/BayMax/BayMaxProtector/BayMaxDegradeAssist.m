@@ -34,6 +34,7 @@ static NSArray *_initiativeDegradeVCS;
                     BMP_SuppressPerformSelectorLeakWarning(                                                           
                                                            [self performSelector:NSSelectorFromString(InitiativeMethodName)];
                                                            );
+                    NSLog(@"页面主动降级成功");
                 }
             }];
         }else{
@@ -100,6 +101,7 @@ static  BayMaxDegradeAssist*_instance;
                     vcUrl = [degradeDatasource urlOfViewControllerAtIndex:i];
                 }
                 if ([degradeDatasource respondsToSelector:@selector(correspondencesBetweenH5AndIOSParametersAtIndex:)]) {
+                    
                     params = [degradeDatasource correspondencesBetweenH5AndIOSParametersAtIndex:i];
                 }
                 NSDictionary *item = @{

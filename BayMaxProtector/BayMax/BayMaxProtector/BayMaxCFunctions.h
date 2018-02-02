@@ -19,13 +19,13 @@ Stuff; \
 _Pragma("clang diagnostic pop") \
 } while (0)
 
-//定义IMP链表
 typedef struct IMPNode *PtrToIMP;
 typedef PtrToIMP IMPlist;
 struct IMPNode{
     IMP imp;
     PtrToIMP next;
 };
+
 /*向IMP链表中追加imp*/
 static inline void BMP_InsertIMPToList(IMPlist list,IMP imp){
     PtrToIMP nextNode = malloc(sizeof(struct IMPNode));
@@ -33,6 +33,7 @@ static inline void BMP_InsertIMPToList(IMPlist list,IMP imp){
     nextNode->next = list->next;
     list->next = nextNode;
 }
+
 /*判断IMP链表中有没有此元素。
  注意：libobjc中的c函数无效，这时候需要通过手动建立映射关系来替代
  */
@@ -48,7 +49,6 @@ static inline BOOL BMP_ImpExistInList(IMPlist list, IMP imp){
     }
 }
 
-//定义错误信息结构体
 struct ErrorBody{
     const char *function_name;
     const char *function_class;

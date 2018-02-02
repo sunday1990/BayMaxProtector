@@ -15,10 +15,6 @@
 
 @interface AppDelegate ()<BayMaxDegradeAssistDataSource,BayMaxDegradeAssistDelegate>
 {
-    NSArray<NSString *> *_vcNames;
-    NSArray<NSArray<NSDictionary *> *> *_params;
-    NSArray<NSString *> *_urls;
-    NSArray<NSString *> *_initiativeVCS;
 }
 @end
 
@@ -31,9 +27,6 @@
     self.window.rootViewController = [[ViewController alloc]init];
     [self.window makeKeyAndVisible];
 
-    /*设置Assist的代理与数据源*/
-    [BayMaxDegradeAssist Assist].degradeDelegate = self;
-    [BayMaxDegradeAssist Assist].degradeDatasource = self;
     /*开启防护模式*/
     [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
         /*unrecognizedSelector类型的错误，*/
@@ -64,76 +57,7 @@
 
 /*配置可以从服务器中获取,然后存到本地*/
 - (void)requestConfigurationsFromWeb{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _vcNames = @[@"TestViewController",
-                     @"Test2ViewController"];
-        _params = @[
-                    @[
-                        @{@"H5_id":@"ios_ID"},
-                        @{@"H5_typeid":@"ios_typeID"}
-                        ],
-                    @[
-                        @{@"H5_param0":@"ios_param0"},
-                        @{@"H5_param1":@"ios_param1"}
-                        ]
-                    ];
-        
-        _urls = @[
-                  @"https://www.baidu.com",
-                  @"https://www.sina.cn"
-                  ];
-        
-        [[BayMaxDegradeAssist Assist]reloadRelations];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            _initiativeVCS = @[
-                               @"TestViewController"
-                               ];
-            [[BayMaxDegradeAssist Assist]reloadRelations];
-        });
-    });
-}
-
-#pragma mark BayMaxDegradeAssistDataSource
-- (NSInteger)numberOfRelations{
-    return 2;
-}
-
-- (NSString *)nameOfViewControllerAtIndex:(NSInteger)index{
-    return _vcNames[index];
-}
-
-- (NSArray<NSDictionary<NSString * , NSString *> *> *)correspondencesBetweenH5AndIOSParametersAtIndex:(NSInteger)index{
-    return _params[index];
-}
-
-- (NSString *)urlOfViewControllerAtIndex:(NSInteger)index{
-    return _urls[index];
-}
-
-- (NSArray *)viewControllersToDegradeInitiative{
-    return _initiativeVCS;
-}
-
-#pragma mark BayMaxDegradeAssistDelegate
-- (void)autoDegradeInstanceOfViewController:(UIViewController *)degradeVC ifErrorHappensInProcessExceptViewDidLoadWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation{
-    dispatch_async(dispatch_get_main_queue(), ^{
-            [degradeVC.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-            NSLog(@"completeUrl for %@ is %@",degradeVC,completeURL);
-            NSLog(@"relation for %@ is %@",degradeVC,relation);
-            //获取拼接后的url
-            WebViewController *webVC = [[WebViewController alloc]init];
-            webVC.url = completeURL;
-            [degradeVC addChildViewController:webVC];
-            [degradeVC.view addSubview:webVC.view];
-        });
-}
-
-- (void)autoDegradeClassOfViewController:(Class)degradeCls ifErrorHappensInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation{
-    NSLog(@"Url for %@ is %@",degradeCls,URL);
-    WebViewController *webVC = [[WebViewController alloc]init];
-    webVC.url = URL;
-    UIViewController *vc = [[BayMaxDegradeAssist Assist]topViewController];
-    [vc presentViewController:webVC animated:YES completion:nil];
+   
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

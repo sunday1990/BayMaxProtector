@@ -8,9 +8,9 @@
 
 #ifndef AssistMicros_h
 #define AssistMicros_h
+#import "SVProgressHUD.h"
 
 #define HEIGHT [UIScreen mainScreen].bounds.size.height
-
 #define WIDTH [UIScreen mainScreen].bounds.size.width
 
 
