@@ -21,8 +21,10 @@
     // Do any additional setup after loading the view.
 //    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeTimer];
     //_timer未移除
+    
     _timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerEvent) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+    [BayMaxProtector hideDebugView];
 }
 
 - (void)didReceiveMemoryWarning {

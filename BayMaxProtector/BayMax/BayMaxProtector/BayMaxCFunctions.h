@@ -18,6 +18,7 @@ _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
 Stuff; \
 _Pragma("clang diagnostic pop") \
 } while (0)
+
 //定义IMP链表
 typedef struct IMPNode *PtrToIMP;
 typedef PtrToIMP IMPlist;
@@ -46,6 +47,7 @@ static inline BOOL BMP_ImpExistInList(IMPlist list, IMP imp){
         }
     }
 }
+
 //定义错误信息结构体
 struct ErrorBody{
     const char *function_name;

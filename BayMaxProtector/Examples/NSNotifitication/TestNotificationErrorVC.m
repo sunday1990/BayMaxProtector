@@ -18,7 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeNotification];
-    
+    [BayMaxProtector showDebugView];
 }
 
 - (void)didReceiveMemoryWarning {

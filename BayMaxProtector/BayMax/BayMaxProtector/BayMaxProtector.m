@@ -303,6 +303,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 @implementation BayMaxProtector
 
 + (void)load{
+    //    IMP forwardingIMP = class_getMethodImplementation([NSObject class], @selector(forwardingTargetForSelector:));
     IMP maping_ForwardingTarget_IMP = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingForwardingTargetForSelectorMethod));
     IMP KVO_IMP = class_getMethodImplementation([NSObject class], @selector(addObserver:forKeyPath:options:context:));
     IMP maping_Timer_IMP = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingTimerMethod));
@@ -430,8 +431,8 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
     switch (protectionType) {
         case BayMaxProtectionTypeUnrecognizedSelector:
         {
-          BMP_EXChangeInstanceMethod([NSObject class], @selector(forwardingTargetForSelector:), [NSObject class], @selector(BMP_forwardingTargetForSelector:));
-          BMP_EXChangeInstanceMethod([BayMaxProtector class], @selector(BMP_mappingForwardingTargetForSelectorMethod), [BayMaxProtector class], @selector(BMP_excMappingForwardingTargetForSelectorMethod));
+            BMP_EXChangeInstanceMethod([NSObject class], @selector(forwardingTargetForSelector:), [NSObject class], @selector(BMP_forwardingTargetForSelector:));
+            BMP_EXChangeInstanceMethod([BayMaxProtector class], @selector(BMP_mappingForwardingTargetForSelectorMethod), [BayMaxProtector class], @selector(BMP_excMappingForwardingTargetForSelectorMethod));
         }
             break;
     case BayMaxProtectionTypeKVO:
@@ -479,10 +480,16 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 
 + (void)showDebugView{
     _showDebugView = YES;
-    [BayMaxDebugView sharedDebugView];
+    [BayMaxDebugView sharedDebugView].hidden = NO;
 }
 
-#pragma mark 映射关系
++ (void)hideDebugView{
+    _showDebugView = NO;
+    [BayMaxDebugView sharedDebugView].hidden = YES;
+}
+
+
+#pragma mark libobjc.A.dylib IMP映射
 /**
  NSObject ForwardingTargetForSelector方法的映射
  */
