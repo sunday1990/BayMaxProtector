@@ -13,7 +13,7 @@
 #import "BayMaxDegradeAssist.h"
 #import "WebViewController.h"
 
-@interface AppDelegate ()<BayMaxDegradeAssistDataSource,BayMaxDegradeAssistDelegate>
+@interface AppDelegate ()
 {
 }
 @end
