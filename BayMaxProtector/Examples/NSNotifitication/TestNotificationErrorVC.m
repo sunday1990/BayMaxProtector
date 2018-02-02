@@ -17,8 +17,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeNotification];
-    [BayMaxProtector showDebugView];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(notifyEvent) name:UITextViewTextDidChangeNotification object:nil];
+    UILabel *tipLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 40, WIDTH-20, 200)];
+    tipLabel.font = [UIFont systemFontOfSize:14];
+    tipLabel.textColor = [UIColor darkTextColor];
+    tipLabel.numberOfLines = 0;
+    tipLabel.text = @"针对NSNotificationCenter的防护不多，主要是在未移除监听者的时候，自动帮你移除监听者";
+    [self.view addSubview:tipLabel];
+
+}
+
+- (void)notifyEvent{
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

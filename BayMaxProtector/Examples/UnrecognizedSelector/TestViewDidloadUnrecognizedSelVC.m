@@ -17,6 +17,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [[NSNull null]performSelector:@selector(length)];
+//    [self performSelector:@selector(abc)];
+   
+    UILabel *tipLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 40, WIDTH-20, 150)];
+    tipLabel.font = [UIFont systemFontOfSize:14];
+    tipLabel.textColor = [UIColor darkTextColor];
+    tipLabel.numberOfLines = 0;
+    tipLabel.text = @"1、ViewDidload中发生两个错误，一个是向NSNull对象发送length消息，还有一个就是向ViewController发送abc消息，这些都是未曾定义，在它们的方法列表中找不到的方法。\n2、针对这种页面进行降级，可以取到对应页面的URL，但是它的参数暂时拿不到。\n 3、当获取到配置后，在进入该页面会直接展示对应的H5页面";
+    [self.view addSubview:tipLabel];
 }
 
 - (void)didReceiveMemoryWarning {

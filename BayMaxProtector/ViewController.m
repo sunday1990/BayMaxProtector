@@ -48,7 +48,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     titleArray = @[
                    @{
-                       @"title":@"UnrecognizedSelector",
+                       @"title":@"UnrecognizedSelector || AutoDegrade",
                        @"class":@"TestUnrecognizedSelVC"
                        },
                    @{
@@ -66,10 +66,6 @@
                    @{
                        @"title":@"NotificationError",
                        @"class":@"TestNotificationErrorVC"                       
-                       },
-                   @{
-                       @"title":@"AutoDegrade",
-                       @"class":@"TestAutoDegradeVC"
                        },
                    @{
                        @"title":@"ManaulDegrade",
@@ -111,13 +107,26 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSDictionary *item =  titleArray[indexPath.row];
     Class cls = NSClassFromString([item objectForKey:@"class"]);
+    if ([[item objectForKey:@"class"] isEqualToString:@"TestUnrecognizedSelVC"]) {
+        UIViewController *vc = [[cls alloc]init];
+        [vc setValue:@"someOne" forKey:@"userName"];
+        [vc setValue:@"00001" forKey:@"userID"];
+        [self presentViewController:vc animated:YES completion:nil];
+        return;//
+    }else if ([[item objectForKey:@"class"] isEqualToString:@"TestManaulDegradeVC"]){
+        UIViewController *vc = [[cls alloc]init];
+        [vc setValue:@"100000" forKey:@"uid"];
+        [vc setValue:@"type001" forKey:@"type"];
+        [self presentViewController:vc animated:YES completion:nil];
+        return;//        
+    }
     [self presentViewController:[[cls alloc]init] animated:YES completion:nil];
 }
 
 #pragma mark ======== Custom Delegate ========
 #pragma mark BayMaxDegradeAssistDataSource
 - (NSInteger)numberOfRelations{
-    return 2;
+    return _vcNames.count;
 }
 
 - (NSString *)nameOfViewControllerAtIndex:(NSInteger)index{
@@ -148,8 +157,7 @@
 - (void)autoDegradeInstanceOfViewController:(UIViewController *)degradeVC ifErrorHappensInProcessExceptViewDidLoadWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation{
     dispatch_async(dispatch_get_main_queue(), ^{
         [degradeVC.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        NSLog(@"completeUrl for %@ is %@",degradeVC,completeURL);
-        NSLog(@"relation for %@ is %@",degradeVC,relation);
+        [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"用来替代该页面的URL为：%@",completeURL] maskType:SVProgressHUDMaskTypeBlack];
         //获取拼接后的url
         WebViewController *webVC = [[WebViewController alloc]init];
         webVC.url = completeURL;
@@ -159,9 +167,9 @@
 }
 
 - (void)autoDegradeClassOfViewController:(Class)degradeCls ifErrorHappensInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation{
-    NSLog(@"Url for %@ is %@",degradeCls,URL);
     WebViewController *webVC = [[WebViewController alloc]init];
     webVC.url = URL;
+    [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"用来替代该页面的URL为：%@",URL] maskType:SVProgressHUDMaskTypeBlack];
     UIViewController *vc = [[BayMaxDegradeAssist Assist]topViewController];
     [vc presentViewController:webVC animated:YES completion:nil];
 }
@@ -171,18 +179,31 @@
 - (void)requestAutoDegradeConfiguration{
     [SVProgressHUD showWithStatus:@"获取自动降级配置" maskType:SVProgressHUDMaskTypeBlack];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _vcNames = @[@"TestAutoDegradeVC",
-                     @"TestUnrecognizedSelVC"];
+        _vcNames = @[
+                     @"TestUnrecognizedSelVC",
+                     @"TestViewDidloadUnrecognizedSelVC",
+                     @"TestManaulDegradeVC"
+                     ];
+        /*H5-ios参数对应关系，与上面的vc一一对应，数组可以为空，但不能为Null*/
         _params = @[
-                    @[
+                        @[
+                            @{@"userid":@"userID"},
+                            @{ @"username":@"userName"}
                         ],
-                    @[
-                        ]
-                    ];//
+                        
+                        @[
+                         ],
+                                            
+                        @[
+                            @{@"uid":@"uid"},
+                            @{@"typeid":@"type"}
+                         ]
+                    ];
         
         _urls = @[
-                  @"https://www.baidu.com",
-                  @"https://www.sina.cn"
+                  @"https://juejin.im",
+                  @"https://sina.cn",
+                  @"https://www.baidu.com"
                   ];
         [SVProgressHUD showSuccessWithStatus:@"获取自动降级配置" maskType:SVProgressHUDMaskTypeBlack];
         [[BayMaxDegradeAssist Assist]reloadRelations];
@@ -191,7 +212,7 @@
 }
 
 - (void)requestManaulDegradeConfiguration{
-    [SVProgressHUD showWithStatus:@"拉取主动降级的配置"];
+    [SVProgressHUD showWithStatus:@"获取需要手动降级的视图控制器"];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [SVProgressHUD showSuccessWithStatus:@"获取成功"];
         _initiativeVCS = @[
@@ -221,12 +242,12 @@
 - (UIButton *)autoDegradeBtn{
     if (!_autoDegradeBtn) {
         _autoDegradeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _autoDegradeBtn.frame  = CGRectMake(12, HEIGHT-220, 120, 50);
-        [_autoDegradeBtn setTitle:@"拉取自动降级配置" forState:UIControlStateNormal];
+        _autoDegradeBtn.frame  = CGRectMake(12, HEIGHT-120, 120, 50);
+        [_autoDegradeBtn setTitle:@"获取自动降级配置" forState:UIControlStateNormal];
         _autoDegradeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [_autoDegradeBtn setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
         [_autoDegradeBtn addTarget:self action:@selector(requestAutoDegradeConfiguration) forControlEvents:UIControlEventTouchUpInside];
-        _autoDegradeBtn.backgroundColor = [UIColor colorWithRed:214/255.0 green:235/255.0 blue:253/255.0 alpha:1];
+        _autoDegradeBtn.backgroundColor = DEFAULT_COLOR;
         _autoDegradeBtn.layer.cornerRadius = 10;
     }
     return _autoDegradeBtn;
@@ -235,12 +256,13 @@
 - (UIButton *)manaulDegradeBtn{
     if (!_manaulDegradeBtn) {
         _manaulDegradeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _manaulDegradeBtn.frame  = CGRectMake(12, HEIGHT-120, 120, 50);
-        [_manaulDegradeBtn setTitle:@"拉取手动降级配置" forState:UIControlStateNormal];
+        _manaulDegradeBtn.frame  = CGRectMake(12+120+12, HEIGHT-120, 150, 50);
+        [_manaulDegradeBtn setTitle:@"获取需手动降级的页面" forState:UIControlStateNormal];
         _manaulDegradeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        _manaulDegradeBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
         [_manaulDegradeBtn setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
         [_manaulDegradeBtn addTarget:self action:@selector(requestManaulDegradeConfiguration) forControlEvents:UIControlEventTouchUpInside];
-        _manaulDegradeBtn.backgroundColor = [UIColor colorWithRed:214/255.0 green:235/255.0 blue:253/255.0 alpha:1];
+        _manaulDegradeBtn.backgroundColor = DEFAULT_COLOR;
         _manaulDegradeBtn.layer.cornerRadius = 10;
     }
     return _manaulDegradeBtn;

@@ -293,6 +293,19 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
     }
 }
 
++ (NSTimer *)BMP_timerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
+    if (!IsSystemClass([aTarget class])) {
+        BayMaxTimerSubTarget *subtarget = [BayMaxTimerSubTarget targetWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo catchErrorHandler:^(BayMaxCatchError *error) {
+            if (_showDebugView) {
+                [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
+            }
+            _errorHandler(error);
+        }];
+        return [self BMP_timerWithTimeInterval:ti target:subtarget selector:NSSelectorFromString(@"fireProxyTimer:") userInfo:userInfo repeats:yesOrNo];
+    }else{
+        return [self BMP_timerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
+    }
+}
 @end
 
 #pragma mark BayMaxProtector
@@ -450,6 +463,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
     case BayMaxProtectionTypeTimer:
         {
             BMP_EXChangeClassMethod([NSTimer class], @selector(scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:),  @selector(BMP_scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:));
+            BMP_EXChangeClassMethod([NSTimer class], @selector(timerWithTimeInterval:target:selector:userInfo:repeats:), @selector(BMP_timerWithTimeInterval:target:selector:userInfo:repeats:));
             BMP_EXChangeInstanceMethod([BayMaxProtector class], @selector(BMP_mappingTimerMethod), [BayMaxProtector class], @selector(BMP_excMappingTimerMethod));
         }
         break;
@@ -463,6 +477,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
             BMP_EXChangeInstanceMethod([NSNotificationCenter class], @selector(addObserver:selector:name:object:), [NSNotificationCenter class], @selector(BMP_addObserver:selector:name:object:));
             BMP_EXChangeInstanceMethod([UIViewController class], NSSelectorFromString(@"dealloc"), [UIViewController class], NSSelectorFromString(@"BMP_dealloc"));
             BMP_EXChangeClassMethod([NSTimer class], @selector(scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:),  @selector(BMP_scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:));
+            BMP_EXChangeClassMethod([NSTimer class], @selector(timerWithTimeInterval:target:selector:userInfo:repeats:), @selector(BMP_timerWithTimeInterval:target:selector:userInfo:repeats:));
             BMP_EXChangeInstanceMethod([self class], @selector(BMP_mappingTimerMethod), [self class], @selector(BMP_excMappingTimerMethod));
         }
         break;

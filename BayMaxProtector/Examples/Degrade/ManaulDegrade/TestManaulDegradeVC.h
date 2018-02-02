@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 @interface TestManaulDegradeVC : BaseViewController
+@property (nonatomic, copy) NSString *uid;
+@property (nonatomic, copy) NSString *type;
 
 @end

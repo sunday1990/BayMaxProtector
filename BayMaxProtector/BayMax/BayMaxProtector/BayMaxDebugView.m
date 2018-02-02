@@ -69,8 +69,9 @@ static BayMaxDebugView *_instance;
     NSString *text = [self.errorInfos description];
     NSLog(@"text:%@",text);
     self.textView.hidden = self.dismissBtn.hidden = NO;
-    self.textView.text = text;
-    [UIView animateWithDuration:0.5 animations:^{
+    self.textView.text = [NSString stringWithFormat:@"\n\n共为您捕获%ld条异常:\n\n\n%@",self.errorInfos.count,text];
+    
+    [UIView animateWithDuration:0.3 animations:^{
         self.textView.frame = CGRectMake(0, 0, BMPScreenWidth, BMPScreenHeight);
         self.dismissBtn.frame = CGRectMake(BMPScreenWidth-12-40, 12, 40, 40);
     }];
@@ -80,7 +81,7 @@ static BayMaxDebugView *_instance;
     [self.errorInfos removeAllObjects];
     [_bubbleView setTitle:@"Debug" forState:UIControlStateNormal];
     [_bubbleView setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         self.textView.frame = CGRectMake(0, BMPScreenHeight, BMPScreenWidth, BMPScreenHeight);
         self.dismissBtn.frame = CGRectMake(BMPScreenWidth-12-40, BMPScreenHeight+12, 40, 40);
 
@@ -167,9 +168,12 @@ static BayMaxDebugView *_instance;
 - (UIButton *)dismissBtn{
     if (!_dismissBtn) {
         _dismissBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_dismissBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_dismissBtn setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+        _dismissBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        _dismissBtn.backgroundColor = [UIColor colorWithRed:214/255.0 green:235/255.0 blue:253/255.0 alpha:1];
         _dismissBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [_dismissBtn setTitle:@"返回" forState:UIControlStateNormal];
+        _dismissBtn.layer.cornerRadius = 10;
         _dismissBtn.frame = CGRectMake(BMPScreenWidth-12-40, BMPScreenHeight+12, 40, 40);
         _dismissBtn.hidden = YES;
         [_dismissBtn addTarget:self action:@selector(dismissDebugView) forControlEvents:UIControlEventTouchUpInside];

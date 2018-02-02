@@ -8,6 +8,8 @@
 
 #import "WebViewController.h"
 #import <WebKit/WebKit.h>
+#import "AssistMicros.h"
+
 @interface WebViewController ()
 {
     WKWebView *_webview;
@@ -18,19 +20,22 @@
 #pragma mark ======== Life Cycle ========
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
     _webview = [[WKWebView alloc]initWithFrame:self.view.bounds];
-    _webview.backgroundColor = [UIColor yellowColor];
+    _webview.backgroundColor = [UIColor whiteColor];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:_url]];
     request.timeoutInterval = 20;
     [_webview loadRequest:request];
     [self.view addSubview:_webview];
     
     UIButton *dismissBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    dismissBtn.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 80, 12, 40, 20);
+    dismissBtn.frame = CGRectMake(12, 12, 40, 40);
     [dismissBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [dismissBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [dismissBtn setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
     dismissBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    dismissBtn.backgroundColor = DEFAULT_COLOR;
+    dismissBtn.layer.cornerRadius = 6;
     [dismissBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:dismissBtn];
 }

@@ -11,6 +11,7 @@
 @interface TestTimerErrorVC ()
 {
     NSTimer *_timer;
+    NSTimer *_timer1;
 }
 @end
 
@@ -19,21 +20,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeTimer];
-    //_timer未移除
-    
+    //_timer未移除    
     _timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(timerEvent) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
-    [BayMaxProtector hideDebugView];
+    
+    _timer1 = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(time1Event) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:_timer1 forMode:NSRunLoopCommonModes];
+    
+    UILabel *tipLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 40, WIDTH-20, 200)];
+    tipLabel.font = [UIFont systemFontOfSize:14];
+    tipLabel.textColor = [UIColor darkTextColor];
+    tipLabel.numberOfLines = 0;
+    tipLabel.text = @"针对NSTimer的两个类方法进行保护，一个是+ (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo，另一个是scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo,退出页面时，会自动invalid计时器";
+    [self.view addSubview:tipLabel];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)timerEvent{
-    NSLog(@"timer");
 }
 
 #pragma mark ======== NetWork ========
@@ -45,6 +53,13 @@
 #pragma mark ======== Notifications && Observers ========
 
 #pragma mark ======== Event Response ========
+- (void)timerEvent{
+    NSLog(@"timer");
+}
+
+- (void)time1Event{
+    NSLog(@"timer1");
+}
 
 #pragma mark ======== Private Methods ========
 

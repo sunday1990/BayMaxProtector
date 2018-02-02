@@ -13,5 +13,6 @@
 #define HEIGHT [UIScreen mainScreen].bounds.size.height
 #define WIDTH [UIScreen mainScreen].bounds.size.width
 
+#define DEFAULT_COLOR [UIColor colorWithRed:214/255.0 green:235/255.0 blue:253/255.0 alpha:1]
 
 #endif /* AssistMicros_h */

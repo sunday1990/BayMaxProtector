@@ -10,5 +10,6 @@
 #import "BaseViewController.h"
 
 @interface TestUnrecognizedSelVC : BaseViewController
-
+@property (nonatomic,copy)NSString *userName;
+@property (nonatomic,copy)NSString *userID;
 @end

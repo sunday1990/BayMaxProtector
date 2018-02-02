@@ -10,18 +10,28 @@
 
 @interface TestKVOErrorVC ()
 
-@property (nonatomic,assign)CGFloat progress;
+@property (nonatomic,assign) CGFloat progress;
+
+@property (nonatomic,assign) CGFloat progress1;
 
 @end
 
 @implementation TestKVOErrorVC
+{
+    NSArray *_titleArray;
+}
 #pragma mark ======== Life Cycle ========
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeKVO];
-    //keypath重复添加
-    [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+    _titleArray = @[
+                    @"keypath重复监听",
+                    @"移除了未注册的观察者",
+                    @"移除了不存在的keypath",
+                    @"关闭kvo防护",
+                    @"开启kvo防护"
+                    ];
+    [self setupSubviews];
     [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
 
@@ -30,12 +40,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-- (void)dealloc{
-    //keypath未移除或者移除了不存在的keypath
-    [self removeObserver:self forKeyPath:@"xxs"];
-}
-
 
 #pragma mark ======== NetWork ========
 
@@ -46,8 +50,54 @@
 #pragma mark ======== Notifications && Observers ========
 
 #pragma mark ======== Event Response ========
+- (void)btnClick:(UIButton *)btn{
+    NSInteger btnTag = btn.tag;
+    if (1000 == btnTag) {
+        [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+    }else if (1001 == btnTag){
+        [self removeObserver:self forKeyPath:@"progress1"];
+        [SVProgressHUD showErrorWithStatus:@"移除了未注册的观察者"];
+    }else if (1002 == btnTag){
+        [self removeObserver:self forKeyPath:@"undefinedProgress"];
+        [SVProgressHUD showErrorWithStatus:@"移除了不存在的keypath"];
+    }else if (1003 == btnTag){
+        [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeKVO];
+    }else if (1004 == btnTag){
+        [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeKVO];
+    }
+}
 
 #pragma mark ======== Private Methods ========
+- (void)setupSubviews{
+    CGFloat btnWidth = ([self getMaxLength]+8)>(WIDTH/2-24)?(WIDTH/2-24):([self getMaxLength]+8);
+    CGFloat btnHeight = 44;
+    CGFloat borderSpace = 12;
+    CGFloat btnSpace = (WIDTH - 2 * borderSpace - 2 * btnWidth);
+    for (int i = 0; i<_titleArray.count; i++) {
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.tag = 1000+i;
+        [btn setTitle:_titleArray[i] forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor darkTextColor] forState:UIControlStateNormal];
+        btn.titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+        btn.frame = CGRectMake(borderSpace + (btnSpace + btnWidth)*(i%2), 60+(btnHeight+borderSpace)*(i/2), btnWidth, btnHeight);
+        [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+        btn.layer.cornerRadius = 5;
+        btn.titleLabel.font = [UIFont systemFontOfSize:14];
+        btn.backgroundColor = [UIColor colorWithRed:214/255.0 green:235/255.0 blue:253/255.0 alpha:1];
+        [self.view addSubview:btn];
+    }
+}
+
+- (CGFloat)getMaxLength{
+    CGFloat maxLength = 0;
+    for (int i = 0; i<_titleArray.count; i++) {
+        CGFloat tempLength = [_titleArray[i] widthForFont:[UIFont systemFontOfSize:14]];
+        if (tempLength>maxLength) {
+            maxLength = tempLength;
+        }
+    }
+    return maxLength;
+}
 
 #pragma mark ======== Setters && Getters ========
 /*

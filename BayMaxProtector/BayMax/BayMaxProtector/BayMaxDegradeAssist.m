@@ -110,8 +110,11 @@ static  BayMaxDegradeAssist*_instance;
                                        BMPAssistKey_Params:params == nil?@"":params
                                        };
                 [self.relations addObject:item];
-                NSLog(@"页面降级相关配置更新成功！");
             }
+        if (relations>0) {
+            NSLog(@"页面降级相关配置更新成功！");
+        }
+
     }
 }
 
@@ -181,6 +184,9 @@ static  BayMaxDegradeAssist*_instance;
             }
         }
     }];
+    if ([appendString hasSuffix:@"?"]&&appendString.length>1) {
+     return  [appendString substringWithRange:NSMakeRange(0, appendString.length-1)];
+    }
     return appendString;        
 }
 
