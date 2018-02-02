@@ -14,5 +14,13 @@
 #import <UIKit/UIKit.h>
 
 @interface BayMaxDebugView : UIView
+/**
+ 获取DebugView单例
+
+ @return DebugView
+ */
++ (instancetype _Nonnull )sharedDebugView;
+
+- (void)addErrorInfo:(NSDictionary *_Nonnull)errorInfo;
 
 @end

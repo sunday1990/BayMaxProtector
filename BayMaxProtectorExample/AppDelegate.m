@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
+
 #import "BayMaxProtector.h"
 #import "BayMaxDegradeAssist.h"
 #import "WebViewController.h"
@@ -24,6 +26,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = [[ViewController alloc]init];
+    [self.window makeKeyAndVisible];
+
     /*设置Assist的代理与数据源*/
     [BayMaxDegradeAssist Assist].degradeDelegate = self;
     [BayMaxDegradeAssist Assist].degradeDatasource = self;
@@ -44,6 +51,7 @@
             NSLog(@"infos:%@",error.errorInfos);
         }
     }];
+    [BayMaxProtector showDebugView];
     /*开启某一指定防护*/
 //    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];
 //    /*开启某几个组合防护*/

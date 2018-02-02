@@ -18,11 +18,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [[NSNull null]performSelector:NSSelectorFromString(@"abc")];
-//    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];    
+//    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];
+    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
+//    [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeAll];
 }
 
 - (void)didReceiveMemoryWarning {

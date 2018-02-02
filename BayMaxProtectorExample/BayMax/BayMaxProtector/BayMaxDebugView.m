@@ -8,7 +8,19 @@
 
 #import "BayMaxDebugView.h"
 
+#define BMPScreenWidth  [UIScreen mainScreen].bounds.size.width
+#define BMPScreenHeight  [UIScreen mainScreen].bounds.size.height
+
+@interface BayMaxDebugView ()
+
+@property (nonatomic, strong) UIButton *bubbleView;
+@property (nonatomic, strong) UIButton *dismissBtn;
+@property (nonatomic, strong) NSMutableArray *errorInfos;
+@property (nonatomic, strong) UITextView *textView;
+@end
+
 @implementation BayMaxDebugView
+
 
 /*
 // Only override drawRect: if you perform custom drawing.
@@ -17,5 +29,126 @@
     // Drawing code
 }
 */
+static BayMaxDebugView *_instance;
+
++ (id)allocWithZone:(struct _NSZone *)zone{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instance = [super allocWithZone:zone];
+    });
+    return _instance;
+}
+
++ (nonnull instancetype)sharedDebugView{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instance = [[self alloc] init];
+    });
+    return _instance;
+}
+
+- (id)copyWithZone:(NSZone *)zone{
+    return _instance;
+}
+
+- (instancetype)init{
+    if (self = [super init]) {
+        UIWindow *keyWindow = [self getWindow];
+        [keyWindow addSubview:self.bubbleView];
+        [keyWindow addSubview:self.textView];
+        [keyWindow addSubview:self.dismissBtn];
+    }
+    return self;
+}
+
+#pragma mark ========= Event Responses =========
+- (void)showDebugView{
+    if (self.errorInfos.count == 0) {
+        return;
+    }
+    NSString *text = [self.errorInfos description];
+    NSLog(@"text:%@",text);
+    self.textView.hidden = self.dismissBtn.hidden = NO;
+    self.textView.text = text;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.textView.frame = CGRectMake(0, 0, BMPScreenWidth, BMPScreenHeight);
+        self.dismissBtn.frame = CGRectMake(BMPScreenWidth-12-100, 12, 100, 40);
+    }];
+}
+
+- (void)dismissDebugView{
+    [self.errorInfos removeAllObjects];
+    [_bubbleView setTitle:@"Debug" forState:UIControlStateNormal];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.textView.frame = CGRectMake(0, BMPScreenHeight, BMPScreenWidth, BMPScreenHeight);
+        self.dismissBtn.frame = CGRectMake(BMPScreenWidth-12-100, BMPScreenHeight+12, 100, 40);
+
+    }completion:^(BOOL finished) {
+        self.textView.hidden = self.dismissBtn.hidden = YES;
+        [self.textView endEditing:YES];
+    }];
+}
+
+#pragma mark ========= Private Methods =========
+
+- (void)addErrorInfo:(NSDictionary *_Nonnull)errorInfo{
+    [self.errorInfos addObject:errorInfo];
+    NSString *num = [NSString stringWithFormat:@"%ld",self.errorInfos.count];
+    [self.bubbleView setTitle:[NSString stringWithFormat:@"+%@",num] forState:UIControlStateNormal];
+}
+
+- (UIWindow *)getWindow{
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    return keyWindow;
+}
+
+#pragma mark ========= Setters && Getters =========
+
+- (UIButton *)bubbleView{
+    if (!_bubbleView) {
+        _bubbleView = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_bubbleView setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _bubbleView.frame = CGRectMake(BMPScreenWidth-12- 50, 12, 50, 30);
+        _bubbleView.titleLabel.font = [UIFont systemFontOfSize:12];
+        [_bubbleView setTitle:@"Debug" forState:UIControlStateNormal];
+        _bubbleView.backgroundColor = [UIColor grayColor];
+        [_bubbleView addTarget:self action:@selector(showDebugView) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _bubbleView;
+}
+
+- (UITextView *)textView{
+    if (!_textView) {
+        _textView = [[UITextView alloc]init];
+        _textView.frame = CGRectMake(0, BMPScreenHeight, BMPScreenWidth, BMPScreenHeight);
+        _textView.backgroundColor = [UIColor whiteColor];
+        _textView.hidden = YES;
+        _textView.textColor = [UIColor blackColor];
+        _textView.font = [UIFont systemFontOfSize:14];
+        
+    }
+    return _textView;
+}
+
+- (UIButton *)dismissBtn{
+    if (!_dismissBtn) {
+        _dismissBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_dismissBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        _dismissBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+        [_dismissBtn setTitle:@"返回" forState:UIControlStateNormal];
+        _dismissBtn.frame = CGRectMake(BMPScreenWidth-12-100, BMPScreenHeight+12, 100, 40);
+        _dismissBtn.hidden = YES;
+        [_dismissBtn addTarget:self action:@selector(dismissDebugView) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _dismissBtn;
+}
+
+- (NSMutableArray *)errorInfos{
+    if (!_errorInfos) {
+        _errorInfos = [NSMutableArray array];
+    }
+    return _errorInfos;
+}
 
 @end
+

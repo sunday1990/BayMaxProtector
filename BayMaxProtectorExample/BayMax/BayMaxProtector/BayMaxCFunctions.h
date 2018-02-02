@@ -18,7 +18,6 @@ _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
 Stuff; \
 _Pragma("clang diagnostic pop") \
 } while (0)
-
 //定义IMP链表
 typedef struct IMPNode *PtrToIMP;
 typedef PtrToIMP IMPlist;
@@ -26,14 +25,6 @@ struct IMPNode{
     IMP imp;
     PtrToIMP next;
 };
-
-//定义错误信息结构体
-struct ErrorBody{
-    const char *function_name;
-    const char *function_class;
-};
-typedef struct ErrorBody ErrorInfos;
-
 /*向IMP链表中追加imp*/
 static inline void BMP_InsertIMPToList(IMPlist list,IMP imp){
     PtrToIMP nextNode = malloc(sizeof(struct IMPNode));
@@ -41,7 +32,6 @@ static inline void BMP_InsertIMPToList(IMPlist list,IMP imp){
     nextNode->next = list->next;
     list->next = nextNode;
 }
-
 /*判断IMP链表中有没有此元素。
  注意：libobjc中的c函数无效，这时候需要通过手动建立映射关系来替代
  */
@@ -56,7 +46,12 @@ static inline BOOL BMP_ImpExistInList(IMPlist list, IMP imp){
         }
     }
 }
-
+//定义错误信息结构体
+struct ErrorBody{
+    const char *function_name;
+    const char *function_class;
+};
+typedef struct ErrorBody ErrorInfos;
 /*创建错误信息*/
 static inline ErrorInfos ErrorInfosMake(const char *function_class,const char *function_name)
 {
@@ -65,14 +60,12 @@ static inline ErrorInfos ErrorInfosMake(const char *function_class,const char *f
     errorInfos.function_class = function_class;
     return errorInfos;
 }
-
 /*交换实例方法*/
 static inline void BMP_EXChangeInstanceMethod(Class _originalClass ,SEL _originalSel,Class _targetClass ,SEL _targetSel){
     Method methodOriginal = class_getInstanceMethod(_originalClass, _originalSel);
     Method methodNew = class_getInstanceMethod(_targetClass, _targetSel);
     method_exchangeImplementations(methodOriginal, methodNew);
 }
-
 /*交换类方法*/
 static inline void BMP_EXChangeClassMethod(Class _class ,SEL _originalSel,SEL _exchangeSel){
     Method methodOriginal = class_getClassMethod(_class, _originalSel);

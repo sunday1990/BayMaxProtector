@@ -299,6 +299,7 @@
 		1676660E201054D90010E6FB /* BayMaxProtector */ = {
 			isa = PBXGroup;
 			children = (
+				169F23EE2015AC5200793E22 /* BayMaxCFunctions.h */,
 				1676660F201054D90010E6FB /* BayMaxProtector.h */,
 				16766615201054D90010E6FB /* BayMaxProtector.m */,
 				16766614201054D90010E6FB /* BayMaxKVODelegate.h */,
@@ -309,7 +310,6 @@
 				16462E3420108A3300880A10 /* BayMaxCatchError.m */,
 				165C1ADA2013496F006A13D6 /* BayMaxDegradeAssist.h */,
 				165C1AD92013496F006A13D6 /* BayMaxDegradeAssist.m */,
-				169F23EE2015AC5200793E22 /* BayMaxCFunctions.h */,
 				16340A8B202310D10026E47F /* BayMaxDebugView.h */,
 				16340A8C202310D10026E47F /* BayMaxDebugView.m */,
 			);
