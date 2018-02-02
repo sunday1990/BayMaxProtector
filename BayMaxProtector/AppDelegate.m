@@ -51,13 +51,7 @@
 //    [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector|BayMaxProtectionTypeTimer];
     //设置白名单
 //    [BayMaxProtector ignoreProtectionsOnClassesWithPrefix:@[@"AV"]];
-    [self requestConfigurationsFromWeb];
     return YES;
-}
-
-/*配置可以从服务器中获取,然后存到本地*/
-- (void)requestConfigurationsFromWeb{
-   
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -67,9 +67,8 @@ static BayMaxDebugView *_instance;
         return;
     }
     NSString *text = [self.errorInfos description];
-    NSLog(@"text:%@",text);
     self.textView.hidden = self.dismissBtn.hidden = NO;
-    self.textView.text = [NSString stringWithFormat:@"\n\n共为您捕获%ld条异常:\n\n\n%@",self.errorInfos.count,text];
+    self.textView.text = [NSString stringWithFormat:@"\n\n共为您捕获%lu条异常:\n\n\n%@",(unsigned long)self.errorInfos.count,text];
     
     [UIView animateWithDuration:0.3 animations:^{
         self.textView.frame = CGRectMake(0, 0, BMPScreenWidth, BMPScreenHeight);

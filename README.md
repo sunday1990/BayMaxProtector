@@ -1,100 +1,182 @@
-# BayMaxProtector
-Crash protector -take care of your application like BayMax
+> BayMaxProtector is a framework that can block common crashes (not including container classes), thereby enhancing your App's stability. Not only that, but you can also use the downgrade mechanism it provides to reduce a page that has a problem to a corresponding web page, So as not to affect the continuation of the business.
 
-## 一、what can BayMaxProtector do?
-1、`BayMaxProtector` 可以提高你App的稳定性，减少因为常见错误而引发的崩溃，目前支持的保护类型有四种，分别是`UnrecognizedSelector`、`KVO（KVO重复添加、移除、或dealloc时未移除observer）、NSNotification（dealloc时未移除）`、`NSTimer（去除了timer对target的强引用，target可以自由释放而不会产生崩溃，同时timer可以自动invalid）`这四种情况。容器类的考虑到已经有较为成熟的框架，便没有加进来，如果后期有需要的话，再加入。
+> 这是一个可以对常见崩溃（不包括容器类）进行拦阻，从而增强你App稳定性的框架，不仅如此，你还可以使用它提供的降级机制，将发生问题的页面降为对应的web页面，从而不影响业务的继续。
 
+2.0主要是对[1.0](https://juejin.im/post/5a65b8056fb9a01ca87217fb)的升级与改造。
 
-2、`BayMaxProtector`不仅为你的应用提供崩溃保护的功能，并且还通过`BayMaxDegradeAssist`提供了一套页面降级机制，按照该套机制的规则与约定，可以实现页面自动降级为对应的`H5`页面，也可以实现页面的手动降级。所谓自动降级，是指在程序发生`UnrecognizedSelector`错误时，会从配置中将该页面对应的`url`和`params(注意：如果viewdidload方法中发生错误，并且消息接受者不是视图控制器的话，获取不到参数，其他情况都可以（如网络null错误、解析错误、数据源model混乱等）)`,传给外界，外界可以通过这个展示对应的`H5`页面。手动降级是指程序本来并没有发生`UnrecognizedSelector`相关错误，但是由于代码业务逻辑发生错误，我们需要强制换成对应的`H5`页面，通过`BayMaxDegradeAssist`提供的接口，可以轻松地做到这些，这样就能够避免传统的防崩溃机制导致的空转状态，所谓空转是指程序不崩溃，但是无法继续进行接下来的业务逻辑。
+## 一、新增功能
+#### 1、增加BayMaxDebugView
+`BayMaxDebugView`可以在开发中更直观的展示它所拦截到的异常，会展示捕获异常的数目，并且可以跟随手指移动，点击后可以展示错误的详细信息。收起后，错误信息清零，长按错误信息可以复制分享。
 
-
-3、`BayMaxProtector`将发生的错误封装为一个`BayMaxCatchError`对象，这个对象会根据不同的错误类型，将对应错误的描述信息打包，并通过统一的方式将错误信息回调给外界，外界可以对错误进行分类处理。
-
-
-4、其他功能你可以自己探索
-## 二、how to use?
-1、安装
-`CocoaPod`方式:在podFile中添加 `pod 'BayMaxProtector'`：
-
-手动方式：将`BayMax`文件夹下的内容拖入拖入项目。
-
-2、 `Appdelegate` 中设置你想要保护的类型(建议debug模式下不要开启)，保护的类型是枚举类型，支持枚举的或运算。
+#### 2、新增自定义IMP方法链表，支持IMP的插入与查找功能
+该功能主要用来帮助判断某些系统方法有没有被替换。
 ```
-示例：
-一、带错误回调的所有类型
-[BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
-    if (error.errorType == BayMaxErrorTypeUnrecognizedSelector) {
-        NSLog(@"ErrorUnRecognizedSelInfos:%@",error.errorInfos);
-
-    }else if (error.errorType == BayMaxErrorTypeTimer){
-        NSLog(@"ErrorTimerinfos:%@",error.errorInfos);
-
-
-    }else if (error.errorType == BayMaxErrorTypeKVO){
-        NSLog(@"ErrorKVOinfos:%@",error.errorInfos);
-
+typedef struct IMPNode *PtrToIMP;
+typedef PtrToIMP IMPlist;
+struct IMPNode{
+    IMP imp;
+    PtrToIMP next;
+};
+/*向IMP链表中追加imp*/
+static inline void BMP_InsertIMPToList(IMPlist list,IMP imp){
+    PtrToIMP nextNode = malloc(sizeof(struct IMPNode));
+    nextNode->imp = imp;
+    nextNode->next = list->next;
+    list->next = nextNode;
+}
+/*
+递归判断IMP链表中有没有此元素。
+*/
+static inline BOOL BMP_ImpExistInList(IMPlist list, IMP imp){
+    if (list->imp == imp) {
+        return YES;
     }else{
-        NSLog(@"infos:%@",error.errorInfos);
+        if (list->next != NULL) {
+            return BMP_ImpExistInList(list->next,imp);
+        }else{
+            return NO;
+        }
     }
+}
+```
+#### 3、增加关闭防护的功能
+可以在任意页面，关闭或者打开防护功能，并且可以对重复操作进行过滤，重复的添加或者移除，会作为异常显示在`debugView`中。
+```
+1、保存系统原有的IMP
+static IMPlist impList;
++ (void)load{
+    //maping_ForwardingTarget_IMP为ForwardingTarget方法的映射
+    IMP maping_ForwardingTarget_IMP = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingForwardingTargetForSelectorMethod));
+    //maping_Timer_IMP为原有timer方法的映射
+    IMP maping_Timer_IMP = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingTimerMethod));
+    IMP KVO_IMP = class_getMethodImplementation([NSObject class], @selector(addObserver:forKeyPath:options:context:));
+    IMP notification_IMP = class_getMethodImplementation([NSNotificationCenter class], @selector(addObserver:selector:name:object:));
+
+    impList = malloc(sizeof(struct IMPNode));
+    impList->next = NULL;
+
+    BMP_InsertIMPToList(impList, maping_ForwardingTarget_IMP);
+    BMP_InsertIMPToList(impList, KVO_IMP);
+    BMP_InsertIMPToList(impList, maping_Timer_IMP);
+    BMP_InsertIMPToList(impList, notification_IMP);
+}
+
+2、根据操作的protectionType获取对应的IMP，然后判断该IMP在不在原有的impList中，在的话，说明该防护之前没有开启过，不在的话，说明该防护之前开启过。
+    if (!BMP_ImpExistInList(impList, imp)) {
+        NSLog(@"关闭保护");
+        //再执行一次交换操作
+        [self openProtectionsOn:protectionType catchErrorHandler:nil];
+    }else{//说明该方法没有被交换，即没有列在保护名单里，空处理即可
+        NSString * duplicateClose = [NSString stringWithFormat:@"[%@] Is Not In The Protection State Before And Don't Need To Close This Protection Again",protectionName];
+        [[BayMaxDebugView sharedDebugView]addErrorInfo:@{@"waring":duplicateClose}];
+    }
+
+```
+#### 4、增加针对`libobjc.A.dylib`部分方法的方法映射
+
+```
+#pragma mark libobjc.A.dylib IMP映射
+/**
+NSObject ForwardingTargetForSelector方法的映射
+*/
+- (void)BMP_mappingForwardingTargetForSelectorMethod{
+}
+- (void)BMP_excMappingForwardingTargetForSelectorMethod{
+}
+/**
+NSTimer  scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:方法的映射
+*/
+- (void)BMP_mappingTimerMethod{
+}
+- (void)BMP_excMappingTimerMethod{
+}
+
+```
+#### 5、增加一系列测试用例
+
+## 二、原有功能
+#### 1、防止`unrecognizedSelector`类型的崩溃
+
+#### 2、防止`kvo`类型的崩溃
+如keypath重复监听、移除了未注册的观察者、移除了不存在的keypath，观察者未移除
+#### 3、防止`Timer`类型的错误
+退出页面时，`timer`可以自动`invalidate`
+#### 4、防止`NSNotification`类型的错误
+在未移除监听者的时候，自动帮你移除监听者
+#### 5、支持页面自动降级
+可以通过配置在页面发生`unrecognizedSelector`类型错误的时候，自动降级为对应的web页面，自动降级又分两种，一种是能拿到参数，然后拼成一个完整的url传给web，另一种是发生在`viewdidload`中，且接收错误消息的对象不是视图控制器，这时候拿不到参数，只能拿到对应的url。】
+#### 6、支持页面主动降级
+在某些页面发生业务逻辑错误时，比如粗心的把价格单位“元”写成了“万元”,可以手动的将该页面将为对应的web页面，本质上是向该页面发送一个它不能够响应的消息，然后再走自动降级的逻辑。
+
+## 三、安装
+* 手动：将`BayMaxProtector`下的所有文件拖入项目
+* `CocoaPod`:`podfile`加入 `pod 'BayMaxProtector'`
+
+![](https://user-gold-cdn.xitu.io/2018/2/2/16155f2e8465f434?w=906&h=130&f=png&s=78745)
+
+如果pod搜不到，那就采用手动拖入吧。。
+
+## 四、使用
+#### 1、开启防护
+```
+//开启全部防护
+[BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
+//do your business
 }];
-
-二、指定某一类型
+//开启某一防护
 [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector];
-
-
-三、组合类型
-[BayMaxProtector openProtectionsOn:BayMaxProtectionTypeNotification|BayMaxProtectionTypeTimer];
-
-
-四、过滤带有指定前缀的类
-[BayMaxProtector ignoreProtectionsOnClassesWithPrefix:@[@"UI",@"CA"]];
+//开启组合防护
+[BayMaxProtector openProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector|BayMaxProtectionTypeTimer];
+//设置白名单
+[BayMaxProtector ignoreProtectionsOnClassesWithPrefix:@[@"AV"]];
+```
+#### 2、关闭防护
+```
+//同上
+[BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeAll];
 
 ```
-3、如何进行页面降级？
-
+#### 3、显示DebugView
 ```
-1、引入`BayMaxDegradeAssist.h`头文件。
-2、设置数据源（BayMaxDegradeAssistDataSource）与事件回调代理（BayMaxDegradeAssistDelegate）
-3、实现数据源代理BayMaxDegradeAssistDataSource，其中要实现四个`required`方法和一个`optional`方法
-@required:
-//共有多少组H5-iOS对应关系,一个视图控制器对应一组关系
-- (NSInteger)numberOfRelations;
-//第index组iOS试图控制器的名字
-- (NSString *)nameOfViewControllerAtIndex:(NSInteger)index;
-//第index组下试图控制器对应的url
-- (NSString *)urlOfViewControllerAtIndex:(NSInteger)index;
-//第index组下H5与iOS之间参数的对应关系集合
-- (NSArray<NSDictionary<NSString * , NSString *> *> *)correspondencesBetweenH5AndIOSParametersAtIndex:(NSInteger)index;
-
-@optional://用来实现手动降级
-//手动降级的某些页面，处理后，最终还是会走BayMaxDegradeAssistDelegate中的自动降级相关方法
-- (NSArray *)viewControllersToDegradeInitiative;
-
-4、实现BayMaxDegradeAssistDelegate，其中有两个可选方法，在这里可以获取到发生错误的视图控制器实例或者类，以及该页面对应的带参数的完整URL或者不带参数的URL，和配置中该视图控制器对应的所有信息。外界可以针对这两种情况分别处理,由于手动降级最终还是走的自动降级，所以只需要处理自动降级的代理事件即可。
-
-// 非viewdidload方法出错，可以获取当前页面对应的H5完整url（带参数），然后进行页面降级，展示自己的webview
-- (void)autoDegradeInstanceOfViewController:(UIViewController *)degradeVC ifErrorHappensInProcessExceptViewDidLoadWithReplacedCompleteURL:(NSString *)completeURL relation:(NSDictionary *)relation;
-
-//在viewdidload方法中出错，可以获取出错页面对应的不完整url（不带参数），然后进行页面降级，展示自己的webview
-- (void)autoDegradeClassOfViewController:(Class)degradeCls ifErrorHappensInViewDidLoadProcessWithReplacedURL:(NSString *)URL relation:(NSDictionary *)relation;
-
-5、流程：启动App->请求配置或者从缓存中读取配置->调用`BayMaxDegradeAssist`的`reloadRelations`方法
-
+[BayMaxProtector showDebugView];
 ```
-## 三、why BayMax Can do This?
-主要参考了网易的健康系统，踩了一些坑，加了一些新的东西进来，然而目前还有很多需要优化的地方，会不断完善。
-列一下目前需要解决的问题，希望您能够提供宝贵的建议。
+#### 4、隐藏DebugView
+```
+[BayMaxProtector hideDebugView];
+```
+#### 5、页面降级（可选）
+实现相对应的代理方法，具体请看上篇文章。
 
-1、如何自动识别出系统类，并对这些类进行自动的过滤。
+## 四、效果展示
+#### 1、unrecognizedSelector防护
 
-2、页面降级中针对发生在`viewDidLoad`方法中的`unrecognizedSelector`错误，如果消息接受者不是视图控制器，该如何获取这个视图控制器实例。
+![unrecognizedSelector防护](https://user-gold-cdn.xitu.io/2018/2/2/16155eb1683a9422?w=298&h=504&f=gif&s=448254)
 
-3、页面降级如何处理回调？
+#### 2、unrecognizedSelector-viewdidload防护
 
-4、其他
+![unrecognizedSelector-viewdidload防护](https://user-gold-cdn.xitu.io/2018/2/2/16155eb7dd4680b3?w=298&h=504&f=gif&s=90331)
+
+#### 3、TimerErrorBlock
+![TimerErrorBlock](https://user-gold-cdn.xitu.io/2018/2/2/16155ec1e927c2b9?w=298&h=504&f=gif&s=140941)
+
+#### 4、KVOErrorBlock
+
+![KVOErrorBlock](https://user-gold-cdn.xitu.io/2018/2/2/16155ec986e2a849?w=298&h=508&f=gif&s=92752)
+#### 5、自动降级
+
+![自动降级](https://user-gold-cdn.xitu.io/2018/2/2/16155ed317baefc5?w=298&h=508&f=gif&s=450994)
+
+#### 6、手动降级
+
+![手动降级](https://user-gold-cdn.xitu.io/2018/2/2/16155eda25a9e5d3?w=298&h=508&f=gif&s=798726)
 
 
-如果您有兴趣一起做或者有好的建议，可以加我QQ😊：`935143023`
+GitHub下载地址：[BayMaxProtector](https://github.com/sunday1990/BayMaxProtector)
 
-如果觉得还可以，记得给个star啊😊😊😊
+欢迎star!!
+
+
+
+
+
 
