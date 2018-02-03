@@ -313,7 +313,9 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
             if (_showDebugView) {
                 [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
             }
-            _errorHandler(error);
+            if (_errorHandler) {
+                _errorHandler(error);
+            }
         }];
         return [self BMP_scheduledTimerWithTimeInterval:ti target:subtarget selector:NSSelectorFromString(@"fireProxyTimer:") userInfo:userInfo repeats:yesOrNo];
     }else{
@@ -327,8 +329,9 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
             if (_showDebugView) {
                 [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
             }
-            _errorHandler(error);
-        }];
+            if (_errorHandler) {
+                _errorHandler(error);
+            }        }];
         return [self BMP_timerWithTimeInterval:ti target:subtarget selector:NSSelectorFromString(@"fireProxyTimer:") userInfo:userInfo repeats:yesOrNo];
     }else{
         return [self BMP_timerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
