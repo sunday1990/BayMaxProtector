@@ -18,7 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [[NSNull null]performSelector:@selector(length)];
-//    [self performSelector:@selector(abc)];
+    [self performSelector:@selector(abc)];
    
     UILabel *tipLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 40, WIDTH-20, 150)];
     tipLabel.font = [UIFont systemFontOfSize:14];

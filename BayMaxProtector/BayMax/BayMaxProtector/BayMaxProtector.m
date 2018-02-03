@@ -63,17 +63,17 @@ static inline NSString *GetClassNameOfViewControllerIfErrorHappensInViewDidloadP
     if (callStackSymbolsArr != nil) {
         for (int i = 3; i<=callStackSymbolsArr.count; i++) {
             NSString *symbol = callStackSymbolsArr[i];
-            if ([symbol containsString:@"BayMaxProtector"]) {
-                if ([symbol containsString:@"viewDidLoad"]) {
-                    NSRange beginRange = [symbol rangeOfString:@"-["];
-                    NSRange endRange = [symbol rangeOfString:@"viewDidLoad"];
+            if ([symbol containsString:@"UIKit"]) {
+                NSString *lastSymbol = callStackSymbolsArr[i-1];
+                if ([lastSymbol containsString:@"viewDidLoad"]) {
+                    NSRange beginRange = [lastSymbol rangeOfString:@"-["];
+                    NSRange endRange = [lastSymbol rangeOfString:@"viewDidLoad"];
                     NSInteger length = endRange.location-1-(beginRange.location+beginRange.length);
-                    className = [symbol substringWithRange:NSMakeRange(beginRange.location+beginRange.length, length)];
+                    className = [lastSymbol substringWithRange:NSMakeRange(beginRange.location+beginRange.length, length)];
                     break;
                 }
-            }else{
-                break;
             }
+
         }
     }
     return className;
