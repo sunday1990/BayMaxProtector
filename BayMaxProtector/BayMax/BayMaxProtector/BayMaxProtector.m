@@ -66,11 +66,15 @@ static inline NSString *GetClassNameOfViewControllerIfErrorHappensInViewDidloadP
             if ([symbol containsString:@"UIKit"]) {
                 NSString *lastSymbol = callStackSymbolsArr[i-1];
                 if ([lastSymbol containsString:@"viewDidLoad"]) {
-                    NSRange beginRange = [lastSymbol rangeOfString:@"-["];
-                    NSRange endRange = [lastSymbol rangeOfString:@"viewDidLoad"];
-                    NSInteger length = endRange.location-1-(beginRange.location+beginRange.length);
-                    className = [lastSymbol substringWithRange:NSMakeRange(beginRange.location+beginRange.length, length)];
-                    break;
+                    if ([lastSymbol rangeOfString:@"-["].length>0) {
+                        NSRange beginRange = [lastSymbol rangeOfString:@"-["];
+                        NSRange endRange = [lastSymbol rangeOfString:@"viewDidLoad"];
+                        NSInteger length = endRange.location-1-(beginRange.location+beginRange.length);
+                        className = [lastSymbol substringWithRange:NSMakeRange(beginRange.location+beginRange.length, length)];
+                        break;
+                    }else{
+                        
+                    }
                 }
             }
 
