@@ -147,7 +147,10 @@ NSTimer  scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:方法�
 #### 5、页面降级（可选）
 实现相对应的代理方法，具体请看上篇文章。
 
-## 四、效果展示
+## 五、在swift环境下的表现
+`BayMax`在`swift`环境下绝大部分功能仍然可用，但是如果在`viewdidload`方法中发生`unrecognizedSelector`类型的错误，这时候获取当前显示的视图控制器存在问题，从而会影响自动降级相关的流程，其他的暂时没发现问题，如果使用中有新的问题，请留言。
+
+## 六、效果展示
 #### 1、unrecognizedSelector防护
 
 ![unrecognizedSelector防护](https://user-gold-cdn.xitu.io/2018/2/2/16155eb1683a9422?w=298&h=504&f=gif&s=448254)
