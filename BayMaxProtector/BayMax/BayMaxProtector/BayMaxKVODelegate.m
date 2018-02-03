@@ -114,6 +114,9 @@
     }];
     if (kvoInfo) {
         [kvoInfos removeObject:kvoInfo];
+        if (kvoInfos.count == 0) {//说明该keypath没有observer观察，可以移除该键
+            [_keyPathMaps removeObjectForKey:keyPath];
+        }
     }
     success = isExist;
     return success;

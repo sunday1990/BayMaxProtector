@@ -219,7 +219,19 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         if ([self.bayMaxKVODelegate removeKVOInfoInMapsWithObserver:observer forKeyPath:keyPath]) {
             [self BMP_removeObserver:self.bayMaxKVODelegate forKeyPath:keyPath];
         }else{
-
+            NSString *reson = [NSString stringWithFormat:@"Cannot remove an observer %@ for the key path '%@' from %@ because it is not registered as an observer",observer,keyPath,NSStringFromClass(self.class) == nil?@"":NSStringFromClass(self.class)];
+            BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
+                                                                                                       BMPErrorKVO_Reason:reson,
+                                                                                                       BMPErrorKVO_Observer:observer == nil?@"":observer,
+                                                                                                       BMPErrorKVO_Keypath:keyPath == nil?@"":keyPath,
+                                                                                                       BMPErrorKVO_Target:NSStringFromClass(self.class) == nil?@"":NSStringFromClass(self.class)
+                                                                                                       }];
+            if (_showDebugView) {
+                [[BayMaxDebugView sharedDebugView]addErrorInfo:bmpError.errorInfos];
+            }
+            if (_errorHandler) {
+                _errorHandler(bmpError);
+            }    
         }
     }else{
         [self BMP_removeObserver:observer forKeyPath:keyPath];
@@ -231,7 +243,20 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         NSString *value = (NSString *)objc_getAssociatedObject(self, KVOProtectorKey);
         if ([value isEqualToString:KVOProtectorValue]) {
             NSArray *keypaths = [self.bayMaxKVODelegate getAllKeypaths];
+            if (keypaths.count>0) {
+                NSString *reson = [NSString stringWithFormat:@"An instance %@ was deallocated while key value observers were still registered with it. The Keypaths is:'%@'",self,[keypaths componentsJoinedByString:@","]];
+                BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
+                                                                                                           BMPErrorKVO_Reason:reson,
+                                                                                                           }];
+                if (_showDebugView) {
+                    [[BayMaxDebugView sharedDebugView]addErrorInfo:bmpError.errorInfos];
+                }
+                if (_errorHandler) {
+                    _errorHandler(bmpError);
+                }
+            }
             [keypaths enumerateObjectsUsingBlock:^(NSString *keyPath, NSUInteger idx, BOOL * _Nonnull stop) {
+                //错误信息
                 [self BMP_removeObserver:self.bayMaxKVODelegate forKeyPath:keyPath];
             }];
         }

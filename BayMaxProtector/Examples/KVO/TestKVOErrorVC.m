@@ -28,6 +28,7 @@
                     @"keypath重复监听",
                     @"移除了未注册的观察者",
                     @"移除了不存在的keypath",
+                    @"keypath重复移除",
                     @"关闭kvo防护",
                     @"开启kvo防护"
                     ];
@@ -61,8 +62,13 @@
         [self removeObserver:self forKeyPath:@"undefinedProgress"];
         [SVProgressHUD showErrorWithStatus:@"移除了不存在的keypath"];
     }else if (1003 == btnTag){
-        [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeKVO];
+        [self removeObserver:self forKeyPath:@"progress"];
+        [self removeObserver:self forKeyPath:@"progress"];
+        [SVProgressHUD showErrorWithStatus:@"keypath重复移除"];
+
     }else if (1004 == btnTag){
+        [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeKVO];
+    }else if (1005 == btnTag){
         [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeKVO];
     }
 }

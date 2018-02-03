@@ -17,7 +17,7 @@ NSString *const BMPErrorUnrecognizedSel_Reason = @"ErrorReason";
 
 NSString *const BMPErrorKVO_Observer = @"ErrorObserver";
 NSString *const BMPErrorKVO_Keypath = @"ErrorKeypath";
-NSString *const BMPErrorKVO_Target = @"ErrorTarget";
+NSString *const BMPErrorKVO_Target = @"ErrorKeypathFrom";
 NSString *const BMPErrorKVO_Reason = @"ErrorReason";
 
 NSString *const BMPErrorTimer_Target = @"ErrorTarget";
