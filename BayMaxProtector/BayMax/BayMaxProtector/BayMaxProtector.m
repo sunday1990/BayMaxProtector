@@ -146,8 +146,7 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
             
             
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeUnrecognizedSelector infos:@{
-                                                                                                                        BMPErrorUnrecognizedSel_Reason:[NSString stringWithFormat:@"UNRecognized Selector:%@ sent to instance %@",NSStringFromSelector(selector),self],
-                                                                                                       BMPErrorUnrecognizedSel_Receiver:self==nil?@"":self,                                                                                                     BMPErrorUnrecognizedSel_Func:NSStringFromSelector(selector),
+                                                                                                                        BMPErrorUnrecognizedSel_Reason:[NSString stringWithFormat:@"UNRecognized Selector:'%@' sent to instance %@",NSStringFromSelector(selector),self],
                                                                                                        BMPErrorUnrecognizedSel_VC:vcClassName == nil?([[BayMaxDegradeAssist Assist]topViewController] == nil?@"":[[BayMaxDegradeAssist Assist]topViewController]):vcClassName
                                                                                                        }];
             if (_showDebugView) {
@@ -201,10 +200,7 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
             [weakSelf BMP_addObserver:weakSelf.bayMaxKVODelegate forKeyPath:keyPath options:options context:context];
         } failure:^(NSError *error) {
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
-                                                                                                       BMPErrorKVO_Reason:[NSString stringWithFormat:@"Repeated additions to the observer for the key path:'%@' from '%@'",keyPath,NSStringFromClass(weakSelf.class) == nil?@"":NSStringFromClass(weakSelf.class)],
-                                                                                                       BMPErrorKVO_Observer:observer == nil?@"":observer,
-                                                                                                       BMPErrorKVO_Keypath:keyPath == nil?@"":keyPath,
-                                                                                                       BMPErrorKVO_Target:NSStringFromClass(weakSelf.class) == nil?@"":NSStringFromClass(weakSelf.class)
+                                                                                                       BMPErrorKVO_Reason:[NSString stringWithFormat:@"Repeated additions to the observer:%@ for the key path:'%@' from %@",observer == nil?@"":observer,keyPath,NSStringFromClass(weakSelf.class) == nil?@"":NSStringFromClass(weakSelf.class)]
                                                                                                        }];
             if (_showDebugView) {
                 [[BayMaxDebugView sharedDebugView]addErrorInfo:bmpError.errorInfos];
@@ -225,10 +221,7 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         }else{
             NSString *reson = [NSString stringWithFormat:@"Cannot remove an observer %@ for the key path '%@' from %@ because it is not registered as an observer",observer,keyPath,NSStringFromClass(self.class) == nil?@"":NSStringFromClass(self.class)];
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
-                                                                                                       BMPErrorKVO_Reason:reson,
-                                                                                                       BMPErrorKVO_Observer:observer == nil?@"":observer,
-                                                                                                       BMPErrorKVO_Keypath:keyPath == nil?@"":keyPath,
-                                                                                                       BMPErrorKVO_Target:NSStringFromClass(self.class) == nil?@"":NSStringFromClass(self.class)
+                                                                                                       BMPErrorKVO_Reason:reson
                                                                                                        }];
             if (_showDebugView) {
                 [[BayMaxDebugView sharedDebugView]addErrorInfo:bmpError.errorInfos];

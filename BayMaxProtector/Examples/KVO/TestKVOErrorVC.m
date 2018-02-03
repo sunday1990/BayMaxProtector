@@ -57,15 +57,11 @@
         [self addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
     }else if (1001 == btnTag){
         [self removeObserver:self forKeyPath:@"progress1"];
-        [SVProgressHUD showErrorWithStatus:@"移除了未注册的观察者"];
     }else if (1002 == btnTag){
         [self removeObserver:self forKeyPath:@"undefinedProgress"];
-        [SVProgressHUD showErrorWithStatus:@"移除了不存在的keypath"];
     }else if (1003 == btnTag){
         [self removeObserver:self forKeyPath:@"progress"];
         [self removeObserver:self forKeyPath:@"progress"];
-        [SVProgressHUD showErrorWithStatus:@"keypath重复移除"];
-
     }else if (1004 == btnTag){
         [BayMaxProtector closeProtectionsOn:BayMaxProtectionTypeKVO];
     }else if (1005 == btnTag){
