@@ -279,7 +279,6 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 @implementation NSTimer (TimerProtector)
 
 + (NSTimer *)BMP_scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
-    NSLog(@"atarget:%@",aTarget);
     if (!IsSystemClass([aTarget class])) {
         BayMaxTimerSubTarget *subtarget = [BayMaxTimerSubTarget targetWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo catchErrorHandler:^(BayMaxCatchError *error) {
             if (_showDebugView) {
