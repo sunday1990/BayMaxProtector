@@ -61,7 +61,7 @@ static inline BOOL IsSystemClass(Class cls){
 static inline NSString *GetClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols(NSArray *callStackSymbolsArr){
     __block NSString *className;
     if (callStackSymbolsArr != nil) {
-        for (int i = 3; i<=callStackSymbolsArr.count; i++) {
+        for (int i = 3; i < callStackSymbolsArr.count; i++) {
             NSString *symbol = callStackSymbolsArr[i];
             if ([symbol containsString:@"UIKit"]) {
                 NSString *lastSymbol = callStackSymbolsArr[i-1];
