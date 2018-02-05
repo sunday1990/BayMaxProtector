@@ -7,6 +7,20 @@
 //
 
 #import "BayMaxKVODelegate.h"
+#include <CommonCrypto/CommonCrypto.h>
+#include <zlib.h>
+
+static inline NSString *BMP_md5StringOfObject(NSObject *object){
+    NSString *string = [NSString stringWithFormat:@"%p",object];
+    const char *str = string.UTF8String;
+    uint8_t buffer[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(str, (CC_LONG)strlen(str), buffer);
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+        [output appendFormat:@"%02x", buffer[i]];
+    }
+    return output;
+}
 
 @interface KVOInfo: NSObject
 
@@ -19,11 +33,12 @@
     NSKeyValueObservingOptions _options;
     __weak NSObject *_observer;
     __weak NSString *_keyPath;
-    NSUInteger _observerHash;
+    NSString *_md5Str;
 }
 @end
 
 @implementation BayMaxKVODelegate
+
 {
     @private
     NSMutableDictionary<NSString*, NSMutableArray<KVOInfo *> *> *_keyPathMaps;
@@ -56,7 +71,7 @@
     }else{
         KVOInfo *info = [[KVOInfo alloc]init];
         info->_observer = observer;
-        info->_observerHash = [observer hash];
+        info->_md5Str = BMP_md5StringOfObject(observer);
         info->_keyPath = keyPath;
         info->_options = options;
         info->_context = context;
@@ -91,7 +106,7 @@
     }else{
         KVOInfo *info = [[KVOInfo alloc]init];
         info->_observer = observer;
-        info->_observerHash = [observer hash];
+        info->_md5Str = BMP_md5StringOfObject(observer);
         info->_keyPath = keyPath;
         info->_options = options;
         info->_context = context;
@@ -110,7 +125,7 @@
     __block BOOL isExist = NO;
     __block KVOInfo *kvoInfo;
     [kvoInfos enumerateObjectsUsingBlock:^(KVOInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (obj->_observerHash == [observer hash]) {
+        if ([obj->_md5Str isEqualToString:BMP_md5StringOfObject(observer)]) {
             isExist = YES;
             kvoInfo = obj;
         }
