@@ -66,7 +66,14 @@ static BayMaxDebugView *_instance;
     if (self.errorInfos.count == 0) {
         return;
     }
-    NSString *text = [self.errorInfos description];
+    NSMutableString *text = [NSMutableString string];
+    [self.errorInfos enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL * _Nonnull stop) {
+            [text appendString:key];
+            [text appendString:@":"];
+            [text appendString:[NSString stringWithFormat:@"%@\n\n",obj]];
+        }];
+    }];
     self.textView.hidden = self.dismissBtn.hidden = NO;
     self.textView.text = [NSString stringWithFormat:@"\n\n共为您捕获%lu条异常:\n\n\n%@",(unsigned long)self.errorInfos.count,text];
     
