@@ -235,6 +235,27 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
     }
 }
 
+- (void)BMP_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath context:(nullable void *)context{
+    if (!IsSystemClass(self.class)) {
+        if ([self.bayMaxKVODelegate removeKVOInfoInMapsWithObserver:observer forKeyPath:keyPath]) {
+            [self BMP_removeObserver:self.bayMaxKVODelegate forKeyPath:keyPath];
+        }else{
+            NSString *reson = [NSString stringWithFormat:@"Cannot remove an observer %@ for the key path '%@' from %@ because it is not registered as an observer",observer,keyPath,NSStringFromClass(self.class) == nil?@"":NSStringFromClass(self.class)];
+            BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
+                                                                                                       BMPErrorKVO_Reason:reson
+                                                                                                       }];
+            if (_showDebugView) {
+                [[BayMaxDebugView sharedDebugView]addErrorInfo:bmpError.errorInfos];
+            }
+            if (_errorHandler) {
+                _errorHandler(bmpError);
+            }
+        }
+    }else{
+        [self BMP_removeObserver:observer forKeyPath:keyPath context:context];
+    }
+}
+
 - (void)BMPKVO_dealloc{
     if (!IsSystemClass(self.class)) {
         NSString *value = (NSString *)objc_getAssociatedObject(self, KVOProtectorKey);
@@ -258,7 +279,7 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
             }];
         }
     }
-     [self BMPKVO_dealloc];
+    [self BMPKVO_dealloc];
 }
 
 @end
@@ -474,6 +495,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
         {
             BMP_EXChangeInstanceMethod([NSObject class], @selector(addObserver:forKeyPath:options:context:), [NSObject class], @selector(BMP_addObserver:forKeyPath:options:context:));
             BMP_EXChangeInstanceMethod([NSObject class], @selector(removeObserver:forKeyPath:), [NSObject class], @selector(BMP_removeObserver:forKeyPath:));
+            BMP_EXChangeInstanceMethod([NSObject class], @selector(removeObserver:forKeyPath:context:), [NSObject class], @selector(BMP_removeObserver:forKeyPath:context:));
             BMP_EXChangeInstanceMethod([NSObject class], NSSelectorFromString(@"dealloc"), [NSObject class], @selector(BMPKVO_dealloc));
         }
         break;
@@ -497,6 +519,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
             BMP_EXChangeInstanceMethod([self class], @selector(BMP_mappingForwardingTargetForSelectorMethod), [self class], @selector(BMP_excMappingForwardingTargetForSelectorMethod));
             BMP_EXChangeInstanceMethod([NSObject class], @selector(addObserver:forKeyPath:options:context:), [NSObject class], @selector(BMP_addObserver:forKeyPath:options:context:));
             BMP_EXChangeInstanceMethod([NSObject class], @selector(removeObserver:forKeyPath:), [NSObject class], @selector(BMP_removeObserver:forKeyPath:));
+            BMP_EXChangeInstanceMethod([NSObject class], @selector(removeObserver:forKeyPath:context:), [NSObject class], @selector(BMP_removeObserver:forKeyPath:context:));
             BMP_EXChangeInstanceMethod([NSObject class], NSSelectorFromString(@"dealloc"), [NSObject class], @selector(BMPKVO_dealloc));
             BMP_EXChangeInstanceMethod([NSNotificationCenter class], @selector(addObserver:selector:name:object:), [NSNotificationCenter class], @selector(BMP_addObserver:selector:name:object:));
             BMP_EXChangeInstanceMethod([UIViewController class], NSSelectorFromString(@"dealloc"), [UIViewController class], NSSelectorFromString(@"BMP_dealloc"));

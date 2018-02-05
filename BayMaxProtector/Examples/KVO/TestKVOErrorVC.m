@@ -101,6 +101,9 @@
     return maxLength;
 }
 
+- (void)dealloc{
+    [self removeObserver:self forKeyPath:@"progress"];
+}
 #pragma mark ======== Setters && Getters ========
 /*
  #pragma mark - Navigation

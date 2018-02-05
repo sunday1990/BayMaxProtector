@@ -19,6 +19,7 @@
     NSKeyValueObservingOptions _options;
     __weak NSObject *_observer;
     __weak NSString *_keyPath;
+    NSUInteger _observerHash;
 }
 @end
 
@@ -55,6 +56,7 @@
     }else{
         KVOInfo *info = [[KVOInfo alloc]init];
         info->_observer = observer;
+        info->_observerHash = [observer hash];
         info->_keyPath = keyPath;
         info->_options = options;
         info->_context = context;
@@ -89,6 +91,7 @@
     }else{
         KVOInfo *info = [[KVOInfo alloc]init];
         info->_observer = observer;
+        info->_observerHash = [observer hash];
         info->_keyPath = keyPath;
         info->_options = options;
         info->_context = context;
@@ -107,7 +110,7 @@
     __block BOOL isExist = NO;
     __block KVOInfo *kvoInfo;
     [kvoInfos enumerateObjectsUsingBlock:^(KVOInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (obj->_observer == observer) {
+        if (obj->_observerHash == [observer hash]) {
             isExist = YES;
             kvoInfo = obj;
         }
