@@ -12,6 +12,7 @@
 #import "BayMaxTimerSubTarget.h"
 #import "BayMaxCFunctions.h"
 #import "BayMaxDegradeAssist.h"
+#import "BayMaxContainers.h"
 #import "BayMaxDebugView.h"
 
 typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
@@ -143,8 +144,6 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
                                                                                     ErrorFunctionName:NSStringFromSelector(selector),
                                                                                   ErrorViewController:[[BayMaxDegradeAssist Assist]topViewController]
                                                                            }];
-            
-            
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeUnrecognizedSelector infos:@{
                                                                                                                         BMPErrorUnrecognizedSel_Reason:[NSString stringWithFormat:@"UNRecognized Selector:'%@' sent to instance %@",NSStringFromSelector(selector),self],
                                                                                                        BMPErrorUnrecognizedSel_VC:vcClassName == nil?([[BayMaxDegradeAssist Assist]topViewController] == nil?@"":[[BayMaxDegradeAssist Assist]topViewController]):vcClassName

@@ -68,7 +68,7 @@ static BayMaxDebugView *_instance;
     }
     NSMutableString *text = [NSMutableString string];
     [self.errorInfos enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [text appendString:[NSString stringWithFormat:@"%ld 、\n{\n",idx+1]];
+        [text appendString:[NSString stringWithFormat:@"%u 、\n{\n",idx+1]];
         [obj enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL * _Nonnull stop) {
             [text appendString:key];
             [text appendString:@":"];

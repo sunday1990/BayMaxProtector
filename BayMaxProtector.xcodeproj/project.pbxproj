@@ -35,6 +35,7 @@
 		1676661F201054D90010E6FB /* BayMaxKVODelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766610201054D90010E6FB /* BayMaxKVODelegate.m */; };
 		16766621201054D90010E6FB /* BayMaxTimerSubTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766612201054D90010E6FB /* BayMaxTimerSubTarget.m */; };
 		16766622201054D90010E6FB /* BayMaxProtector.m in Sources */ = {isa = PBXBuildFile; fileRef = 16766615201054D90010E6FB /* BayMaxProtector.m */; };
+		169A972420346D9600AA3F06 /* BayMaxContainers.m in Sources */ = {isa = PBXBuildFile; fileRef = 169A972320346D9600AA3F06 /* BayMaxContainers.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,8 @@
 		16766614201054D90010E6FB /* BayMaxKVODelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxKVODelegate.h; sourceTree = "<group>"; };
 		16766615201054D90010E6FB /* BayMaxProtector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BayMaxProtector.m; sourceTree = "<group>"; };
 		16766616201054D90010E6FB /* BayMaxTimerSubTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BayMaxTimerSubTarget.h; sourceTree = "<group>"; };
+		169A972220346D9600AA3F06 /* BayMaxContainers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BayMaxContainers.h; sourceTree = "<group>"; };
+		169A972320346D9600AA3F06 /* BayMaxContainers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BayMaxContainers.m; sourceTree = "<group>"; };
 		169F23EE2015AC5200793E22 /* BayMaxCFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BayMaxCFunctions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -344,6 +347,8 @@
 				169F23EE2015AC5200793E22 /* BayMaxCFunctions.h */,
 				1676660F201054D90010E6FB /* BayMaxProtector.h */,
 				16766615201054D90010E6FB /* BayMaxProtector.m */,
+				169A972220346D9600AA3F06 /* BayMaxContainers.h */,
+				169A972320346D9600AA3F06 /* BayMaxContainers.m */,
 				16766614201054D90010E6FB /* BayMaxKVODelegate.h */,
 				16766610201054D90010E6FB /* BayMaxKVODelegate.m */,
 				16766616201054D90010E6FB /* BayMaxTimerSubTarget.h */,
@@ -512,6 +517,7 @@
 				16340A872022B5320026E47F /* TestAutoDegradeVC.m in Sources */,
 				16340A6F2022B1C20026E47F /* TestUnrecognizedSelVC.m in Sources */,
 				16554DD120241665000EF4D3 /* SVProgressHUD.m in Sources */,
+				169A972420346D9600AA3F06 /* BayMaxContainers.m in Sources */,
 				16462E3520108A3300880A10 /* BayMaxCatchError.m in Sources */,
 				16340A752022B1EA0026E47F /* TestTimerErrorVC.m in Sources */,
 			);

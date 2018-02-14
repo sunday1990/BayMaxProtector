@@ -79,6 +79,7 @@
     /*设置Assist的代理与数据源*/
     [BayMaxDegradeAssist Assist].degradeDelegate = self;
     [BayMaxDegradeAssist Assist].degradeDatasource = self;
+    
 }
 
 #pragma mark ======== System Delegate ========
@@ -223,8 +224,6 @@
 }
 
 #pragma mark ======== Private Methods ========
-
-
 #pragma mark ======== Setters && Getters ========
 
 
