@@ -19,7 +19,9 @@ typedef NS_ENUM(NSInteger, BayMaxProtectionType) {
     /*Notification*/
     BayMaxProtectionTypeNotification = 1<<2,
     /*Timer保护*/
-    BayMaxProtectionTypeTimer = 1<<3
+    BayMaxProtectionTypeTimer = 1<<3,
+    /*Containers保护*/
+    BayMaxProtectionTypeContainers = 1<<4
 };
 
 @interface BayMaxProtector : NSObject

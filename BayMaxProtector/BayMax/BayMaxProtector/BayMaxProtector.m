@@ -371,12 +371,14 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
     IMP KVO_IMP = class_getMethodImplementation([NSObject class], @selector(addObserver:forKeyPath:options:context:));
     IMP maping_Timer_IMP = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingTimerMethod));
     IMP notification_IMP = class_getMethodImplementation([NSNotificationCenter class], @selector(addObserver:selector:name:object:));
+    IMP mapping_Containers_IMP = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingContainersMethods));
     impList = malloc(sizeof(struct IMPNode));
     impList->next = NULL;
     BMP_InsertIMPToList(impList, maping_ForwardingTarget_IMP);
     BMP_InsertIMPToList(impList, KVO_IMP);
     BMP_InsertIMPToList(impList, maping_Timer_IMP);
     BMP_InsertIMPToList(impList, notification_IMP);
+    BMP_InsertIMPToList(impList, mapping_Containers_IMP);
 }
 
 + (void)openProtectionsOn:(BayMaxProtectionType)protectionType{
@@ -389,7 +391,12 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 
 + (void)filterProtectionsOn:(BayMaxProtectionType)protectionType operation:(BOOL)openOperation{
     IMP imp;
-    if (protectionType > (1<<3)) {
+    if (protectionType > (1<<4)) {
+        imp = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingContainersMethods));
+        [self filterProtectionsOn:BayMaxProtectionTypeContainers protectionName:@"Containers" operation:openOperation imp:imp];
+        protectionType -= (1<<4) ;
+    }
+    if (protectionType > (1<<3) && protectionType != BayMaxProtectionTypeContainers) {
         imp = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingTimerMethod));
         [self filterProtectionsOn:BayMaxProtectionTypeTimer protectionName:@"Timer" operation:openOperation imp:imp];
         protectionType -= (1<<3) ;
@@ -412,13 +419,15 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
             imp = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingTimerMethod));
             [self filterProtectionsOn:protectionType protectionName:@"Timer" operation:openOperation imp:imp];
             break;
+        case BayMaxProtectionTypeContainers:
+            imp = class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingContainersMethods));
+            [self filterProtectionsOn:protectionType protectionName:@"Containers" operation:openOperation imp:imp];
+            break;
         case BayMaxProtectionTypeAll:
             [self filterProtectionsOn:BayMaxProtectionTypeUnrecognizedSelector protectionName:@"UnrecognizedSelector" operation:openOperation imp:class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingForwardingTargetForSelectorMethod))];
             [self filterProtectionsOn:BayMaxProtectionTypeKVO protectionName:@"KVO" operation:openOperation imp:class_getMethodImplementation([NSObject class], @selector(addObserver:forKeyPath:options:context:))];
             [self filterProtectionsOn:BayMaxProtectionTypeNotification protectionName:@"Notification" operation:openOperation imp:class_getMethodImplementation([NSNotificationCenter class], @selector(addObserver:selector:name:object:))];
             [self filterProtectionsOn:BayMaxProtectionTypeTimer protectionName:@"Timer" operation:openOperation imp:class_getMethodImplementation([BayMaxProtector class], @selector(BMP_mappingTimerMethod))];
-        default:
-            break;
     }
 }
 
@@ -443,8 +452,12 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 }
 
 + (void)openProtectionsOn:(BayMaxProtectionType)protectionType catchErrorHandler:(void(^_Nullable)(BayMaxCatchError * _Nullable error))errorHandler{
-    _errorHandler = errorHandler;    
-    if (protectionType > (1<<3)) {
+    _errorHandler = errorHandler;
+    if (protectionType > (1<<4)) {
+        [self exchangeMethodWithType:BayMaxProtectionTypeContainers];
+        protectionType -= (1<<4);
+    }
+    if (protectionType > (1<<3) && protectionType != BayMaxProtectionTypeContainers) {
         [self exchangeMethodWithType:BayMaxProtectionTypeTimer];
         protectionType -= (1<<3) ;
     }
@@ -453,6 +466,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
         case BayMaxProtectionTypeKVO:
         case BayMaxProtectionTypeNotification:
         case BayMaxProtectionTypeTimer:
+        case BayMaxProtectionTypeContainers:
         case BayMaxProtectionTypeAll:
         {
             [self exchangeMethodWithType:protectionType];
@@ -482,9 +496,6 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
             [self exchangeMethodWithType:BayMaxProtectionTypeKVO];
             [self exchangeMethodWithType:BayMaxProtectionTypeNotification];
         }
-            break;
-            
-        default:
             break;
     }
 }
@@ -519,6 +530,13 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
             BMP_EXChangeInstanceMethod([BayMaxProtector class], @selector(BMP_mappingTimerMethod), [BayMaxProtector class], @selector(BMP_excMappingTimerMethod));
         }
         break;
+            
+    case BayMaxProtectionTypeContainers:
+    {
+        /*containes*/
+        BMP_EXChangeInstanceMethod([BayMaxProtector class], @selector(BMP_mappingContainersMethods), [BayMaxProtector class], @selector(BMP_excMappingContainersMethods));
+    }
+        break;
     case BayMaxProtectionTypeAll:
         {
             BMP_EXChangeInstanceMethod([NSObject class], @selector(forwardingTargetForSelector:), [NSObject class], @selector(BMP_forwardingTargetForSelector:));
@@ -532,11 +550,11 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
             BMP_EXChangeClassMethod([NSTimer class], @selector(scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:),  @selector(BMP_scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:));
             BMP_EXChangeClassMethod([NSTimer class], @selector(timerWithTimeInterval:target:selector:userInfo:repeats:), @selector(BMP_timerWithTimeInterval:target:selector:userInfo:repeats:));
             BMP_EXChangeInstanceMethod([self class], @selector(BMP_mappingTimerMethod), [self class], @selector(BMP_excMappingTimerMethod));
+           
+            /*containers*/
+            BMP_EXChangeInstanceMethod([BayMaxProtector class], @selector(BMP_mappingContainersMethods), [BayMaxProtector class], @selector(BMP_excMappingContainersMethods));
         }
         break;
-   
-        default:
-            break;
     }
 }
 
@@ -572,4 +590,12 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 
 - (void)BMP_excMappingTimerMethod{
 }
+
+#pragma mark Containers IMP映射
+- (void)BMP_mappingContainersMethods{
+}
+
+- (void)BMP_excMappingContainersMethods{
+}
+
 @end
