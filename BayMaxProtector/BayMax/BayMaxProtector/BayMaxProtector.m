@@ -136,6 +136,7 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
     /*判断当前类有没有重写消息转发的相关方法*/
         if ([self isEqual:[NSNull null]] || ![self overideForwardingMethods]) {//没有重写消息转发方法
             NSArray *callStackSymbolsArr = [NSThread callStackSymbols];
+//            NSLog(@"callStackSymbolsArr:%@",callStackSymbolsArr);
             NSString *vcClassName = GetClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols(callStackSymbolsArr);
             //判断是否是viewdidload方法出错
             errors = ErrorInfosMake([NSStringFromClass(self.class) cStringUsingEncoding:NSASCIIStringEncoding], [NSStringFromSelector(selector) cStringUsingEncoding:NSASCIIStringEncoding]);
@@ -146,7 +147,8 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
                                                                            }];
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeUnrecognizedSelector infos:@{
                                                                                                                         BMPErrorUnrecognizedSel_Reason:[NSString stringWithFormat:@"UNRecognized Selector:'%@' sent to instance %@",NSStringFromSelector(selector),self],
-                                                                                                       BMPErrorUnrecognizedSel_VC:vcClassName == nil?([[BayMaxDegradeAssist Assist]topViewController] == nil?@"":[[BayMaxDegradeAssist Assist]topViewController]):vcClassName
+                                                                                                       BMPErrorUnrecognizedSel_VC:vcClassName == nil?([[BayMaxDegradeAssist Assist]topViewController] == nil?@"":[[BayMaxDegradeAssist Assist]topViewController]):vcClassName,
+                                                                                                                        BMPErrorCallStackSymbols:callStackSymbolsArr
                                                                                                        }];
             if (_showDebugView) {
                 [[BayMaxDebugView sharedDebugView]addErrorInfo:bmpError.errorInfos];
@@ -198,8 +200,9 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         [self.bayMaxKVODelegate addKVOInfoToMapsWithObserver:observer forKeyPath:keyPath options:options context:context success:^{
             [weakSelf BMP_addObserver:weakSelf.bayMaxKVODelegate forKeyPath:keyPath options:options context:context];
         } failure:^(NSError *error) {
+            NSArray *callStackSymbolsArr = [NSThread callStackSymbols];
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
-                                                                                                       BMPErrorKVO_Reason:[NSString stringWithFormat:@"Repeated additions to the observer:%@ for the key path:'%@' from %@",observer == nil?@"":observer,keyPath,NSStringFromClass(weakSelf.class) == nil?@"":NSStringFromClass(weakSelf.class)]
+                                                                                                       BMPErrorKVO_Reason:[NSString stringWithFormat:@"Repeated additions to the observer:%@ for the key path:'%@' from %@",observer == nil?@"":observer,keyPath,NSStringFromClass(weakSelf.class) == nil?@"":NSStringFromClass(weakSelf.class)],                                                                                                       BMPErrorCallStackSymbols:callStackSymbolsArr
                                                                                                        }];
             if (_showDebugView) {
                 [[BayMaxDebugView sharedDebugView]addErrorInfo:bmpError.errorInfos];
@@ -218,9 +221,11 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         if ([self.bayMaxKVODelegate removeKVOInfoInMapsWithObserver:observer forKeyPath:keyPath]) {
             [self BMP_removeObserver:self.bayMaxKVODelegate forKeyPath:keyPath];
         }else{
+            NSArray *callStackSymbolsArr = [NSThread callStackSymbols];
+//            NSLog(@"callStackSymbolsArr:%@",callStackSymbolsArr);
             NSString *reson = [NSString stringWithFormat:@"Cannot remove an observer %@ for the key path '%@' from %@ because it is not registered as an observer",observer,keyPath,NSStringFromClass(self.class) == nil?@"":NSStringFromClass(self.class)];
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
-                                                                                                       BMPErrorKVO_Reason:reson
+                                                                                                       BMPErrorKVO_Reason:reson,                                                                                                       BMPErrorCallStackSymbols:callStackSymbolsArr
                                                                                                        }];
             if (_showDebugView) {
                 [[BayMaxDebugView sharedDebugView]addErrorInfo:bmpError.errorInfos];
@@ -239,9 +244,10 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         if ([self.bayMaxKVODelegate removeKVOInfoInMapsWithObserver:observer forKeyPath:keyPath]) {
             [self BMP_removeObserver:self.bayMaxKVODelegate forKeyPath:keyPath];
         }else{
+            NSArray *callStackSymbolsArr = [NSThread callStackSymbols];
             NSString *reson = [NSString stringWithFormat:@"Cannot remove an observer %@ for the key path '%@' from %@ because it is not registered as an observer",observer,keyPath,NSStringFromClass(self.class) == nil?@"":NSStringFromClass(self.class)];
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
-                                                                                                       BMPErrorKVO_Reason:reson
+                                                                                                       BMPErrorKVO_Reason:reson,                                                                                                       BMPErrorCallStackSymbols:callStackSymbolsArr
                                                                                                        }];
             if (_showDebugView) {
                 [[BayMaxDebugView sharedDebugView]addErrorInfo:bmpError.errorInfos];
@@ -261,9 +267,10 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
         if ([value isEqualToString:KVOProtectorValue]) {
             NSArray *keypaths = [self.bayMaxKVODelegate getAllKeypaths];
             if (keypaths.count>0) {
+                NSArray *callStackSymbolsArr = [NSThread callStackSymbols];
                 NSString *reson = [NSString stringWithFormat:@"An instance %@ was deallocated while key value observers were still registered with it. The Keypaths is:'%@'",self,[keypaths componentsJoinedByString:@","]];
                 BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
-                                                                                                           BMPErrorKVO_Reason:reson,
+                                                                                                           BMPErrorKVO_Reason:reson,                                                                                                           BMPErrorCallStackSymbols:callStackSymbolsArr
                                                                                                            }];
                 if (_showDebugView) {
                     [[BayMaxDebugView sharedDebugView]addErrorInfo:bmpError.errorInfos];

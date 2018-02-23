@@ -49,10 +49,10 @@ BMPErrorHandler _Nullable _timerErrorHandler;
         }
     }else{
         //报错
+        NSArray *callStackSymbolsArr = [NSThread callStackSymbols];
         NSString *errorDes = [NSString stringWithFormat:@"Timer %@ did not invalidate in Class<%@>",timer,_targetClassName];
         BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeTimer infos:@{
-                                                                                                     BMPErrorTimer_Target:_targetClassName == nil?@"":_targetClassName,
-                                                                                                     BMPErrorTimer_Reason:errorDes
+                                                                                                     BMPErrorTimer_Target:_targetClassName == nil?@"":_targetClassName,                                                                                                     BMPErrorTimer_Reason:errorDes,                                                                                                     BMPErrorCallStackSymbols:callStackSymbolsArr
                                                                                                    }];
         if (_timerErrorHandler) {
             _timerErrorHandler(bmpError);
