@@ -26,6 +26,17 @@
     NSLog(@"value2:%@",[array1 objectAtIndex:4]);
 
     NSLog(@"value3:%@",[array1 objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 10)]]);
+    
+    NSMutableArray *arrayM0 = [NSMutableArray arrayWithObjects:@"1",@"2",@"3", nil];
+    NSLog(@"valueM:%@",arrayM0[3]);
+    
+//    [arrayM0 removeObjectAtIndex:4];
+//    [arrayM0 removeObjectsInRange:NSMakeRange(1, 3)];
+//    [arrayM0 removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 3)]];
+    
+//    [arrayM0 insertObject:@"1" atIndex:5];
+    [arrayM0 insertObjects:@[@"1",@"4"] atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(3, 1)]];
+    NSLog(@"arrayM0:%@",arrayM0);
 }
 
 - (void)didReceiveMemoryWarning {
