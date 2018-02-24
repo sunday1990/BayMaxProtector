@@ -1,6 +1,6 @@
 > BayMaxProtector is a framework that can block common crashes (not including container classes), thereby enhancing your App's stability. Not only that, but you can also use the downgrade mechanism it provides to reduce a page that has a problem to a corresponding web page, So as not to affect the continuation of the business.
 
-> 这是一个可以对常见崩溃（不包括容器类）进行拦阻，从而增强你App稳定性的框架，不仅如此，你还可以使用它提供的降级机制，将发生问题的页面降为对应的web页面，从而不影响业务的继续。
+> 这是一个可以对常见崩溃进行拦阻，从而增强你App稳定性的框架，不仅如此，你还可以使用它提供的降级机制，将发生问题的页面降为对应的web页面，从而不影响业务的继续。
 
 #### BayMax思路来自网易团队：[大白健康系统--iOS APP运行时Crash自动修复系统](https://neyoufan.github.io/2017/01/13/ios/BayMax_HTSafetyGuard/)
 
