@@ -7,9 +7,12 @@
 //
 
 //针对NSArray/NSMutableArray/NSDictionary/NSMutableDictionary/NSString/NSMutableString进行崩溃保护
+//Thanks to AvoidCrash:https://github.com/chenfanfang/AvoidCrash
 
 #import <Foundation/Foundation.h>
 
+@class BayMaxCatchError;
 @interface BayMaxContainers : NSObject
++ (void)BMPExchangeContainersMethodsWithCatchErrorHandler:(void(^)(BayMaxCatchError * error))errorHandler;
 
 @end

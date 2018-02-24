@@ -14,8 +14,9 @@
 #import "BayMaxDegradeAssist.h"
 #import "BayMaxContainers.h"
 #import "BayMaxDebugView.h"
+#import "BayMaxCatchError.h"
 
-typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
+//typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
 //声明一个全局的IMP链表
 static IMPlist impList;
 //声明一个全局的错误信息结构体
@@ -136,7 +137,6 @@ static NSString *const ErrorViewController = @"BMPError_ViewController";
     /*判断当前类有没有重写消息转发的相关方法*/
         if ([self isEqual:[NSNull null]] || ![self overideForwardingMethods]) {//没有重写消息转发方法
             NSArray *callStackSymbolsArr = [NSThread callStackSymbols];
-//            NSLog(@"callStackSymbolsArr:%@",callStackSymbolsArr);
             NSString *vcClassName = GetClassNameOfViewControllerIfErrorHappensInViewDidloadProcessWithCallStackSymbols(callStackSymbolsArr);
             //判断是否是viewdidload方法出错
             errors = ErrorInfosMake([NSStringFromClass(self.class) cStringUsingEncoding:NSASCIIStringEncoding], [NSStringFromSelector(selector) cStringUsingEncoding:NSASCIIStringEncoding]);
@@ -222,7 +222,6 @@ static void *BayMaxKVODelegateKey = &BayMaxKVODelegateKey;
             [self BMP_removeObserver:self.bayMaxKVODelegate forKeyPath:keyPath];
         }else{
             NSArray *callStackSymbolsArr = [NSThread callStackSymbols];
-//            NSLog(@"callStackSymbolsArr:%@",callStackSymbolsArr);
             NSString *reson = [NSString stringWithFormat:@"Cannot remove an observer %@ for the key path '%@' from %@ because it is not registered as an observer",observer,keyPath,NSStringFromClass(self.class) == nil?@"":NSStringFromClass(self.class)];
             BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeKVO infos:@{
                                                                                                        BMPErrorKVO_Reason:reson,                                                                                                       BMPErrorCallStackSymbols:callStackSymbolsArr
@@ -357,6 +356,7 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
         return [self BMP_timerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
     }
 }
+
 @end
 
 #pragma mark BayMaxProtector
@@ -534,7 +534,14 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
     case BayMaxProtectionTypeContainers:
     {
         /*containes*/
+        [BayMaxContainers BMPExchangeContainersMethodsWithCatchErrorHandler:^(BayMaxCatchError *error) {
+            [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
+            if (_errorHandler) {
+                _errorHandler(error);
+            }
+        }];
         BMP_EXChangeInstanceMethod([BayMaxProtector class], @selector(BMP_mappingContainersMethods), [BayMaxProtector class], @selector(BMP_excMappingContainersMethods));
+        
     }
         break;
     case BayMaxProtectionTypeAll:
@@ -550,8 +557,13 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
             BMP_EXChangeClassMethod([NSTimer class], @selector(scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:),  @selector(BMP_scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:));
             BMP_EXChangeClassMethod([NSTimer class], @selector(timerWithTimeInterval:target:selector:userInfo:repeats:), @selector(BMP_timerWithTimeInterval:target:selector:userInfo:repeats:));
             BMP_EXChangeInstanceMethod([self class], @selector(BMP_mappingTimerMethod), [self class], @selector(BMP_excMappingTimerMethod));
-           
             /*containers*/
+            [BayMaxContainers BMPExchangeContainersMethodsWithCatchErrorHandler:^(BayMaxCatchError *error) {
+                [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
+                if (_errorHandler) {
+                    _errorHandler(error);
+                }
+            }];
             BMP_EXChangeInstanceMethod([BayMaxProtector class], @selector(BMP_mappingContainersMethods), [BayMaxProtector class], @selector(BMP_excMappingContainersMethods));
         }
         break;

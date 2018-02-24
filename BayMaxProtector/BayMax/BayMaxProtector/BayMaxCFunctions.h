@@ -18,6 +18,9 @@ _Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
 Stuff; \
 _Pragma("clang diagnostic pop") \
 } while (0)
+@class BayMaxCatchError;
+
+typedef void(^BMPErrorHandler)(BayMaxCatchError * error);
 
 typedef struct IMPNode *PtrToIMP;
 typedef PtrToIMP IMPlist;

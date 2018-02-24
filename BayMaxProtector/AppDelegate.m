@@ -31,7 +31,7 @@
     [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
         /*unrecognizedSelector类型的错误，*/
         if (error.errorType == BayMaxErrorTypeUnrecognizedSelector) {
-            NSLog(@"ErrorUnRecognizedSelInfos:%@",error.errorInfos);
+            NSLog(@"ErrorUnRecognizedSelInfos:%@",error.errorInfos);            
 
         }else if (error.errorType == BayMaxErrorTypeTimer){
             NSLog(@"ErrorTimerinfos:%@",error.errorInfos);
@@ -40,6 +40,9 @@
         }else if (error.errorType == BayMaxErrorTypeKVO){
             NSLog(@"ErrorKVOinfos:%@",error.errorInfos);
 
+        }else if (error.errorType == BayMaxErrorTypeContainers){
+            NSLog(@"ErrorKVOinfos:%@",error.errorInfos);
+            
         }else{
             NSLog(@"infos:%@",error.errorInfos);
         }

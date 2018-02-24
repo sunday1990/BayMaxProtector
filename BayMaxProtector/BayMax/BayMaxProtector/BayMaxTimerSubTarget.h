@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BayMaxCatchError.h"
+#import "BayMaxCFunctions.h"
 
 @interface BayMaxTimerSubTarget : NSObject
 

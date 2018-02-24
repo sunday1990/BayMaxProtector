@@ -70,6 +70,10 @@
                    @{
                        @"title":@"ManaulDegrade",
                        @"class":@"TestManaulDegradeVC"
+                       },
+                   @{
+                       @"title":@"Containers",
+                       @"class":@"TestContainerVC"
                        }
                    ];
     [self.view addSubview:self.tableview];

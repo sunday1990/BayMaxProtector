@@ -17,6 +17,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSArray *array0 = @[@"1",@"2"];
+
+    NSLog(@"value:%@",array0[2]);
+    NSLog(@"value1:%@",[array0 objectAtIndex:3]);
+    
+    NSArray * array1 = [NSArray arrayWithObjects:@"2",@"3",@"4", nil];
+    NSLog(@"value2:%@",[array1 objectAtIndex:4]);
+
+    NSLog(@"value3:%@",[array1 objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 10)]]);
 }
 
 - (void)didReceiveMemoryWarning {

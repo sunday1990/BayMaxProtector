@@ -23,6 +23,13 @@ NSString *const BMPErrorKVO_Reason = @"ErrorReason";
 NSString *const BMPErrorTimer_Target = @"ErrorTarget";
 NSString *const BMPErrorTimer_Reason = @"ErrorReason";
 
+
+NSString *const BMPErrorArray_Beyond = @"ArrayBeyondBounds";
+NSString *const BMPErrorArray_NilObject = @"ArrayInsertNil";
+
+NSString *const BMPErrorDictionary_NilKey = @"DictionaryNilKey";
+NSString *const BMPErrorDictionary_UndefinedKey = @"DictionaryUndefinedKey";
+
 @implementation BayMaxCatchError
 + (instancetype)BMPErrorWithType:(BayMaxErrorType)errorType infos:(NSDictionary *)errorInfos{
     return [[self alloc]initWithType:errorType infos:errorInfos];

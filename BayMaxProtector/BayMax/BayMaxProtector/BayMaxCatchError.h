@@ -34,6 +34,17 @@ FOUNDATION_EXPORT NSString *const BMPErrorTimer_Target;
 /*timer错误原因简述*/
 FOUNDATION_EXPORT NSString *const BMPErrorTimer_Reason;
 
+/*Containers错误原因描述*/
+/*数组越界*/
+FOUNDATION_EXPORT NSString *const BMPErrorArray_Beyond;
+/*数组insert nil*/
+FOUNDATION_EXPORT NSString *const BMPErrorArray_NilObject;
+/*字典Nil key*/
+FOUNDATION_EXPORT NSString *const BMPErrorDictionary_NilKey;
+/*字典 undefinedKey*/
+FOUNDATION_EXPORT NSString *const BMPErrorDictionary_UndefinedKey;
+
+
 typedef NS_ENUM(NSInteger, BayMaxErrorType) {
     /*UnrecognizedSelector异常*/
     BayMaxErrorTypeUnrecognizedSelector = 1,
@@ -42,7 +53,9 @@ typedef NS_ENUM(NSInteger, BayMaxErrorType) {
     /*Notification异常*/
     BayMaxErrorTypeNotification,
     /*Timer异常*/
-    BayMaxErrorTypeTimer
+    BayMaxErrorTypeTimer,
+    /*Containers*/
+    BayMaxErrorTypeContainers
 };
 
 @interface BayMaxCatchError : NSObject
