@@ -10,23 +10,30 @@
 #import "BayMaxCFunctions.h"
 #import "BayMaxCatchError.h"
 #import "BayMaxDebugView.h"
-
 BMPErrorHandler _Nullable _containerErrorHandler;
-
-#define BMP_Array_ErrorHandler(ArrayType,ArrayMethod,Index)\
-    NSString *errorInfo = [NSString stringWithFormat:@"'*** -[%@ %@]: index %ld beyond bounds [0 .. %ld]",ArrayType,ArrayMethod,Index,self.count];\
+//错误信息统一处理
+#define BMP_Container_ErrorHandler(errorType,errorInfo)\
     NSArray *callStackSymbolsArr = [NSThread callStackSymbols];\
-    BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeContainers infos:@{                                                                                             BMPErrorArray_Beyond:errorInfo,                                                                                             BMPErrorCallStackSymbols:callStackSymbolsArr                                                                                             }];\
-    if (_containerErrorHandler) {\
-        _containerErrorHandler(bmpError);\
-    }\
-
-#define BMP_ArrayM_ErrorHandler(ErrorInfo)\
-    NSArray *callStackSymbolsArr = [NSThread callStackSymbols];\
-    BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeContainers infos:@{                                                                                             BMPErrorArray_Beyond:errorInfo,                                                                                             BMPErrorCallStackSymbols:callStackSymbolsArr                                                                                             }];\
+    BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeContainers infos:@{                                                                                             errorType:errorInfo,                                                                                             BMPErrorCallStackSymbols:callStackSymbolsArr                                                                                             }];\
     if (_containerErrorHandler) {\
         _containerErrorHandler(bmpError);\
     }
+//不可变数组越界
+#define BMP_Array_BeyondBounds_ErrorHandler(ArrayType,ArrayMethod,Index)\
+    NSString *errorInfo = [NSString stringWithFormat:@"*** -[%@ %@]: index %ld beyond bounds [0 .. %ld]",ArrayType,ArrayMethod,Index,self.count];\
+    BMP_Container_ErrorHandler(BMPErrorArray_Beyond,errorInfo)
+
+//可变数组越界
+#define BMP_ArrayM_BeyondBounds_ErrorHandler(ErrorInfo)\
+    BMP_Container_ErrorHandler(BMPErrorArray_Beyond,ErrorInfo)
+
+//可变数组插入Nil元素
+#define BMP_ArrayM_NilObject_ErrorHandler(ErrorInfo)\
+    BMP_Container_ErrorHandler(BMPErrorArray_NilObject,ErrorInfo)
+
+//字典key或者value为Nil
+#define BMP_Dictionary_ErrorHandler(ErrorInfo)\
+    BMP_Container_ErrorHandler(BMPErrorDictionary_NilKey,ErrorInfo)
 
 @interface NSArray (BMPProtector)
 
@@ -35,14 +42,30 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 @implementation NSArray (BMPProtector)
 // NSArray/__NSArrayI/__NSSingleObjectArrayI/__NSArray0
 //objectsAtIndexes:
++ (instancetype)BMP_ArrayWithObjects:(id  _Nonnull const [])objects count:(NSUInteger)cnt{
+    NSUInteger index = 0;
+    id _Nonnull objectsNew[cnt];
+    for (int i = 0; i<cnt; i++) {
+        if (objects[i]) {
+            objectsNew[index] = objects[i];
+            index++;
+        }else{
+            //记录错误
+            NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSPlaceholderArray initWithObjects:count:]: attempt to insert nil object from objects[%d]",i];
+            BMP_Container_ErrorHandler(BMPErrorArray_NilObject, errorInfo);
+        }
+    }
+    return [self BMP_ArrayWithObjects:objectsNew count:index];
+}
+
 - (NSArray *)BMP_objectsAtIndexes:(NSIndexSet *)indexes{
     if (indexes.lastIndex >= self.count||indexes.firstIndex >= self.count) {
         if (indexes.firstIndex >= self.count) {
-            BMP_Array_ErrorHandler(@"NSArray",NSStringFromSelector(_cmd),indexes.lastIndex);
+            BMP_Array_BeyondBounds_ErrorHandler(@"NSArray",NSStringFromSelector(_cmd),indexes.lastIndex);
             return nil;
         }else{
             NSIndexSet *indexesNew = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(indexes.firstIndex, self.count-indexes.firstIndex)];
-            BMP_Array_ErrorHandler(@"NSArray",NSStringFromSelector(_cmd),indexes.lastIndex);
+            BMP_Array_BeyondBounds_ErrorHandler(@"NSArray",NSStringFromSelector(_cmd),indexes.lastIndex);
             return [self BMP_objectsAtIndexes:indexesNew];
         }
     }
@@ -52,7 +75,7 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 //objectAtIndex:
 - (id)BMP__NSArrayIObjectAtIndex:(NSUInteger)index{
     if (index >= self.count) {
-        BMP_Array_ErrorHandler(@"__NSArrayI",NSStringFromSelector(_cmd),index);
+        BMP_Array_BeyondBounds_ErrorHandler(@"__NSArrayI",NSStringFromSelector(_cmd),index);
         return nil;
     }
     return [self BMP__NSArrayIObjectAtIndex:index];
@@ -60,7 +83,7 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 
 - (id)BMP__NSSingleObjectArrayIObjectAtIndex:(NSUInteger)index{
     if (index >= self.count) {
-        BMP_Array_ErrorHandler(@"__NSSingleObject",NSStringFromSelector(_cmd),index);
+        BMP_Array_BeyondBounds_ErrorHandler(@"__NSSingleObject",NSStringFromSelector(_cmd),index);
         return nil;
     }
     return [self BMP__NSSingleObjectArrayIObjectAtIndex:index];
@@ -68,7 +91,7 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 
 - (id)BMP__NSArray0ObjectAtIndex:(NSUInteger)index{
     if (index >= self.count) {
-        BMP_Array_ErrorHandler(@"__NSArray0",NSStringFromSelector(_cmd),index);
+        BMP_Array_BeyondBounds_ErrorHandler(@"__NSArray0",NSStringFromSelector(_cmd),index);
         return nil;
     }
     return [self BMP__NSArray0ObjectAtIndex:index];
@@ -83,7 +106,7 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 //objectAtIndex:
 - (id)BMP_MArrayObjectAtIndex:(NSUInteger)index{
     if (index >= self.count) {
-        BMP_Array_ErrorHandler(@"__NSArrayM",NSStringFromSelector(_cmd),index);
+        BMP_Array_BeyondBounds_ErrorHandler(@"__NSArrayM",NSStringFromSelector(_cmd),index);
         return nil;
     }
     return [self BMP_MArrayObjectAtIndex:index];
@@ -92,8 +115,8 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 //removeObjectAtIndex:
 - (void)BMP_MArrayRemoveObjectAtIndex:(NSUInteger)index{
     if (index >= self.count) {
-        NSString *errorInfo = [NSString stringWithFormat:@"-[__NSArrayM removeObjectsInRange:]: range {%ld, 1} extends beyond bounds [0 .. %ld]",index,self.count];
-        BMP_ArrayM_ErrorHandler(errorInfo);
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSArrayM removeObjectsInRange:]: range {%ld, 1} extends beyond bounds [0 .. %ld]",index,self.count];
+        BMP_ArrayM_BeyondBounds_ErrorHandler(errorInfo);
         return;
     }
     [self BMP_MArrayRemoveObjectAtIndex:index];
@@ -101,8 +124,8 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 
 - (void)BMP_MArrayRemoveObjectsAtIndexes:(NSIndexSet *)indexes{
     if (indexes.lastIndex >= self.count||indexes.firstIndex >= self.count) {
-        NSString *errorInfo = [NSString stringWithFormat:@"-[NSMutableArray removeObjectsAtIndexes:]: index %ld in index set beyond bounds [0 .. %ld]",indexes.lastIndex,self.count];
-        BMP_ArrayM_ErrorHandler(errorInfo);
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[NSMutableArray removeObjectsAtIndexes:]: index %ld in index set beyond bounds [0 .. %ld]",indexes.lastIndex,self.count];
+        BMP_ArrayM_BeyondBounds_ErrorHandler(errorInfo);
         return;
     }
     [self BMP_MArrayRemoveObjectsAtIndexes:indexes];
@@ -110,8 +133,8 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 
 - (void)BMP_MArrayRemoveObjectsInRange:(NSRange)range{
     if (range.location >= self.count || range.location+range.length>self.count) {
-        NSString *errorInfo = [NSString stringWithFormat:@"-[__NSArrayM removeObjectsInRange:]: range {%ld, %ld} extends beyond bounds [0 .. %ld]",range.location,range.length,self.count];
-        BMP_ArrayM_ErrorHandler(errorInfo);
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSArrayM removeObjectsInRange:]: range {%ld, %ld} extends beyond bounds [0 .. %ld]",range.location,range.length,self.count];
+        BMP_ArrayM_BeyondBounds_ErrorHandler(errorInfo);
         return;
     }
     [self BMP_MArrayRemoveObjectsInRange:range];
@@ -119,9 +142,14 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 
 //insertObject:atIndex:
 - (void)BMP_MArrayInsertObject:(id)anObject atIndex:(NSUInteger)index{
+    // -[__NSArrayM insertObject:atIndex:]: object cannot be nil
+    if (anObject == nil) {
+        BMP_ArrayM_NilObject_ErrorHandler(@"***  -[__NSArrayM insertObject:atIndex:]: object cannot be nil");
+        return;
+    }
     if (index > self.count) {
-        NSString *errorInfo = [NSString stringWithFormat:@"-[__NSArrayM insertObject:atIndex:]: index %ld beyond bounds [0 .. %ld]",index,self.count];
-        BMP_ArrayM_ErrorHandler(errorInfo);
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSArrayM insertObject:atIndex:]: index %ld beyond bounds [0 .. %ld]",index,self.count];
+        BMP_ArrayM_BeyondBounds_ErrorHandler(errorInfo);
         return;
     }
     [self BMP_MArrayInsertObject:anObject atIndex:index];
@@ -129,12 +157,12 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 
 - (void)BMP_MArrayInsertObjects:(NSArray *)objects atIndexes:(NSIndexSet *)indexes{
     if (indexes.firstIndex > self.count) {
-        NSString *errorInfo = [NSString stringWithFormat:@"-[NSMutableArray insertObjects:atIndexes:]: index %ld in index set beyond bounds [0 .. %ld]",indexes.firstIndex,self.count];
-        BMP_ArrayM_ErrorHandler(errorInfo);
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[NSMutableArray insertObjects:atIndexes:]: index %ld in index set beyond bounds [0 .. %ld]",indexes.firstIndex,self.count];
+        BMP_ArrayM_BeyondBounds_ErrorHandler(errorInfo);
         return;
     }else if (objects.count != (indexes.count)){
-        NSString *errorInfo = [NSString stringWithFormat:@"-[NSMutableArray insertObjects:atIndexes:]: count of array (%ld) differs from count of index set (%ld)",objects.count,indexes.count];
-        BMP_ArrayM_ErrorHandler(errorInfo);
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[NSMutableArray insertObjects:atIndexes:]: count of array (%ld) differs from count of index set (%ld)",objects.count,indexes.count];
+        BMP_ArrayM_BeyondBounds_ErrorHandler(errorInfo);
         return;
     }
     [self BMP_MArrayInsertObjects:objects atIndexes:indexes];
@@ -147,6 +175,76 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 @end
 
 @implementation NSDictionary  (BMPProtector)
+
+//*** -[NSDictionary initWithObjects:forKeys:]: count of objects (1) differs from count of keys (0)
+
+//1、NSString *key = nil;
+//NSDictionary *dic = @{
+//                      key:@"abc"
+//                      };
+//*** -[__NSPlaceholderDictionary initWithObjects:forKeys:count:]: attempt to insert nil object from objects[0]'
+
+
+//2、NSString *key = nil;
+//NSDictionary *dic = @{
+//                      @"abc":key
+//                      };
+// '*** -[__NSPlaceholderDictionary initWithObjects:forKeys:count:]: attempt to insert nil object from objects[0]'
+//+ dictionary
+
++ (instancetype)BMP_dictionaryWithObjects:(id  _Nonnull const [])objects forKeys:(id<NSCopying>  _Nonnull const [])keys count:(NSUInteger)cnt{
+    return [self BMP_dictionaryWithObjects:objects forKeys:keys count:cnt];
+}
+
++ (instancetype)BMP_dictionaryWithObjects:(NSArray *)objects forKeys:(NSArray<id<NSCopying>> *)keys{
+    if (objects.count != keys.count) {
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[NSDictionary initWithObjects:forKeys:]: count of objects (%ld) differs from count of keys (%ld)",objects.count,keys.count];
+        BMP_Dictionary_ErrorHandler(errorInfo);
+        return nil;//huicha
+    }
+    NSUInteger index = 0;
+    id _Nonnull objectsNew[objects.count];
+    id <NSCopying> _Nonnull keysNew[keys.count];
+    for (int i = 0; i<keys.count; i++) {
+        if (objects[i] && keys[i]) {
+            objectsNew[index] = objects[i];
+            keysNew[index] = keys[i];
+            index ++;
+        }else{
+            NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSPlaceholderDictionary initWithObjects:forKeys:count:]: attempt to insert nil object from objects[%d]",i];
+            BMP_Dictionary_ErrorHandler(errorInfo);
+        }
+    }   
+    return [self BMP_dictionaryWithObjects:[NSArray arrayWithObjects:objectsNew count:index] forKeys: [NSArray arrayWithObjects:keysNew count:index]];
+}
+
+- (instancetype)BMP_initWithObjects:(id  _Nonnull const [])objects forKeys:(id<NSCopying>  _Nonnull const [])keys count:(NSUInteger)cnt{
+   
+    
+    
+    NSUInteger index = 0;
+    id _Nonnull objectsNew[cnt];
+    id <NSCopying> _Nonnull keysNew[cnt];
+    
+    //'*** -[NSDictionary initWithObjects:forKeys:]: count of objects (1) differs from count of keys (0)'
+    
+    
+    
+    
+    
+    
+    for (int i = 0; i<cnt; i++) {
+        if (objects[i] && keys[i]) {//可能存在nil的情况
+            objectsNew[index] = objects[i];
+            keysNew[index] = keys[i];
+            index ++;
+        }else{
+            NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSPlaceholderDictionary initWithObjects:forKeys:count:]: attempt to insert nil object from objects[%d]",i];
+            BMP_Dictionary_ErrorHandler(errorInfo);
+        }
+    }
+    return [self BMP_initWithObjects:objectsNew forKeys:keysNew count:index];
+}
 
 @end
 
@@ -182,6 +280,10 @@ BMPErrorHandler _Nullable _containerErrorHandler;
     [self exchangeMethodsInNSArray];
     //NSMutableArray
     [self exchangeMethodsInNSMutableArray];
+    //NSDictionary
+    [self exchangeMethodsInNSDictionary];
+    //NSMutableDictionary
+    [self exchangeMethodsInNSMutableDictionary];
     //NSString
     [self exchangeMethodsInNSString];
     //NSMutableString
@@ -193,6 +295,8 @@ BMPErrorHandler _Nullable _containerErrorHandler;
     Class __NSArrayI = NSClassFromString(@"__NSArrayI");
     Class __NSSingleObjectArrayI = NSClassFromString(@"__NSSingleObjectArrayI");
     Class __NSArray0 = NSClassFromString(@"__NSArray0");
+    //insertNil
+    BMP_EXChangeClassMethod(__NSArray, @selector(arrayWithObjects:count:), @selector(BMP_ArrayWithObjects:count:));    
     //objectsAtIndexes:
     BMP_EXChangeInstanceMethod(__NSArray, @selector(objectsAtIndexes:), __NSArray, @selector(BMP_objectsAtIndexes:));
     //objectAtIndex:
@@ -209,6 +313,20 @@ BMPErrorHandler _Nullable _containerErrorHandler;
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectsAtIndexes:), arrayMClass, @selector(BMP_MArrayRemoveObjectsAtIndexes:));
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(insertObject:atIndex:), arrayMClass, @selector(BMP_MArrayInsertObject:atIndex:));
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(insertObjects:atIndexes:), arrayMClass, @selector(BMP_MArrayInsertObjects:atIndexes:));
+}
+
++ (void)exchangeMethodsInNSDictionary{
+    Class dictionaryClass = NSClassFromString(@"NSDictionary");
+    Class __NSPlaceholderDictionaryClass = NSClassFromString(@"__NSPlaceholderDictionary");
+
+    BMP_EXChangeClassMethod(dictionaryClass, @selector(dictionaryWithObjects:forKeys:count:), @selector(BMP_dictionaryWithObjects:forKeys:count:));
+    
+    
+    BMP_EXChangeInstanceMethod(__NSPlaceholderDictionaryClass, @selector(initWithObjects:forKeys:count:), __NSPlaceholderDictionaryClass, @selector(BMP_initWithObjects:forKeys:count:));
+}
+
++ (void)exchangeMethodsInNSMutableDictionary{
+    
 }
 
 + (void)exchangeMethodsInNSString{
