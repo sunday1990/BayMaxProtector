@@ -31,8 +31,11 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 #define BMP_ArrayM_NilObject_ErrorHandler(ErrorInfo)\
     BMP_Container_ErrorHandler(BMPErrorArray_NilObject,ErrorInfo)
 
-//字典key或者value为Nil
+//不可变字典key或者value为Nil
 #define BMP_Dictionary_ErrorHandler(ErrorInfo)\
+    BMP_Container_ErrorHandler(BMPErrorDictionary_NilKey,ErrorInfo)
+//可变字典key或者value为Nil
+#define BMP_DictionaryM_ErrorHandler(ErrorInfo)\
     BMP_Container_ErrorHandler(BMPErrorDictionary_NilKey,ErrorInfo)
 
 @interface NSArray (BMPProtector)
@@ -176,22 +179,6 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 
 @implementation NSDictionary  (BMPProtector)
 
-//*** -[NSDictionary initWithObjects:forKeys:]: count of objects (1) differs from count of keys (0)
-
-//1、NSString *key = nil;
-//NSDictionary *dic = @{
-//                      key:@"abc"
-//                      };
-//*** -[__NSPlaceholderDictionary initWithObjects:forKeys:count:]: attempt to insert nil object from objects[0]'
-
-
-//2、NSString *key = nil;
-//NSDictionary *dic = @{
-//                      @"abc":key
-//                      };
-// '*** -[__NSPlaceholderDictionary initWithObjects:forKeys:count:]: attempt to insert nil object from objects[0]'
-//+ dictionary
-
 + (instancetype)BMP_dictionaryWithObjects:(id  _Nonnull const [])objects forKeys:(id<NSCopying>  _Nonnull const [])keys count:(NSUInteger)cnt{
     return [self BMP_dictionaryWithObjects:objects forKeys:keys count:cnt];
 }
@@ -219,20 +206,10 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 }
 
 - (instancetype)BMP_initWithObjects:(id  _Nonnull const [])objects forKeys:(id<NSCopying>  _Nonnull const [])keys count:(NSUInteger)cnt{
-   
-    
-    
     NSUInteger index = 0;
     id _Nonnull objectsNew[cnt];
     id <NSCopying> _Nonnull keysNew[cnt];
-    
     //'*** -[NSDictionary initWithObjects:forKeys:]: count of objects (1) differs from count of keys (0)'
-    
-    
-    
-    
-    
-    
     for (int i = 0; i<cnt; i++) {
         if (objects[i] && keys[i]) {//可能存在nil的情况
             objectsNew[index] = objects[i];
@@ -253,6 +230,31 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 @end
 
 @implementation NSMutableDictionary  (BMPProtector)
+
+//setObject:forKey:
+- (void)BMP_dictionaryMSetObject:(id)anObject forKey:(id<NSCopying>)aKey{
+    if (anObject && aKey) {
+        [self BMP_dictionaryMSetObject:anObject forKey:aKey];
+    }else{
+        NSString *errorInfo;
+        if (anObject == nil) {
+            errorInfo = @"*** setObjectForKey: object cannot be nil";
+        }else if (aKey == nil){
+            errorInfo = @"*** setObjectForKey: key cannot be nil";
+        }
+        BMP_DictionaryM_ErrorHandler(errorInfo);
+    }
+}
+
+//removeObjectForKey:
+- (void)BMP_dictionaryMRemoveObjectForKey:(id)aKey{
+    if (aKey) {
+        [self BMP_dictionaryMRemoveObjectForKey:aKey];
+    }else{
+        NSString *errorInfo = @"*** -[__NSDictionaryM removeObjectForKey:]: key cannot be nil";
+        BMP_DictionaryM_ErrorHandler(errorInfo);
+    }
+}
 
 @end
 
@@ -318,15 +320,14 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 + (void)exchangeMethodsInNSDictionary{
     Class dictionaryClass = NSClassFromString(@"NSDictionary");
     Class __NSPlaceholderDictionaryClass = NSClassFromString(@"__NSPlaceholderDictionary");
-
     BMP_EXChangeClassMethod(dictionaryClass, @selector(dictionaryWithObjects:forKeys:count:), @selector(BMP_dictionaryWithObjects:forKeys:count:));
-    
-    
     BMP_EXChangeInstanceMethod(__NSPlaceholderDictionaryClass, @selector(initWithObjects:forKeys:count:), __NSPlaceholderDictionaryClass, @selector(BMP_initWithObjects:forKeys:count:));
 }
 
 + (void)exchangeMethodsInNSMutableDictionary{
-    
+    Class dictionaryM = NSClassFromString(@"__NSDictionaryM");
+    BMP_EXChangeInstanceMethod(dictionaryM, @selector(setObject:forKey:), dictionaryM, @selector(BMP_dictionaryMSetObject:forKey:));
+    BMP_EXChangeInstanceMethod(dictionaryM, @selector(removeObjectForKey:), dictionaryM, @selector(BMP_dictionaryMRemoveObjectForKey:));
 }
 
 + (void)exchangeMethodsInNSString{

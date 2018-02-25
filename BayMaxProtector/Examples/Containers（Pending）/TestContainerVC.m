@@ -41,9 +41,8 @@
 //    NSLog(@"arrayM0:%@",arrayM0);
 //    [arrayM0 insertObject:key atIndex:2];
     NSLog(@"arrayM0:%@",arrayM0);
-    [arrayM0 insertObjects:@[@"1",@"1",key,key] atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 4)]];
+//    [arrayM0 insertObjects:@[@"1",@"1",key,key] atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 4)]];
     NSLog(@"arrayM0:%@",arrayM0);
-
     
     //    NSDictionary *dic = @{
     //                          @"abc":@"das",
@@ -51,7 +50,7 @@
     //                          };
     
     
-    //1、    [NSDictionary dictionaryWithObject:@"d" forKey:key];//initWithObjects
+//     [NSDictionary dictionaryWithObject:@"d" forKey:key];//initWithObjects
     
 //    NSDictionary *dic = [NSDictionary dictionaryWithObjects:@[@"1"] forKeys:@[key]];//-[__NSPlaceholderArray initWithObjects:count:]: attempt to insert nil object from objects[0]'
     
@@ -73,6 +72,9 @@
 //      key:@"dad"
 //      };
     
+    NSMutableDictionary *dicM = [NSMutableDictionary dictionary];
+//    [dicM setObject:@"ddk" forKey:key];
+    [dicM removeObjectForKey:key];
 }
 
 - (void)didReceiveMemoryWarning {
