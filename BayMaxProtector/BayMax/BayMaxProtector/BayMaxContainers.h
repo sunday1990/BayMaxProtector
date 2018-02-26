@@ -12,7 +12,6 @@
 
 @class BayMaxCatchError;
 @interface BayMaxContainers : NSObject
-
 /**
  swizzle容器类方法
 

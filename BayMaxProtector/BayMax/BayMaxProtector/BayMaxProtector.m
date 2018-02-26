@@ -16,7 +16,6 @@
 #import "BayMaxDebugView.h"
 #import "BayMaxCatchError.h"
 
-//typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
 //声明一个全局的IMP链表
 static IMPlist impList;
 //声明一个全局的错误信息结构体

@@ -9,8 +9,6 @@
 #import "BayMaxTimerSubTarget.h"
 #import "BayMaxCatchError.h"
 
-//typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
-
 BMPErrorHandler _Nullable _timerErrorHandler;
 
 @implementation BayMaxTimerSubTarget{
