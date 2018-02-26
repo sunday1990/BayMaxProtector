@@ -6,6 +6,56 @@
 
 
 2.0主要是对[1.0](https://juejin.im/post/5a65b8056fb9a01ca87217fb)的升级与改造。
+## 2月26日新增功能
+#### 新增容器类防护，针对NSArray/NSMutableArray/NSDictionary/NSMutableDictionary/NSString/NSMutableString进行崩溃保护。
+#### 主要是以下方法
+
+```
+===============================
+
+NSArray->Methods On Protection:
+1、@[nil]
+2、arrayWithObjects:count:
+3、objectsAtIndexes:
+4、objectAtIndex:
+
+===============================
+
+NSMutableArray->Methods On Protection:
+0、arrayWithObjects:nil
+1、objectAtIndex:
+2、removeObjectAtIndex:
+3、removeObjectsInRange:
+4、removeObjectsAtIndexes:
+5、insertObject:atIndex:
+6、insertObjects:atIndexes:
+7、addObject:nil
+
+===============================
+NSDictionary->Methods On Protection:
+1 @{nil:nil}
+2、dictionaryWithObject:forKey：
+3、dictionaryWithObjects:forKeys:
+4、dictionaryWithObjects:forKeys:count:
+
+===============================
+NSMutableDictionary->Methods On Protection:
+1、setObject:forKey:
+2、removeObjectForKey:
+===============================
+NSString->Methods On Protection:
+1、characterAtIndex：
+2、substringFromIndex:
+3、substringToIndex:
+4、substringWithRange:
+5、stringByReplacingCharactersInRange:withString:
+
+===============================
+NSMutableString->Methods On Protection:
+1、replaceCharactersInRange:withString:
+2、insertString:atIndex:
+3、deleteCharactersInRange:
+```
 
 ## 一、新增功能
 #### 1、增加BayMaxDebugView
