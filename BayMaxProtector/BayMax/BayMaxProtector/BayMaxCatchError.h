@@ -43,6 +43,10 @@ FOUNDATION_EXPORT NSString *const BMPErrorArray_NilObject;
 FOUNDATION_EXPORT NSString *const BMPErrorDictionary_NilKey;
 /*字典 undefinedKey*/
 FOUNDATION_EXPORT NSString *const BMPErrorDictionary_UndefinedKey;
+/*String out of bounds*/
+FOUNDATION_EXPORT NSString *const BMPErrorString_Beyond;
+
+
 
 
 typedef NS_ENUM(NSInteger, BayMaxErrorType) {

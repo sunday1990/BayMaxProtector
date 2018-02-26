@@ -30,6 +30,8 @@ NSString *const BMPErrorArray_NilObject = @"ArrayInsertNil";
 NSString *const BMPErrorDictionary_NilKey = @"DictionaryNilKey";
 NSString *const BMPErrorDictionary_UndefinedKey = @"DictionaryUndefinedKey";
 
+NSString *const BMPErrorString_Beyond = @"StringOutOfBounds";
+
 @implementation BayMaxCatchError
 + (instancetype)BMPErrorWithType:(BayMaxErrorType)errorType infos:(NSDictionary *)errorInfos{
     return [[self alloc]initWithType:errorType infos:errorInfos];

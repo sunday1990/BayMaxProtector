@@ -41,7 +41,7 @@
             NSLog(@"ErrorKVOinfos:%@",error.errorInfos);
 
         }else if (error.errorType == BayMaxErrorTypeContainers){
-            NSLog(@"ErrorKVOinfos:%@",error.errorInfos);
+            NSLog(@"ErrorContainersinfos:%@",error.errorInfos);
             
         }else{
             NSLog(@"infos:%@",error.errorInfos);

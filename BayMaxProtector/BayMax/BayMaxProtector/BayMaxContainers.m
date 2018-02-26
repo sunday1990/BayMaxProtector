@@ -12,9 +12,12 @@
 #import "BayMaxDebugView.h"
 BMPErrorHandler _Nullable _containerErrorHandler;
 //错误信息统一处理
+/*
+ NSArray *callStackSymbolsArr = [NSThread callStackSymbols];\
+ BMPErrorCallStackSymbols:callStackSymbolsArr
+ */
 #define BMP_Container_ErrorHandler(errorType,errorInfo)\
-    NSArray *callStackSymbolsArr = [NSThread callStackSymbols];\
-    BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeContainers infos:@{                                                                                             errorType:errorInfo,                                                                                             BMPErrorCallStackSymbols:callStackSymbolsArr                                                                                             }];\
+    BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeContainers infos:@{                                                                                             errorType:errorInfo                                                                                                                                                                                       }];\
     if (_containerErrorHandler) {\
         _containerErrorHandler(bmpError);\
     }
@@ -34,9 +37,13 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 //不可变字典key或者value为Nil
 #define BMP_Dictionary_ErrorHandler(ErrorInfo)\
     BMP_Container_ErrorHandler(BMPErrorDictionary_NilKey,ErrorInfo)
+
 //可变字典key或者value为Nil
 #define BMP_DictionaryM_ErrorHandler(ErrorInfo)\
     BMP_Container_ErrorHandler(BMPErrorDictionary_NilKey,ErrorInfo)
+
+//#define BMP_String_ErrorHandler(ErrorInfo)\
+
 
 @interface NSArray (BMPProtector)
 
@@ -263,6 +270,59 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 @end
 
 @implementation NSString  (BMPProtector)
+- (unichar)BMP_characterAtIndex:(NSUInteger)index{
+    if (index>=self.length) {
+        unichar characteristic = 0;
+        NSString *errorInfo = @"*** -[__NSCFConstantString characterAtIndex:]: Range or index out of bounds";
+        BMP_Container_ErrorHandler(BMPErrorString_Beyond, errorInfo);                
+        return characteristic;
+    }
+    return [self BMP_characterAtIndex:index];
+}
+
+- (NSString *)BMP_substringFromIndex:(NSUInteger)from{
+    if (from>=self.length) {
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSCFConstantString substringFromIndex:]: Index %ld out of bounds; string length %ld",from,self.length];
+        BMP_Container_ErrorHandler(BMPErrorString_Beyond, errorInfo);
+#warning return nil or return @""
+        return nil;
+    }
+    return [self BMP_substringFromIndex:from];
+}
+
+- (NSString *)BMP_substringToIndex:(NSUInteger)to{
+    if (to>=self.length) {
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSCFConstantString substringToIndex:]: Index %ld out of bounds; string length %ld",to,self.length];
+        BMP_Container_ErrorHandler(BMPErrorString_Beyond, errorInfo);
+        return [self BMP_substringToIndex:self.length-1];
+    }
+    return [self BMP_substringToIndex:to];
+}
+
+- (NSString *)BMP_substringWithRange:(NSRange)range{
+    if (range.location+range.length>self.length) {
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSCFConstantString BMP_substringWithRange:]: Range {%ld, %ld} out of bounds; string length %ld",range.location,range.length,self.length];
+        BMP_Container_ErrorHandler(BMPErrorString_Beyond, errorInfo);
+        if (range.location<self.length) {
+            return [self BMP_substringFromIndex:range.location];
+        }
+        return nil;
+    }
+    return [self BMP_substringWithRange:range];
+}
+
+
+- (NSString *)BMP_stringByReplacingCharactersInRange:(NSRange)range withString:(NSString *)replacement{
+    if (range.location+range.length>self.length) {
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSCFString replaceCharactersInRange:withString:]: Range or index out of bounds"];
+        BMP_Container_ErrorHandler(BMPErrorString_Beyond, errorInfo);
+        if (range.location<self.length) {
+            return [self BMP_stringByReplacingCharactersInRange:NSMakeRange(range.location, self.length-range.location) withString:replacement];
+        }
+        return nil;
+    }
+    return [self BMP_stringByReplacingCharactersInRange:range withString:replacement];
+}
 
 @end
 
@@ -271,6 +331,38 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 @end
 
 @implementation NSMutableString  (BMPProtector)
+- (void)BMP_replaceCharactersInRange:(NSRange)range withString:(NSString *)aString{
+    if (range.location+range.length > self.length) {
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSCFString replaceCharactersInRange:withString:]: Range or index out of bounds"];
+        BMP_Container_ErrorHandler(BMPErrorString_Beyond, errorInfo);
+        if (range.location < self.length) {
+            [self BMP_replaceCharactersInRange:NSMakeRange(range.location, self.length-range.location) withString:aString];
+        }
+    }else{
+        [self BMP_replaceCharactersInRange:range withString:aString];
+    }
+}
+
+- (void)BMP_insertString:(NSString *)aString atIndex:(NSUInteger)loc{
+    if (loc > self.length) {
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSCFString insertString:atIndex:]: Range or index out of bounds"];
+        BMP_Container_ErrorHandler(BMPErrorString_Beyond, errorInfo);
+    }else{
+        [self BMP_insertString:aString atIndex:loc];
+    }
+}
+
+- (void)BMP_deleteCharactersInRange:(NSRange)range{
+    if (range.location+range.length > self.length) {
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSCFString deleteCharactersInRange:]: Range or index out of bounds"];
+        BMP_Container_ErrorHandler(BMPErrorString_Beyond, errorInfo);
+        if (range.location < self.length) {
+            [self BMP_deleteCharactersInRange:NSMakeRange(range.location, self.length-range.location)];
+        }
+    }else{
+        [self BMP_deleteCharactersInRange:range];
+    }
+}
 
 @end
 
@@ -331,11 +423,19 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 }
 
 + (void)exchangeMethodsInNSString{
-    
+    Class stringClass = NSClassFromString(@"__NSCFConstantString");
+    BMP_EXChangeInstanceMethod(stringClass, @selector(characterAtIndex:), stringClass, @selector(BMP_characterAtIndex:));
+    BMP_EXChangeInstanceMethod(stringClass, @selector(substringFromIndex:), stringClass, @selector(BMP_substringFromIndex:));
+    BMP_EXChangeInstanceMethod(stringClass, @selector(substringToIndex:), stringClass, @selector(BMP_substringToIndex:));
+    BMP_EXChangeInstanceMethod(stringClass, @selector(substringWithRange:), stringClass, @selector(BMP_substringWithRange:));
+    BMP_EXChangeInstanceMethod(stringClass, @selector(stringByReplacingCharactersInRange:withString:), stringClass, @selector(BMP_stringByReplacingCharactersInRange:withString:));
 }
 
 + (void)exchangeMethodsInNSMutableString{
-    
+    Class stringClass = NSClassFromString(@"__NSCFString");
+    BMP_EXChangeInstanceMethod(stringClass, @selector(replaceCharactersInRange:withString:), stringClass, @selector(BMP_replaceCharactersInRange:withString:));
+    BMP_EXChangeInstanceMethod(stringClass, @selector(insertString:atIndex:), stringClass, @selector(BMP_insertString:atIndex:));
+    BMP_EXChangeInstanceMethod(stringClass, @selector(deleteCharactersInRange:), stringClass, @selector(BMP_deleteCharactersInRange:));
 }
 
 @end
