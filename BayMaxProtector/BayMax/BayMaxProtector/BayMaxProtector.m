@@ -16,6 +16,7 @@
 #import "BayMaxDebugView.h"
 #import "BayMaxCatchError.h"
 
+//typedef void(^BMPErrorHandler)(BayMaxCatchError *_Nullable error);
 //声明一个全局的IMP链表
 static IMPlist impList;
 //声明一个全局的错误信息结构体
@@ -534,7 +535,9 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
     {
         /*containes*/
         [BayMaxContainers BMPExchangeContainersMethodsWithCatchErrorHandler:^(BayMaxCatchError *error) {
-            [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
+            if (_showDebugView) {
+                [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
+            }
             if (_errorHandler) {
                 _errorHandler(error);
             }
@@ -558,7 +561,9 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
             BMP_EXChangeInstanceMethod([self class], @selector(BMP_mappingTimerMethod), [self class], @selector(BMP_excMappingTimerMethod));
             /*containers*/
             [BayMaxContainers BMPExchangeContainersMethodsWithCatchErrorHandler:^(BayMaxCatchError *error) {
-                [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
+                if (_showDebugView) {
+                    [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
+                }
                 if (_errorHandler) {
                     _errorHandler(error);
                 }
