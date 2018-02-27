@@ -417,7 +417,11 @@ BMPErrorHandler _Nullable _containerErrorHandler;
     BMP_EXChangeInstanceMethod(__NSArray, @selector(objectsAtIndexes:), __NSArray, @selector(BMP_objectsAtIndexes:));
     //objectAtIndex:
     BMP_EXChangeInstanceMethod(__NSArrayI, @selector(objectAtIndex:), __NSArrayI, @selector(BMP__NSArrayIObjectAtIndex:));
+#if TARGET_IPHONE_SIMULATOR  //模拟器
     BMP_EXChangeInstanceMethod(__NSArrayI, @selector(objectAtIndexedSubscript:), __NSArrayI, @selector(BMP_objectAtIndexedSubscript:));
+#elif TARGET_OS_IPHONE      //真机
+    
+#endif
     BMP_EXChangeInstanceMethod(__NSSingleObjectArrayI, @selector(objectAtIndex:), __NSSingleObjectArrayI, @selector(BMP__NSSingleObjectArrayIObjectAtIndex:));
     BMP_EXChangeInstanceMethod(__NSArray0, @selector(objectAtIndex:), __NSArray0, @selector(BMP__NSArray0ObjectAtIndex:));
 }
@@ -425,7 +429,11 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 + (void)exchangeMethodsInNSMutableArray{
     Class arrayMClass = NSClassFromString(@"__NSArrayM");
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(objectAtIndex:), arrayMClass, @selector(BMP_MArrayObjectAtIndex:));
+#if TARGET_IPHONE_SIMULATOR  //模拟器
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(objectAtIndexedSubscript:), arrayMClass, @selector(BMP_MArrayobjectAtIndexedSubscript:));
+#elif TARGET_OS_IPHONE      //真机
+    
+#endif
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectAtIndex:), arrayMClass, @selector(BMP_MArrayRemoveObjectAtIndex:));
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectsInRange:), arrayMClass, @selector(BMP_MArrayRemoveObjectsInRange:));
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectsAtIndexes:), arrayMClass, @selector(BMP_MArrayRemoveObjectsAtIndexes:));
