@@ -46,7 +46,8 @@
     NSArray *objectsAtIndexes = [array2 objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 2)]];
     NSLog(@"objectsAtIndexes:%@",objectsAtIndexes);
     //4、objectAtIndex
-    id objectAtIndex = [array2 objectAtIndex:4];    
+    id objectAtIndex = [array2 objectAtIndex:4];
+    array2[4];
 }
 
 - (void)testMutableArray{

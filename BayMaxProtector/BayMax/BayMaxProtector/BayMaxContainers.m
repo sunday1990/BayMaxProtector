@@ -68,6 +68,17 @@ BMPErrorHandler _Nullable _containerErrorHandler;
     return [self BMP_ArrayWithObjects:objectsNew count:index];
 }
 
+//objectAtIndexedSubscript
+- (id)BMP_objectAtIndexedSubscript:(NSUInteger)idx{
+    if (idx >= self.count) {
+        //记录错误
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSArrayI objectAtIndexedSubscript:]: index %ld beyond bounds [0 .. %ld]'",idx,self.count];
+        BMP_Container_ErrorHandler(BMPErrorArray_Beyond, errorInfo);
+        return nil;
+    }
+    return [self BMP_objectAtIndexedSubscript:idx];
+}
+
 - (NSArray *)BMP_objectsAtIndexes:(NSIndexSet *)indexes{
     if (indexes.lastIndex >= self.count||indexes.firstIndex >= self.count) {
         if (indexes.firstIndex >= self.count) {
@@ -120,6 +131,17 @@ BMPErrorHandler _Nullable _containerErrorHandler;
         return nil;
     }
     return [self BMP_MArrayObjectAtIndex:index];
+}
+
+//objectAtIndexedSubscript
+- (id)BMP_MArrayobjectAtIndexedSubscript:(NSUInteger)idx{
+    if (idx >= self.count) {
+        //记录错误
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSArrayM objectAtIndexedSubscript:]: index %ld beyond bounds [0 .. %ld]'",idx,self.count];
+        BMP_Container_ErrorHandler(BMPErrorArray_Beyond, errorInfo);
+        return nil;
+    }
+    return [self BMP_MArrayobjectAtIndexedSubscript:idx];
 }
 
 //removeObjectAtIndex:
@@ -395,6 +417,7 @@ BMPErrorHandler _Nullable _containerErrorHandler;
     BMP_EXChangeInstanceMethod(__NSArray, @selector(objectsAtIndexes:), __NSArray, @selector(BMP_objectsAtIndexes:));
     //objectAtIndex:
     BMP_EXChangeInstanceMethod(__NSArrayI, @selector(objectAtIndex:), __NSArrayI, @selector(BMP__NSArrayIObjectAtIndex:));
+    BMP_EXChangeInstanceMethod(__NSArrayI, @selector(objectAtIndexedSubscript:), __NSArrayI, @selector(BMP_objectAtIndexedSubscript:));
     BMP_EXChangeInstanceMethod(__NSSingleObjectArrayI, @selector(objectAtIndex:), __NSSingleObjectArrayI, @selector(BMP__NSSingleObjectArrayIObjectAtIndex:));
     BMP_EXChangeInstanceMethod(__NSArray0, @selector(objectAtIndex:), __NSArray0, @selector(BMP__NSArray0ObjectAtIndex:));
 }
@@ -402,6 +425,7 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 + (void)exchangeMethodsInNSMutableArray{
     Class arrayMClass = NSClassFromString(@"__NSArrayM");
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(objectAtIndex:), arrayMClass, @selector(BMP_MArrayObjectAtIndex:));
+    BMP_EXChangeInstanceMethod(arrayMClass, @selector(objectAtIndexedSubscript:), arrayMClass, @selector(BMP_MArrayobjectAtIndexedSubscript:));
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectAtIndex:), arrayMClass, @selector(BMP_MArrayRemoveObjectAtIndex:));
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectsInRange:), arrayMClass, @selector(BMP_MArrayRemoveObjectsInRange:));
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectsAtIndexes:), arrayMClass, @selector(BMP_MArrayRemoveObjectsAtIndexes:));
