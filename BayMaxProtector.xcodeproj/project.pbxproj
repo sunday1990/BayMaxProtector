@@ -184,7 +184,7 @@
 				16554DC720241655000EF4D3 /* Vender */,
 				16340A802022B3420026E47F /* Base */,
 				16340A6A2022B1620026E47F /* Degrade */,
-				16340A682022B1270026E47F /* Containers（Pending） */,
+				16340A682022B1270026E47F /* Containers */,
 				16340A672022B11A0026E47F /* NSNotifitication */,
 				16340A662022B1140026E47F /* Timer */,
 				16340A652022B10E0026E47F /* KVO */,
@@ -231,13 +231,13 @@
 			path = NSNotifitication;
 			sourceTree = "<group>";
 		};
-		16340A682022B1270026E47F /* Containers（Pending） */ = {
+		16340A682022B1270026E47F /* Containers */ = {
 			isa = PBXGroup;
 			children = (
 				16340A792022B20D0026E47F /* TestContainerVC.h */,
 				16340A7A2022B20D0026E47F /* TestContainerVC.m */,
 			);
-			path = "Containers（Pending）";
+			path = Containers;
 			sourceTree = "<group>";
 		};
 		16340A6A2022B1620026E47F /* Degrade */ = {

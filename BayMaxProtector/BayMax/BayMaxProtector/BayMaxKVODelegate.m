@@ -10,6 +10,8 @@
 #include <CommonCrypto/CommonCrypto.h>
 #include <zlib.h>
 
+static NSLock *_bmp_kvoLock;
+
 static inline NSString *BMP_md5StringOfObject(NSObject *object){
     NSString *string = [NSString stringWithFormat:@"%p",object];
     const char *str = string.UTF8String;
@@ -49,6 +51,7 @@ static inline NSString *BMP_md5StringOfObject(NSObject *object){
     self = [super init];
     if (nil != self) {
         _keyPathMaps = [NSMutableDictionary dictionary];
+        _bmp_kvoLock = [[NSLock alloc]init];
     }
     return self;
 }
@@ -59,6 +62,7 @@ static inline NSString *BMP_md5StringOfObject(NSObject *object){
                              context:(void *)context{
     BOOL success;
     //先判断有没有重复添加,有的话报错，没有的话，添加到数组中
+    [_bmp_kvoLock lock];
     NSMutableArray <KVOInfo *> *kvoInfos = [self getKVOInfosForKeypath:keyPath];
     __block BOOL isExist = NO;
     [kvoInfos enumerateObjectsUsingBlock:^(KVOInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -79,6 +83,7 @@ static inline NSString *BMP_md5StringOfObject(NSObject *object){
         [self setKVOInfos:kvoInfos ForKeypath:keyPath];
         success = YES;
     }
+    [_bmp_kvoLock unlock];
     return success;
 }
 
@@ -88,6 +93,7 @@ static inline NSString *BMP_md5StringOfObject(NSObject *object){
                              context:(void *)context
                              success:(void(^)(void))success
                              failure:(void(^)(NSError *error))failure{
+    [_bmp_kvoLock lock];
     //先判断有没有重复添加,有的话报错，没有的话，添加到数组中
     NSMutableArray <KVOInfo *> *kvoInfos = [self getKVOInfosForKeypath:keyPath];
     __block BOOL isExist = NO;
@@ -116,10 +122,12 @@ static inline NSString *BMP_md5StringOfObject(NSObject *object){
             success();
         }
     }
+    [_bmp_kvoLock unlock];
 }
 
 - (BOOL)removeKVOInfoInMapsWithObserver:(NSObject *)observer
                              forKeyPath:(NSString *)keyPath{
+    [_bmp_kvoLock lock];
     BOOL success;
     NSMutableArray <KVOInfo *> *kvoInfos = [self getKVOInfosForKeypath:keyPath];
     __block BOOL isExist = NO;
@@ -137,6 +145,7 @@ static inline NSString *BMP_md5StringOfObject(NSObject *object){
         }
     }
     success = isExist;
+    [_bmp_kvoLock unlock];
     return success;
 }
 

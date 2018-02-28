@@ -20,8 +20,10 @@ typedef NS_ENUM(NSInteger, BayMaxProtectionType) {
     BayMaxProtectionTypeNotification = 1<<2,
     /*Timer保护*/
     BayMaxProtectionTypeTimer = 1<<3,
-    /*Containers保护*/
-    BayMaxProtectionTypeContainers = 1<<4
+    /*Containers保护：包括NSArray、NSMutableArray、NSDictionary、NSMutableDictionary、NSString、NSMutableString*/
+    BayMaxProtectionTypeContainers = 1<<4,
+    /*BadAccess(onPending)*/
+    BayMaxProtectionTypeBadAccess = 1<<5
 };
 
 @interface BayMaxProtector : NSObject
