@@ -200,6 +200,34 @@ BMPErrorHandler _Nullable _containerErrorHandler;
     [self BMP_MArrayInsertObjects:objects atIndexes:indexes];
 }
 
+//replaceObjectAtIndex
+- (void)BMP_replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject{
+    if (index >= self.count) {
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSArrayM replaceObjectAtIndex:withObject:]: index %ld beyond bounds [0 .. %ld]",index,self.count];
+        BMP_ArrayM_BeyondBounds_ErrorHandler(errorInfo);
+    }else{
+        [self BMP_replaceObjectAtIndex:index withObject:anObject];
+    }
+}
+
+- (void)BMP_replaceObjectsAtIndexes:(NSIndexSet *)indexes withObjects:(NSArray *)objects{
+    if (indexes.lastIndex >= self.count||indexes.firstIndex >= self.count) {
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSArrayM replaceObjectsInRange:withObjects:count:]: range {%ld, %ld} extends beyond bounds [0 .. %ld]",indexes.firstIndex,indexes.count,self.count];
+        BMP_ArrayM_BeyondBounds_ErrorHandler(errorInfo);
+    }else{
+        [self BMP_replaceObjectsAtIndexes:indexes withObjects:objects];
+    }
+}
+
+-(void)BMP_replaceObjectsInRange:(NSRange)range withObjectsFromArray:(NSArray *)otherArray{
+    if (range.location+range.length > self.count) {
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[NSMutableArray replaceObjectsInRange:withObjectsFromArray:]: range {%ld, %ld} extends beyond bounds [0 .. %ld]",range.location,range.length,self.count];
+        BMP_ArrayM_BeyondBounds_ErrorHandler(errorInfo);
+    }else{
+        [self BMP_replaceObjectsInRange:range withObjectsFromArray:otherArray];
+    }
+}
+
 @end
 
 @interface NSDictionary (BMPProtector)
@@ -434,11 +462,17 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 #elif TARGET_OS_IPHONE      //真机
     
 #endif
+    //remove
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectAtIndex:), arrayMClass, @selector(BMP_MArrayRemoveObjectAtIndex:));
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectsInRange:), arrayMClass, @selector(BMP_MArrayRemoveObjectsInRange:));
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectsAtIndexes:), arrayMClass, @selector(BMP_MArrayRemoveObjectsAtIndexes:));
+    //insert
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(insertObject:atIndex:), arrayMClass, @selector(BMP_MArrayInsertObject:atIndex:));
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(insertObjects:atIndexes:), arrayMClass, @selector(BMP_MArrayInsertObjects:atIndexes:));
+    //replace
+    BMP_EXChangeInstanceMethod(arrayMClass, @selector(replaceObjectAtIndex:withObject:), arrayMClass, @selector(BMP_replaceObjectAtIndex:withObject:));
+    BMP_EXChangeInstanceMethod(arrayMClass, @selector(replaceObjectsAtIndexes:withObjects:), arrayMClass, @selector(BMP_replaceObjectsAtIndexes:withObjects:));
+    BMP_EXChangeInstanceMethod(arrayMClass, @selector(replaceObjectsInRange:withObjectsFromArray:), arrayMClass, @selector(BMP_replaceObjectsInRange:withObjectsFromArray:));
 }
 
 + (void)exchangeMethodsInNSDictionary{
@@ -452,6 +486,7 @@ BMPErrorHandler _Nullable _containerErrorHandler;
     Class dictionaryM = NSClassFromString(@"__NSDictionaryM");
     BMP_EXChangeInstanceMethod(dictionaryM, @selector(setObject:forKey:), dictionaryM, @selector(BMP_dictionaryMSetObject:forKey:));
     BMP_EXChangeInstanceMethod(dictionaryM, @selector(removeObjectForKey:), dictionaryM, @selector(BMP_dictionaryMRemoveObjectForKey:));
+    
 }
 
 + (void)exchangeMethodsInNSString{

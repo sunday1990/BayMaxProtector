@@ -92,7 +92,16 @@
     //7、addObject:nil
     array1 = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
     [array1 addObject:value];
+    //8、
+    array1 = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
+    [array1 replaceObjectAtIndex:5 withObject:@"5"];
+    
+    array1 = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
+    [array1 replaceObjectsInRange:NSMakeRange(1, 4) withObjectsFromArray:@[@"5",@"6",@"7",@"8"]];
 
+    array1 = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
+    [array1 replaceObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 4)] withObjects:@[@"5",@"6",@"7",@"8"]];
+    
 }
 
 - (void)testDictionary{
