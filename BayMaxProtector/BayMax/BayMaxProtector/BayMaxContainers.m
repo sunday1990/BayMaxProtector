@@ -172,7 +172,6 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 
 //insertObject:atIndex:
 - (void)BMP_MArrayInsertObject:(id)anObject atIndex:(NSUInteger)index{
-    // -[__NSArrayM insertObject:atIndex:]: object cannot be nil
     if (anObject == nil) {
         BMP_ArrayM_NilObject_ErrorHandler(@"***  -[__NSArrayM insertObject:atIndex:]: object cannot be nil");
         return;
@@ -200,12 +199,16 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 
 //replaceObjectAtIndex
 - (void)BMP_replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject{
+    if (anObject == nil) {
+        BMP_ArrayM_NilObject_ErrorHandler(@"***  -[__NSArrayM replaceObjectAtIndex:withObject:]: object cannot be nil");
+        return;
+    }
     if (index >= self.count) {
         NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSArrayM replaceObjectAtIndex:withObject:]: index %ld beyond bounds [0 .. %ld]",index,self.count];
         BMP_ArrayM_BeyondBounds_ErrorHandler(errorInfo);
-    }else{
-        [self BMP_replaceObjectAtIndex:index withObject:anObject];
+        return;
     }
+    [self BMP_replaceObjectAtIndex:index withObject:anObject];
 }
 
 - (void)BMP_replaceObjectsAtIndexes:(NSIndexSet *)indexes withObjects:(NSArray *)objects{

@@ -49,7 +49,6 @@
     id objectAtIndex = [array2 objectAtIndex:4];
     array2[4];
 }
-
 - (void)testMutableArray{
     /*
      0、arrayWithObjects:nil
@@ -60,6 +59,9 @@
      5、insertObject:atIndex:
      6、insertObjects:atIndexes:
      7、addObject:nil
+     8、replaceObjectAtIndex:withObject:
+     9、replaceObjectsAtIndexes:withObjects:
+     10、replaceObjectsInRange:withObjectsFromArray:
      */
     NSString *value = nil;
     NSString *key = nil;
@@ -101,6 +103,10 @@
 
     array1 = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
     [array1 replaceObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 4)] withObjects:@[@"5",@"6",@"7",@"8"]];
+    
+    array1 = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
+    [array1 replaceObjectAtIndex:2 withObject:nil];
+    
     
 }
 

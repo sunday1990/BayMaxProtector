@@ -27,7 +27,10 @@
  5、insertObject:atIndex:
  6、insertObjects:atIndexes:
  7、addObject:nil
- 
+ 8、replaceObjectAtIndex:withObject:
+ 9、replaceObjectsAtIndexes:withObjects:
+ 10、replaceObjectsInRange:withObjectsFromArray:
+
  ===============================
 NSDictionary->Methods On Protection:
  1 @{nil:nil}
