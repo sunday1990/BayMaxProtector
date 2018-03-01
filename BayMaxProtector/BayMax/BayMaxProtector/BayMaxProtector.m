@@ -326,34 +326,42 @@ static NSString *const NSNotificationProtectorValue = @"BMP_NotificationProtecto
 @implementation NSTimer (TimerProtector)
 
 + (NSTimer *)BMP_scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
-    if (!IsSystemClass([aTarget class])) {
-        BayMaxTimerSubTarget *subtarget = [BayMaxTimerSubTarget targetWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo catchErrorHandler:^(BayMaxCatchError *error) {
-            if (_showDebugView) {
-                [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
-            }
-            if (_errorHandler) {
-                _errorHandler(error);
-            }
-        }];
-        return [self BMP_scheduledTimerWithTimeInterval:ti target:subtarget selector:NSSelectorFromString(@"fireProxyTimer:") userInfo:userInfo repeats:yesOrNo];
-    }else{
+    if (yesOrNo == NO) {
         return [self BMP_scheduledTimerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
+    }else{
+        if (!IsSystemClass([aTarget class])) {
+            BayMaxTimerSubTarget *subtarget = [BayMaxTimerSubTarget targetWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo catchErrorHandler:^(BayMaxCatchError *error) {
+                if (_showDebugView) {
+                    [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
+                }
+                if (_errorHandler) {
+                    _errorHandler(error);
+                }
+            }];
+            return [self BMP_scheduledTimerWithTimeInterval:ti target:subtarget selector:NSSelectorFromString(@"fireProxyTimer:") userInfo:userInfo repeats:yesOrNo];
+        }else{
+            return [self BMP_scheduledTimerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
+        }
     }
 }
 
 + (NSTimer *)BMP_timerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo{
-    if (!IsSystemClass([aTarget class])) {
-        BayMaxTimerSubTarget *subtarget = [BayMaxTimerSubTarget targetWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo catchErrorHandler:^(BayMaxCatchError *error) {
-            if (_showDebugView) {
-                [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
-            }
-            if (_errorHandler) {
-                _errorHandler(error);
-            }        }];
-        return [self BMP_timerWithTimeInterval:ti target:subtarget selector:NSSelectorFromString(@"fireProxyTimer:") userInfo:userInfo repeats:yesOrNo];
-    }else{
+    if (yesOrNo == NO) {
         return [self BMP_timerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
-    }
+    }else{
+        if (!IsSystemClass([aTarget class])) {
+            BayMaxTimerSubTarget *subtarget = [BayMaxTimerSubTarget targetWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo catchErrorHandler:^(BayMaxCatchError *error) {
+                if (_showDebugView) {
+                    [[BayMaxDebugView sharedDebugView]addErrorInfo:error.errorInfos];
+                }
+                if (_errorHandler) {
+                    _errorHandler(error);
+                }        }];
+            return [self BMP_timerWithTimeInterval:ti target:subtarget selector:NSSelectorFromString(@"fireProxyTimer:") userInfo:userInfo repeats:yesOrNo];
+        }else{
+            return [self BMP_timerWithTimeInterval:ti target:aTarget selector:aSelector userInfo:userInfo repeats:yesOrNo];
+        }
+    }   
 }
 
 @end
