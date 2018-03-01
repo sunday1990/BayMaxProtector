@@ -80,19 +80,17 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 }
 
 - (NSArray *)BMP_objectsAtIndexes:(NSIndexSet *)indexes{
-    if (indexes.lastIndex >= self.count||indexes.firstIndex >= self.count) {
-        if (indexes.firstIndex >= self.count) {
-            BMP_Array_BeyondBounds_ErrorHandler(@"NSArray",NSStringFromSelector(_cmd),indexes.lastIndex);
-            return nil;
-        }else{
-            NSIndexSet *indexesNew = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(indexes.firstIndex, self.count-indexes.firstIndex)];
-            BMP_Array_BeyondBounds_ErrorHandler(@"NSArray",NSStringFromSelector(_cmd),indexes.lastIndex);
-            return [self BMP_objectsAtIndexes:indexesNew];
-        }
+    id instance = nil;
+    @try {
+        instance = [self BMP_objectsAtIndexes:indexes];
     }
-    return [self BMP_objectsAtIndexes:indexes];
+    @catch (NSException *exception) {
+        BMP_Array_BeyondBounds_ErrorHandler(@"NSArray",NSStringFromSelector(_cmd),indexes.lastIndex);
+    }
+    @finally {
+        return instance;
+    }
 }
-
 //objectAtIndex:
 - (id)BMP__NSArrayIObjectAtIndex:(NSUInteger)index{
     if (index >= self.count) {
@@ -486,7 +484,6 @@ BMPErrorHandler _Nullable _containerErrorHandler;
     Class dictionaryM = NSClassFromString(@"__NSDictionaryM");
     BMP_EXChangeInstanceMethod(dictionaryM, @selector(setObject:forKey:), dictionaryM, @selector(BMP_dictionaryMSetObject:forKey:));
     BMP_EXChangeInstanceMethod(dictionaryM, @selector(removeObjectForKey:), dictionaryM, @selector(BMP_dictionaryMRemoveObjectForKey:));
-    
 }
 
 + (void)exchangeMethodsInNSString{
