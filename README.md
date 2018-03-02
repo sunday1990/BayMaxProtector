@@ -181,7 +181,9 @@ NSTimer  scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:方法�
 
 GitHub下载地址：[BayMaxProtector](https://github.com/sunday1990/BayMaxProtector)
 
-欢迎star!!
+#### 欢迎加入`BayMaxProtector`交流群，群聊号码：466377115
+
+欢迎大家star!
 
 
 
