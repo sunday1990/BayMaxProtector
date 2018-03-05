@@ -17,7 +17,11 @@ BMPErrorHandler _Nullable _containerErrorHandler;
  BMPErrorCallStackSymbols:callStackSymbolsArr
  */
 #define BMP_Container_ErrorHandler(errorType,errorInfo)\
-    BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeContainers infos:@{                                                                                             errorType:errorInfo                                                                                                                                                                                       }];\
+    NSArray *callStackSymbolsArr = [NSThread callStackSymbols];\
+    BayMaxCatchError *bmpError = [BayMaxCatchError BMPErrorWithType:BayMaxErrorTypeContainers infos:@{\
+            errorType:errorInfo,\
+            BMPErrorCallStackSymbols:callStackSymbolsArr\
+    }];\
     if (_containerErrorHandler) {\
         _containerErrorHandler(bmpError);\
     }
