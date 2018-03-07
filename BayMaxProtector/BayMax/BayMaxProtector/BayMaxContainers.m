@@ -157,12 +157,15 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 }
 
 - (void)BMP_MArrayRemoveObjectsAtIndexes:(NSIndexSet *)indexes{
-    if (indexes.lastIndex >= self.count||indexes.firstIndex >= self.count) {
-        NSString *errorInfo = [NSString stringWithFormat:@"*** -[NSMutableArray removeObjectsAtIndexes:]: index %ld in index set beyond bounds [0 .. %ld]",(unsigned long)indexes.lastIndex,(unsigned long)self.count];
+    @try{
+        [self BMP_MArrayRemoveObjectsAtIndexes:indexes];
+    }@catch(NSException *exception){
+        NSString *errorInfo = [NSString stringWithFormat:@"*** -[NSMutableArray removeObjectsAtIndexes:]: index %ld in index set beyond bounds [0 .. %ld]",indexes.lastIndex,self.count];
         BMP_ArrayM_BeyondBounds_ErrorHandler(errorInfo);
         return;
+    }@finally{
+        
     }
-    [self BMP_MArrayRemoveObjectsAtIndexes:indexes];
 }
 
 - (void)BMP_MArrayRemoveObjectsInRange:(NSRange)range{
@@ -469,7 +472,10 @@ BMPErrorHandler _Nullable _containerErrorHandler;
     //remove
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectAtIndex:), arrayMClass, @selector(BMP_MArrayRemoveObjectAtIndex:));
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectsInRange:), arrayMClass, @selector(BMP_MArrayRemoveObjectsInRange:));
+    
+    
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(removeObjectsAtIndexes:), arrayMClass, @selector(BMP_MArrayRemoveObjectsAtIndexes:));
+    
     //insert
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(insertObject:atIndex:), arrayMClass, @selector(BMP_MArrayInsertObject:atIndex:));
     BMP_EXChangeInstanceMethod(arrayMClass, @selector(insertObjects:atIndexes:), arrayMClass, @selector(BMP_MArrayInsertObjects:atIndexes:));

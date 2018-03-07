@@ -68,11 +68,18 @@ typedef NS_ENUM(NSInteger, BayMaxErrorType) {
  错误类型
  */
 @property (nonatomic, assign) BayMaxErrorType errorType;
-
 /**
  错误信息字典，通过相对应的key获取
  */
 @property (nonatomic, copy) NSDictionary *errorInfos;
+/**
+ 错误标题
+ */
+@property (nonatomic, copy) NSString *errorName;
+/**
+ 错误堆栈
+ */
+@property (nonatomic, copy) NSArray *errorCallStackSymbols;
 
 /**
  初始化方法

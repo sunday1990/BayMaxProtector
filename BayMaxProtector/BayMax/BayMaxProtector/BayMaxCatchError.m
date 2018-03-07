@@ -45,4 +45,22 @@ NSString *const BMPErrorString_Beyond = @"StringOutOfBounds";
     return self;
 }
 
+- (NSString *)errorName{
+    if (!_errorName) {
+        _errorName = @"BayMaxProtector拦截到的错误";
+    }
+    return _errorName;
+}
+
+- (NSArray *)errorCallStackSymbols{
+    if (!_errorCallStackSymbols) {
+        if ([self.errorInfos.allKeys containsObject:BMPErrorCallStackSymbols]) {
+            _errorCallStackSymbols = [self.errorInfos objectForKey:BMPErrorCallStackSymbols];
+        }else{
+            _errorCallStackSymbols = @[];
+        }
+    }
+    return _errorCallStackSymbols;
+}
+
 @end

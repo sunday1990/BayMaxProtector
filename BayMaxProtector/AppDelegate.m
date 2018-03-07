@@ -29,9 +29,11 @@
 
     /*开启防护模式*/
     [BayMaxProtector openProtectionsOn:BayMaxProtectionTypeAll catchErrorHandler:^(BayMaxCatchError * _Nullable error) {
+        NSArray *callStacks = [error.errorInfos objectForKey:BMPErrorCallStackSymbols];
+        NSLog(@"callStacks:%@",callStacks);
         /*unrecognizedSelector类型的错误，*/
         if (error.errorType == BayMaxErrorTypeUnrecognizedSelector) {
-            NSLog(@"ErrorUnRecognizedSelInfos:%@",error.errorInfos);            
+            NSLog(@"ErrorUnRecognizedSelInfos:%@",error.errorInfos);
 
         }else if (error.errorType == BayMaxErrorTypeTimer){
             NSLog(@"ErrorTimerinfos:%@",error.errorInfos);
