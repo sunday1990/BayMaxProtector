@@ -818,8 +818,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UMRACKG926;
+				DEVELOPMENT_TEAM = RU8Q2UZGJG;
 				INFOPLIST_FILE = DemoBayMaxProtector/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gujitao.DemoBayMaxProtector;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -833,8 +834,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = UMRACKG926;
+				DEVELOPMENT_TEAM = RU8Q2UZGJG;
 				INFOPLIST_FILE = DemoBayMaxProtector/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gujitao.DemoBayMaxProtector;
 				PRODUCT_NAME = "$(TARGET_NAME)";
