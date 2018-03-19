@@ -1,0 +1,16 @@
+PODS:
+  - BayMaxProtector (2.2)
+
+DEPENDENCIES:
+  - BayMaxProtector (from `../`)
+
+EXTERNAL SOURCES:
+  BayMaxProtector:
+    :path: ../
+
+SPEC CHECKSUMS:
+  BayMaxProtector: eb331f60a9ef4f8f5aed07e96f240f803563196b
+
+PODFILE CHECKSUM: 33dc1d94d44cea8584ffbf5b4bc1aceb320f2546
+
+COCOAPODS: 1.4.0

@@ -1,18 +1,18 @@
 //
-//  BayMaxProtector.m
-//  BayMax
+//  DemoBayMaxProtectorTests.m
+//  DemoBayMaxProtectorTests
 //
-//  Created by ccSunday on 2018/1/15.
-//  Copyright © 2018年 ccSunday. All rights reserved.
+//  Created by 顾吉涛 on 2018/3/14.
+//  Copyright © 2018年 顾吉涛. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
 
-@interface BayMaxProtectorTests : XCTestCase
+@interface DemoBayMaxProtectorTests : XCTestCase
 
 @end
 
-@implementation BayMaxProtectorTests
+@implementation DemoBayMaxProtectorTests
 
 - (void)setUp {
     [super setUp];

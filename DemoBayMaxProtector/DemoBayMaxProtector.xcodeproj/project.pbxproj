@@ -1,0 +1,949 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0593AEE41B7A82817982A661 /* libPods-DemoBayMaxProtector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 13B57A04E85A2990FA5B5BB6 /* libPods-DemoBayMaxProtector.a */; };
+		161F1623205947BE00E75BB5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F1622205947BE00E75BB5 /* AppDelegate.m */; };
+		161F1626205947BE00E75BB5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F1625205947BE00E75BB5 /* ViewController.m */; };
+		161F1629205947BE00E75BB5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161F1627205947BE00E75BB5 /* Main.storyboard */; };
+		161F162B205947BE00E75BB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 161F162A205947BE00E75BB5 /* Assets.xcassets */; };
+		161F162E205947BE00E75BB5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 161F162C205947BE00E75BB5 /* LaunchScreen.storyboard */; };
+		161F1631205947BE00E75BB5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F1630205947BE00E75BB5 /* main.m */; };
+		161F163B205947BE00E75BB5 /* DemoBayMaxProtectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F163A205947BE00E75BB5 /* DemoBayMaxProtectorTests.m */; };
+		161F1646205947BE00E75BB5 /* DemoBayMaxProtectorUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F1645205947BE00E75BB5 /* DemoBayMaxProtectorUITests.m */; };
+		161F167C20594EE400E75BB5 /* TestNotificationErrorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F165820594EE400E75BB5 /* TestNotificationErrorVC.m */; };
+		161F167D20594EE400E75BB5 /* TestViewDidloadUnrecognizedSelVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F165C20594EE400E75BB5 /* TestViewDidloadUnrecognizedSelVC.m */; };
+		161F167E20594EE400E75BB5 /* TestUnrecognizedSelVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F165D20594EE400E75BB5 /* TestUnrecognizedSelVC.m */; };
+		161F167F20594EE400E75BB5 /* TestKVOErrorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F166020594EE400E75BB5 /* TestKVOErrorVC.m */; };
+		161F168020594EE400E75BB5 /* TestTimerErrorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F166220594EE400E75BB5 /* TestTimerErrorVC.m */; };
+		161F168120594EE400E75BB5 /* TestContainerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F166620594EE400E75BB5 /* TestContainerVC.m */; };
+		161F168220594EE400E75BB5 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F166920594EE400E75BB5 /* WebViewController.m */; };
+		161F168320594EE400E75BB5 /* TestAutoDegradeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F166C20594EE400E75BB5 /* TestAutoDegradeVC.m */; };
+		161F168420594EE400E75BB5 /* TestManaulDegradeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F167020594EE400E75BB5 /* TestManaulDegradeVC.m */; };
+		161F168520594EE400E75BB5 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F167220594EE400E75BB5 /* BaseViewController.m */; };
+		161F168620594EE400E75BB5 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F167920594EE400E75BB5 /* SVProgressHUD.m */; };
+		161F168720594EE400E75BB5 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F167A20594EE400E75BB5 /* SVIndefiniteAnimatedView.m */; };
+		161F168820594EE400E75BB5 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 161F167B20594EE400E75BB5 /* SVProgressHUD.bundle */; };
+		8D4D0D6DD2780DB8A000B2A7 /* libPods-DemoBayMaxProtectorUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7309F62BAA8045CD7574C25B /* libPods-DemoBayMaxProtectorUITests.a */; };
+		B6D5C7242D219A36055BFEA3 /* libPods-DemoBayMaxProtectorTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5B96E4124DA7071785DC2DB /* libPods-DemoBayMaxProtectorTests.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		161F1637205947BE00E75BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 161F1616205947BE00E75BB5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 161F161D205947BE00E75BB5;
+			remoteInfo = DemoBayMaxProtector;
+		};
+		161F1642205947BE00E75BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 161F1616205947BE00E75BB5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 161F161D205947BE00E75BB5;
+			remoteInfo = DemoBayMaxProtector;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		033281266D51A8FF4090FBB7 /* Pods-DemoBayMaxProtector.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoBayMaxProtector.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoBayMaxProtector/Pods-DemoBayMaxProtector.release.xcconfig"; sourceTree = "<group>"; };
+		13B57A04E85A2990FA5B5BB6 /* libPods-DemoBayMaxProtector.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DemoBayMaxProtector.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		161F161E205947BE00E75BB5 /* DemoBayMaxProtector.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoBayMaxProtector.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		161F1621205947BE00E75BB5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		161F1622205947BE00E75BB5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		161F1624205947BE00E75BB5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		161F1625205947BE00E75BB5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		161F1628205947BE00E75BB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		161F162A205947BE00E75BB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		161F162D205947BE00E75BB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		161F162F205947BE00E75BB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		161F1630205947BE00E75BB5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		161F1636205947BE00E75BB5 /* DemoBayMaxProtectorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoBayMaxProtectorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		161F163A205947BE00E75BB5 /* DemoBayMaxProtectorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoBayMaxProtectorTests.m; sourceTree = "<group>"; };
+		161F163C205947BE00E75BB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		161F1641205947BE00E75BB5 /* DemoBayMaxProtectorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoBayMaxProtectorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		161F1645205947BE00E75BB5 /* DemoBayMaxProtectorUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoBayMaxProtectorUITests.m; sourceTree = "<group>"; };
+		161F1647205947BE00E75BB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		161F165720594EE400E75BB5 /* TestNotificationErrorVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestNotificationErrorVC.h; sourceTree = "<group>"; };
+		161F165820594EE400E75BB5 /* TestNotificationErrorVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestNotificationErrorVC.m; sourceTree = "<group>"; };
+		161F165A20594EE400E75BB5 /* TestViewDidloadUnrecognizedSelVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewDidloadUnrecognizedSelVC.h; sourceTree = "<group>"; };
+		161F165B20594EE400E75BB5 /* TestUnrecognizedSelVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUnrecognizedSelVC.h; sourceTree = "<group>"; };
+		161F165C20594EE400E75BB5 /* TestViewDidloadUnrecognizedSelVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewDidloadUnrecognizedSelVC.m; sourceTree = "<group>"; };
+		161F165D20594EE400E75BB5 /* TestUnrecognizedSelVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUnrecognizedSelVC.m; sourceTree = "<group>"; };
+		161F165F20594EE400E75BB5 /* TestKVOErrorVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestKVOErrorVC.h; sourceTree = "<group>"; };
+		161F166020594EE400E75BB5 /* TestKVOErrorVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestKVOErrorVC.m; sourceTree = "<group>"; };
+		161F166220594EE400E75BB5 /* TestTimerErrorVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestTimerErrorVC.m; sourceTree = "<group>"; };
+		161F166320594EE400E75BB5 /* TestTimerErrorVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestTimerErrorVC.h; sourceTree = "<group>"; };
+		161F166520594EE400E75BB5 /* TestContainerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestContainerVC.h; sourceTree = "<group>"; };
+		161F166620594EE400E75BB5 /* TestContainerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestContainerVC.m; sourceTree = "<group>"; };
+		161F166920594EE400E75BB5 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		161F166A20594EE400E75BB5 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		161F166C20594EE400E75BB5 /* TestAutoDegradeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestAutoDegradeVC.m; sourceTree = "<group>"; };
+		161F166D20594EE400E75BB5 /* TestAutoDegradeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestAutoDegradeVC.h; sourceTree = "<group>"; };
+		161F166F20594EE400E75BB5 /* TestManaulDegradeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestManaulDegradeVC.h; sourceTree = "<group>"; };
+		161F167020594EE400E75BB5 /* TestManaulDegradeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestManaulDegradeVC.m; sourceTree = "<group>"; };
+		161F167220594EE400E75BB5 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		161F167320594EE400E75BB5 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		161F167720594EE400E75BB5 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
+		161F167820594EE400E75BB5 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		161F167920594EE400E75BB5 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		161F167A20594EE400E75BB5 /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
+		161F167B20594EE400E75BB5 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		161F168920594F3400E75BB5 /* AssistMicros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssistMicros.h; sourceTree = "<group>"; };
+		42B7D79AB0E77C7613333AE5 /* Pods-DemoBayMaxProtectorUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoBayMaxProtectorUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoBayMaxProtectorUITests/Pods-DemoBayMaxProtectorUITests.release.xcconfig"; sourceTree = "<group>"; };
+		7309F62BAA8045CD7574C25B /* libPods-DemoBayMaxProtectorUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DemoBayMaxProtectorUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		80A091AB5401DD85C4E54965 /* Pods-DemoBayMaxProtector.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoBayMaxProtector.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoBayMaxProtector/Pods-DemoBayMaxProtector.debug.xcconfig"; sourceTree = "<group>"; };
+		A5B96E4124DA7071785DC2DB /* libPods-DemoBayMaxProtectorTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DemoBayMaxProtectorTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C83C8823F0E2A1ADF9BBC5BF /* Pods-DemoBayMaxProtectorUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoBayMaxProtectorUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoBayMaxProtectorUITests/Pods-DemoBayMaxProtectorUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		D9075E6682949B8D1CEA3D87 /* Pods-DemoBayMaxProtectorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoBayMaxProtectorTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-DemoBayMaxProtectorTests/Pods-DemoBayMaxProtectorTests.release.xcconfig"; sourceTree = "<group>"; };
+		E721023E6C3D2EB8F0B4F817 /* Pods-DemoBayMaxProtectorTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoBayMaxProtectorTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DemoBayMaxProtectorTests/Pods-DemoBayMaxProtectorTests.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		161F161B205947BE00E75BB5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0593AEE41B7A82817982A661 /* libPods-DemoBayMaxProtector.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		161F1633205947BE00E75BB5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6D5C7242D219A36055BFEA3 /* libPods-DemoBayMaxProtectorTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		161F163E205947BE00E75BB5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D4D0D6DD2780DB8A000B2A7 /* libPods-DemoBayMaxProtectorUITests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		161F1615205947BE00E75BB5 = {
+			isa = PBXGroup;
+			children = (
+				161F1620205947BE00E75BB5 /* DemoBayMaxProtector */,
+				161F1639205947BE00E75BB5 /* DemoBayMaxProtectorTests */,
+				161F1644205947BE00E75BB5 /* DemoBayMaxProtectorUITests */,
+				161F161F205947BE00E75BB5 /* Products */,
+				2D5E623A55A9537A49865826 /* Pods */,
+				E5898657044173DD7BE9FA91 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		161F161F205947BE00E75BB5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				161F161E205947BE00E75BB5 /* DemoBayMaxProtector.app */,
+				161F1636205947BE00E75BB5 /* DemoBayMaxProtectorTests.xctest */,
+				161F1641205947BE00E75BB5 /* DemoBayMaxProtectorUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		161F1620205947BE00E75BB5 /* DemoBayMaxProtector */ = {
+			isa = PBXGroup;
+			children = (
+				161F168920594F3400E75BB5 /* AssistMicros.h */,
+				161F165520594EE400E75BB5 /* Examples */,
+				161F1621205947BE00E75BB5 /* AppDelegate.h */,
+				161F1622205947BE00E75BB5 /* AppDelegate.m */,
+				161F1624205947BE00E75BB5 /* ViewController.h */,
+				161F1625205947BE00E75BB5 /* ViewController.m */,
+				161F1627205947BE00E75BB5 /* Main.storyboard */,
+				161F162A205947BE00E75BB5 /* Assets.xcassets */,
+				161F162C205947BE00E75BB5 /* LaunchScreen.storyboard */,
+				161F162F205947BE00E75BB5 /* Info.plist */,
+				161F1630205947BE00E75BB5 /* main.m */,
+			);
+			path = DemoBayMaxProtector;
+			sourceTree = "<group>";
+		};
+		161F1639205947BE00E75BB5 /* DemoBayMaxProtectorTests */ = {
+			isa = PBXGroup;
+			children = (
+				161F163A205947BE00E75BB5 /* DemoBayMaxProtectorTests.m */,
+				161F163C205947BE00E75BB5 /* Info.plist */,
+			);
+			path = DemoBayMaxProtectorTests;
+			sourceTree = "<group>";
+		};
+		161F1644205947BE00E75BB5 /* DemoBayMaxProtectorUITests */ = {
+			isa = PBXGroup;
+			children = (
+				161F1645205947BE00E75BB5 /* DemoBayMaxProtectorUITests.m */,
+				161F1647205947BE00E75BB5 /* Info.plist */,
+			);
+			path = DemoBayMaxProtectorUITests;
+			sourceTree = "<group>";
+		};
+		161F165520594EE400E75BB5 /* Examples */ = {
+			isa = PBXGroup;
+			children = (
+				161F165620594EE400E75BB5 /* NSNotifitication */,
+				161F165920594EE400E75BB5 /* UnrecognizedSelector */,
+				161F165E20594EE400E75BB5 /* KVO */,
+				161F166120594EE400E75BB5 /* Timer */,
+				161F166420594EE400E75BB5 /* Containers */,
+				161F166720594EE400E75BB5 /* Degrade */,
+				161F167120594EE400E75BB5 /* Base */,
+				161F167420594EE400E75BB5 /* Vender */,
+			);
+			path = Examples;
+			sourceTree = "<group>";
+		};
+		161F165620594EE400E75BB5 /* NSNotifitication */ = {
+			isa = PBXGroup;
+			children = (
+				161F165720594EE400E75BB5 /* TestNotificationErrorVC.h */,
+				161F165820594EE400E75BB5 /* TestNotificationErrorVC.m */,
+			);
+			path = NSNotifitication;
+			sourceTree = "<group>";
+		};
+		161F165920594EE400E75BB5 /* UnrecognizedSelector */ = {
+			isa = PBXGroup;
+			children = (
+				161F165A20594EE400E75BB5 /* TestViewDidloadUnrecognizedSelVC.h */,
+				161F165B20594EE400E75BB5 /* TestUnrecognizedSelVC.h */,
+				161F165C20594EE400E75BB5 /* TestViewDidloadUnrecognizedSelVC.m */,
+				161F165D20594EE400E75BB5 /* TestUnrecognizedSelVC.m */,
+			);
+			path = UnrecognizedSelector;
+			sourceTree = "<group>";
+		};
+		161F165E20594EE400E75BB5 /* KVO */ = {
+			isa = PBXGroup;
+			children = (
+				161F165F20594EE400E75BB5 /* TestKVOErrorVC.h */,
+				161F166020594EE400E75BB5 /* TestKVOErrorVC.m */,
+			);
+			path = KVO;
+			sourceTree = "<group>";
+		};
+		161F166120594EE400E75BB5 /* Timer */ = {
+			isa = PBXGroup;
+			children = (
+				161F166220594EE400E75BB5 /* TestTimerErrorVC.m */,
+				161F166320594EE400E75BB5 /* TestTimerErrorVC.h */,
+			);
+			path = Timer;
+			sourceTree = "<group>";
+		};
+		161F166420594EE400E75BB5 /* Containers */ = {
+			isa = PBXGroup;
+			children = (
+				161F166520594EE400E75BB5 /* TestContainerVC.h */,
+				161F166620594EE400E75BB5 /* TestContainerVC.m */,
+			);
+			path = Containers;
+			sourceTree = "<group>";
+		};
+		161F166720594EE400E75BB5 /* Degrade */ = {
+			isa = PBXGroup;
+			children = (
+				161F166820594EE400E75BB5 /* Webview */,
+				161F166B20594EE400E75BB5 /* AutoDegrade */,
+				161F166E20594EE400E75BB5 /* ManaulDegrade */,
+			);
+			path = Degrade;
+			sourceTree = "<group>";
+		};
+		161F166820594EE400E75BB5 /* Webview */ = {
+			isa = PBXGroup;
+			children = (
+				161F166920594EE400E75BB5 /* WebViewController.m */,
+				161F166A20594EE400E75BB5 /* WebViewController.h */,
+			);
+			path = Webview;
+			sourceTree = "<group>";
+		};
+		161F166B20594EE400E75BB5 /* AutoDegrade */ = {
+			isa = PBXGroup;
+			children = (
+				161F166C20594EE400E75BB5 /* TestAutoDegradeVC.m */,
+				161F166D20594EE400E75BB5 /* TestAutoDegradeVC.h */,
+			);
+			path = AutoDegrade;
+			sourceTree = "<group>";
+		};
+		161F166E20594EE400E75BB5 /* ManaulDegrade */ = {
+			isa = PBXGroup;
+			children = (
+				161F166F20594EE400E75BB5 /* TestManaulDegradeVC.h */,
+				161F167020594EE400E75BB5 /* TestManaulDegradeVC.m */,
+			);
+			path = ManaulDegrade;
+			sourceTree = "<group>";
+		};
+		161F167120594EE400E75BB5 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				161F167220594EE400E75BB5 /* BaseViewController.m */,
+				161F167320594EE400E75BB5 /* BaseViewController.h */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		161F167420594EE400E75BB5 /* Vender */ = {
+			isa = PBXGroup;
+			children = (
+				161F167520594EE400E75BB5 /* SVProgressHUD */,
+			);
+			path = Vender;
+			sourceTree = "<group>";
+		};
+		161F167520594EE400E75BB5 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				161F167620594EE400E75BB5 /* SVProgressHUD */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		161F167620594EE400E75BB5 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				161F167720594EE400E75BB5 /* SVIndefiniteAnimatedView.h */,
+				161F167820594EE400E75BB5 /* SVProgressHUD.h */,
+				161F167920594EE400E75BB5 /* SVProgressHUD.m */,
+				161F167A20594EE400E75BB5 /* SVIndefiniteAnimatedView.m */,
+				161F167B20594EE400E75BB5 /* SVProgressHUD.bundle */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		2D5E623A55A9537A49865826 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				80A091AB5401DD85C4E54965 /* Pods-DemoBayMaxProtector.debug.xcconfig */,
+				033281266D51A8FF4090FBB7 /* Pods-DemoBayMaxProtector.release.xcconfig */,
+				E721023E6C3D2EB8F0B4F817 /* Pods-DemoBayMaxProtectorTests.debug.xcconfig */,
+				D9075E6682949B8D1CEA3D87 /* Pods-DemoBayMaxProtectorTests.release.xcconfig */,
+				C83C8823F0E2A1ADF9BBC5BF /* Pods-DemoBayMaxProtectorUITests.debug.xcconfig */,
+				42B7D79AB0E77C7613333AE5 /* Pods-DemoBayMaxProtectorUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E5898657044173DD7BE9FA91 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				13B57A04E85A2990FA5B5BB6 /* libPods-DemoBayMaxProtector.a */,
+				A5B96E4124DA7071785DC2DB /* libPods-DemoBayMaxProtectorTests.a */,
+				7309F62BAA8045CD7574C25B /* libPods-DemoBayMaxProtectorUITests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		161F161D205947BE00E75BB5 /* DemoBayMaxProtector */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 161F164A205947BE00E75BB5 /* Build configuration list for PBXNativeTarget "DemoBayMaxProtector" */;
+			buildPhases = (
+				7C0C49F9CC2C4474F7A9E5A3 /* [CP] Check Pods Manifest.lock */,
+				161F161A205947BE00E75BB5 /* Sources */,
+				161F161B205947BE00E75BB5 /* Frameworks */,
+				161F161C205947BE00E75BB5 /* Resources */,
+				182EFFF360BD1ED0EA4133BB /* [CP] Embed Pods Frameworks */,
+				6F39552E87F47303FCCCCEA7 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DemoBayMaxProtector;
+			productName = DemoBayMaxProtector;
+			productReference = 161F161E205947BE00E75BB5 /* DemoBayMaxProtector.app */;
+			productType = "com.apple.product-type.application";
+		};
+		161F1635205947BE00E75BB5 /* DemoBayMaxProtectorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 161F164D205947BE00E75BB5 /* Build configuration list for PBXNativeTarget "DemoBayMaxProtectorTests" */;
+			buildPhases = (
+				4498D36828895657F5FF852A /* [CP] Check Pods Manifest.lock */,
+				161F1632205947BE00E75BB5 /* Sources */,
+				161F1633205947BE00E75BB5 /* Frameworks */,
+				161F1634205947BE00E75BB5 /* Resources */,
+				D3C9E7D9581EF303711FD40B /* [CP] Embed Pods Frameworks */,
+				F0BC8D1DC2B659575945CC2B /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				161F1638205947BE00E75BB5 /* PBXTargetDependency */,
+			);
+			name = DemoBayMaxProtectorTests;
+			productName = DemoBayMaxProtectorTests;
+			productReference = 161F1636205947BE00E75BB5 /* DemoBayMaxProtectorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		161F1640205947BE00E75BB5 /* DemoBayMaxProtectorUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 161F1650205947BE00E75BB5 /* Build configuration list for PBXNativeTarget "DemoBayMaxProtectorUITests" */;
+			buildPhases = (
+				8F051F41ECF16F28F6CC36D6 /* [CP] Check Pods Manifest.lock */,
+				161F163D205947BE00E75BB5 /* Sources */,
+				161F163E205947BE00E75BB5 /* Frameworks */,
+				161F163F205947BE00E75BB5 /* Resources */,
+				2CB1AE31831DAF1AA10E0D63 /* [CP] Embed Pods Frameworks */,
+				73AC3463DCAB132671E0AC3A /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				161F1643205947BE00E75BB5 /* PBXTargetDependency */,
+			);
+			name = DemoBayMaxProtectorUITests;
+			productName = DemoBayMaxProtectorUITests;
+			productReference = 161F1641205947BE00E75BB5 /* DemoBayMaxProtectorUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		161F1616205947BE00E75BB5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0920;
+				ORGANIZATIONNAME = "顾吉涛";
+				TargetAttributes = {
+					161F161D205947BE00E75BB5 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					161F1635205947BE00E75BB5 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 161F161D205947BE00E75BB5;
+					};
+					161F1640205947BE00E75BB5 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 161F161D205947BE00E75BB5;
+					};
+				};
+			};
+			buildConfigurationList = 161F1619205947BE00E75BB5 /* Build configuration list for PBXProject "DemoBayMaxProtector" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 161F1615205947BE00E75BB5;
+			productRefGroup = 161F161F205947BE00E75BB5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				161F161D205947BE00E75BB5 /* DemoBayMaxProtector */,
+				161F1635205947BE00E75BB5 /* DemoBayMaxProtectorTests */,
+				161F1640205947BE00E75BB5 /* DemoBayMaxProtectorUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		161F161C205947BE00E75BB5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				161F162E205947BE00E75BB5 /* LaunchScreen.storyboard in Resources */,
+				161F162B205947BE00E75BB5 /* Assets.xcassets in Resources */,
+				161F1629205947BE00E75BB5 /* Main.storyboard in Resources */,
+				161F168820594EE400E75BB5 /* SVProgressHUD.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		161F1634205947BE00E75BB5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		161F163F205947BE00E75BB5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		182EFFF360BD1ED0EA4133BB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DemoBayMaxProtector/Pods-DemoBayMaxProtector-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2CB1AE31831DAF1AA10E0D63 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DemoBayMaxProtectorUITests/Pods-DemoBayMaxProtectorUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4498D36828895657F5FF852A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DemoBayMaxProtectorTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6F39552E87F47303FCCCCEA7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DemoBayMaxProtector/Pods-DemoBayMaxProtector-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		73AC3463DCAB132671E0AC3A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DemoBayMaxProtectorUITests/Pods-DemoBayMaxProtectorUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7C0C49F9CC2C4474F7A9E5A3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DemoBayMaxProtector-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8F051F41ECF16F28F6CC36D6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DemoBayMaxProtectorUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D3C9E7D9581EF303711FD40B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DemoBayMaxProtectorTests/Pods-DemoBayMaxProtectorTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F0BC8D1DC2B659575945CC2B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DemoBayMaxProtectorTests/Pods-DemoBayMaxProtectorTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		161F161A205947BE00E75BB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				161F167D20594EE400E75BB5 /* TestViewDidloadUnrecognizedSelVC.m in Sources */,
+				161F168220594EE400E75BB5 /* WebViewController.m in Sources */,
+				161F168020594EE400E75BB5 /* TestTimerErrorVC.m in Sources */,
+				161F168620594EE400E75BB5 /* SVProgressHUD.m in Sources */,
+				161F168420594EE400E75BB5 /* TestManaulDegradeVC.m in Sources */,
+				161F168720594EE400E75BB5 /* SVIndefiniteAnimatedView.m in Sources */,
+				161F168320594EE400E75BB5 /* TestAutoDegradeVC.m in Sources */,
+				161F1626205947BE00E75BB5 /* ViewController.m in Sources */,
+				161F167E20594EE400E75BB5 /* TestUnrecognizedSelVC.m in Sources */,
+				161F168120594EE400E75BB5 /* TestContainerVC.m in Sources */,
+				161F1631205947BE00E75BB5 /* main.m in Sources */,
+				161F168520594EE400E75BB5 /* BaseViewController.m in Sources */,
+				161F167C20594EE400E75BB5 /* TestNotificationErrorVC.m in Sources */,
+				161F1623205947BE00E75BB5 /* AppDelegate.m in Sources */,
+				161F167F20594EE400E75BB5 /* TestKVOErrorVC.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		161F1632205947BE00E75BB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				161F163B205947BE00E75BB5 /* DemoBayMaxProtectorTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		161F163D205947BE00E75BB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				161F1646205947BE00E75BB5 /* DemoBayMaxProtectorUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		161F1638205947BE00E75BB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 161F161D205947BE00E75BB5 /* DemoBayMaxProtector */;
+			targetProxy = 161F1637205947BE00E75BB5 /* PBXContainerItemProxy */;
+		};
+		161F1643205947BE00E75BB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 161F161D205947BE00E75BB5 /* DemoBayMaxProtector */;
+			targetProxy = 161F1642205947BE00E75BB5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		161F1627205947BE00E75BB5 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				161F1628205947BE00E75BB5 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		161F162C205947BE00E75BB5 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				161F162D205947BE00E75BB5 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		161F1648205947BE00E75BB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		161F1649205947BE00E75BB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		161F164B205947BE00E75BB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80A091AB5401DD85C4E54965 /* Pods-DemoBayMaxProtector.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UMRACKG926;
+				INFOPLIST_FILE = DemoBayMaxProtector/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gujitao.DemoBayMaxProtector;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		161F164C205947BE00E75BB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 033281266D51A8FF4090FBB7 /* Pods-DemoBayMaxProtector.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UMRACKG926;
+				INFOPLIST_FILE = DemoBayMaxProtector/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gujitao.DemoBayMaxProtector;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		161F164E205947BE00E75BB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E721023E6C3D2EB8F0B4F817 /* Pods-DemoBayMaxProtectorTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UMRACKG926;
+				INFOPLIST_FILE = DemoBayMaxProtectorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gujitao.DemoBayMaxProtectorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DemoBayMaxProtector.app/DemoBayMaxProtector";
+			};
+			name = Debug;
+		};
+		161F164F205947BE00E75BB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9075E6682949B8D1CEA3D87 /* Pods-DemoBayMaxProtectorTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UMRACKG926;
+				INFOPLIST_FILE = DemoBayMaxProtectorTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gujitao.DemoBayMaxProtectorTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DemoBayMaxProtector.app/DemoBayMaxProtector";
+			};
+			name = Release;
+		};
+		161F1651205947BE00E75BB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C83C8823F0E2A1ADF9BBC5BF /* Pods-DemoBayMaxProtectorUITests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UMRACKG926;
+				INFOPLIST_FILE = DemoBayMaxProtectorUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gujitao.DemoBayMaxProtectorUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DemoBayMaxProtector;
+			};
+			name = Debug;
+		};
+		161F1652205947BE00E75BB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 42B7D79AB0E77C7613333AE5 /* Pods-DemoBayMaxProtectorUITests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = UMRACKG926;
+				INFOPLIST_FILE = DemoBayMaxProtectorUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gujitao.DemoBayMaxProtectorUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = DemoBayMaxProtector;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		161F1619205947BE00E75BB5 /* Build configuration list for PBXProject "DemoBayMaxProtector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				161F1648205947BE00E75BB5 /* Debug */,
+				161F1649205947BE00E75BB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		161F164A205947BE00E75BB5 /* Build configuration list for PBXNativeTarget "DemoBayMaxProtector" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				161F164B205947BE00E75BB5 /* Debug */,
+				161F164C205947BE00E75BB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		161F164D205947BE00E75BB5 /* Build configuration list for PBXNativeTarget "DemoBayMaxProtectorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				161F164E205947BE00E75BB5 /* Debug */,
+				161F164F205947BE00E75BB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		161F1650205947BE00E75BB5 /* Build configuration list for PBXNativeTarget "DemoBayMaxProtectorUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				161F1651205947BE00E75BB5 /* Debug */,
+				161F1652205947BE00E75BB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 161F1616205947BE00E75BB5 /* Project object */;
+}
