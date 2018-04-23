@@ -169,7 +169,7 @@ BMPErrorHandler _Nullable _containerErrorHandler;
 }
 
 - (void)BMP_MArrayRemoveObjectsInRange:(NSRange)range{
-    if (range.location >= self.count || range.location+range.length>self.count) {
+    if (range.location+range.length>self.count) {
         NSString *errorInfo = [NSString stringWithFormat:@"*** -[__NSArrayM removeObjectsInRange:]: range {%ld, %ld} extends beyond bounds [0 .. %ld]",(unsigned long)range.location,(unsigned long)range.length,(unsigned long)self.count];
         BMP_ArrayM_BeyondBounds_ErrorHandler(errorInfo);
         return;
