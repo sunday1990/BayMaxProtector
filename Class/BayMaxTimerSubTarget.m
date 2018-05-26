@@ -42,7 +42,7 @@ BMPErrorHandler _Nullable _timerErrorHandler;
     if (_aTarget) {
         if ([_aTarget respondsToSelector:_aSelector]) {
             BMP_SuppressPerformSelectorLeakWarning(
-               [_aTarget performSelector:_aSelector];
+               [_aTarget performSelector:_aSelector withObject:timer];
             );            
         }
     }else{
