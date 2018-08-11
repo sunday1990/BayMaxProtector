@@ -10,8 +10,10 @@ Pod::Spec.new do |s|
   s.social_media_url   = "https://github.com/sunday1990/BayMaxProtector"
   s.source_files  = 'Class/**/*.{h,m}'
   s.requires_arc = true
-  s.subspec 'no-arc' do |sp|
-      sp.source_files = 'Classes/no-arc/*'
-      sp.requires_arc = false
+  s.subspec 'Class' do |sp1|
+      sp1.subspec 'no-arc' do |sp2|
+          sp2.source_files = 'Class/no-arc/**/*.{h,m}'
+          sp2.requires_arc = false
+          end
   end
 end
