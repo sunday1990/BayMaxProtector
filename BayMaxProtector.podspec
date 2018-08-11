@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.source_files  = 'Class/**/*.{h,m}'
   s.requires_arc = true
   s.subspec 'no-arc' do |sp|
-      sp.source_files = 'BayMaxProtector/Classes/no-arc/*'
+      sp.source_files = 'Classes/no-arc/*'
       sp.requires_arc = false
   end
 end
