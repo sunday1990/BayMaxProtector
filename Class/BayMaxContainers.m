@@ -11,9 +11,6 @@
 #import "BayMaxCatchError.h"
 #import "BayMaxDebugView.h"
 
-#if __has_feature(objc_arc)
-#error "Should disable arc (-fno-objc-arc)"
-#endif
 
 BMPErrorHandler _Nullable _containerErrorHandler;
 //错误信息统一处理
