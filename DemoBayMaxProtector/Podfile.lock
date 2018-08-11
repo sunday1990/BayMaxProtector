@@ -1,5 +1,5 @@
 PODS:
-  - BayMaxProtector (2.3.1)
+  - BayMaxProtector (2.3.2)
 
 DEPENDENCIES:
   - BayMaxProtector (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  BayMaxProtector: d6b0e25fa9d10ebb6b7c66fc20934d41dc30bd4c
+  BayMaxProtector: a01462537c799d99eb95d173511a23ecf8cebe54
 
 PODFILE CHECKSUM: 33dc1d94d44cea8584ffbf5b4bc1aceb320f2546
 
