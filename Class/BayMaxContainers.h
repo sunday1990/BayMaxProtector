@@ -9,12 +9,11 @@
 //针对NSArray/NSMutableArray/NSDictionary/NSMutableDictionary/NSString/NSMutableString进行崩溃保护
 /*
  ===============================
-
+ //insertNil
  NSArray->Methods On Protection:
  1、@[nil]
  2、arrayWithObjects:count:
- 3、objectsAtIndexes:
- 4、objectAtIndex:
+ 3、objectAtIndex:
  
  ===============================
 
@@ -23,7 +22,6 @@
  1、objectAtIndex:
  2、removeObjectAtIndex:
  3、removeObjectsInRange:
- 4、removeObjectsAtIndexes:
  5、insertObject:atIndex:
  6、insertObjects:atIndexes:
  7、addObject:nil
@@ -48,11 +46,9 @@ NSString->Methods On Protection:
  2、substringFromIndex:
  3、substringToIndex:
  4、substringWithRange:
- 5、stringByReplacingCharactersInRange:withString:
  
  ===============================
 NSMutableString->Methods On Protection:
- 1、replaceCharactersInRange:withString:
  2、insertString:atIndex:
  3、deleteCharactersInRange:
  */

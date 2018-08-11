@@ -43,9 +43,6 @@
     NSLog(@"array1:%@",array1);
     //3、objectsAtIndexes:
     NSArray *array2 = @[@"1",@"2",@"3"];
-    NSArray *objectsAtIndexes = [array2 objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 2)]];
-    NSLog(@"objectsAtIndexes:%@",objectsAtIndexes);
-    //4、objectAtIndex
     id objectAtIndex = [array2 objectAtIndex:4];
     array2[4];
 }
@@ -79,8 +76,8 @@
     NSLog(@"removeObjectsInRangeArray1:%@",array1);
     //4、removeObjectsAtIndexes:
     array1 = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
-    [array1 removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 4)]];
-    NSLog(@"removeObjectsAtIndexesArray:%@",array1);
+//    [array1 removeObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 4)]];
+//    NSLog(@"removeObjectsAtIndexesArray:%@",array1);
     //5、insertObject:atIndex:
     array1 = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
     [array1 insertObject:@"5" atIndex:5];
@@ -151,6 +148,7 @@
 
 - (void)testString{
     /*
+
      NSString->Methods On Protection:
      2、substringFromIndex:
      3、substringToIndex:
@@ -167,12 +165,13 @@
     //    4、substringWithRange:
     NSLog(@"substringWithRange:%@",[string substringWithRange:NSMakeRange(2, 20)]);
     NSLog(@"substringWithRange:%@",[string substringWithRange:NSMakeRange(20, 10)]);
-    //    5、stringByReplacingCharactersInRange:withString:
-    NSLog(@"stringByReplacingCharactersInRange:%@",[string stringByReplacingCharactersInRange:NSMakeRange(2, 20) withString:@"****"]);
-    NSLog(@"stringByReplacingCharactersInRange:%@",[string stringByReplacingCharactersInRange:NSMakeRange(20, 20) withString:@"****"]);
 }
 
 - (void)testMutableString{
+    
+//    BMP_EXChangeInstanceMethod(stringClass, @selector(insertString:atIndex:), stringClass, @selector(BMP_insertString:atIndex:));
+//    BMP_EXChangeInstanceMethod(stringClass, @selector(deleteCharactersInRange:), stringClass, @selector(BMP_deleteCharactersInRange:));
+
     /*
      NSMutableString->Methods On Protection:
      1、replaceCharactersInRange:withString:
@@ -180,9 +179,6 @@
      3、deleteCharactersInRange:
      */
     NSMutableString *stringM = [NSMutableString stringWithFormat:@"abcdefg"];
-//    1、replaceCharactersInRange:withString:
-    [stringM replaceCharactersInRange:NSMakeRange(2, 20) withString:@"*****"];
-    NSLog(@"replaceCharactersInRange:%@",stringM);
     
 //    2、insertString:atIndex:
     stringM = [NSMutableString stringWithFormat:@"abcdefg"];
