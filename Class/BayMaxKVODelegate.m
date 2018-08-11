@@ -34,7 +34,7 @@ static inline NSString *BMP_md5StringOfObject(NSObject *object){
     void *_context;
     NSKeyValueObservingOptions _options;
     __weak NSObject *_observer;
-    __weak NSString *_keyPath;
+    NSString *_keyPath;
     NSString *_md5Str;
 }
 @end

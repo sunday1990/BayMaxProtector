@@ -46,9 +46,6 @@ FOUNDATION_EXPORT NSString *const BMPErrorDictionary_UndefinedKey;
 /*String out of bounds*/
 FOUNDATION_EXPORT NSString *const BMPErrorString_Beyond;
 
-
-
-
 typedef NS_ENUM(NSInteger, BayMaxErrorType) {
     /*UnrecognizedSelector异常*/
     BayMaxErrorTypeUnrecognizedSelector = 1,

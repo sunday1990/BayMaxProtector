@@ -88,7 +88,7 @@ static BayMaxDebugView *_instance;
 
 - (void)dismissDebugView{
     [self.errorInfos removeAllObjects];
-    [_bubbleView setTitle:@"Debug" forState:UIControlStateNormal];
+    [_bubbleView setTitle:@"BayMax" forState:UIControlStateNormal];
     [_bubbleView setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [UIView animateWithDuration:0.3 animations:^{
         self.textView.frame = CGRectMake(0, BMPScreenHeight, BMPScreenWidth, BMPScreenHeight);
@@ -149,7 +149,7 @@ static BayMaxDebugView *_instance;
         _bubbleView = [UIButton buttonWithType:UIButtonTypeCustom];
         _bubbleView.frame = CGRectMake(BMPScreenWidth-12- 50, 30, 50, 50);
         _bubbleView.titleLabel.font = [UIFont systemFontOfSize:12];
-        [_bubbleView setTitle:@"Debug" forState:UIControlStateNormal];
+        [_bubbleView setTitle:@"BayMax" forState:UIControlStateNormal];
         [_bubbleView setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         _bubbleView.layer.cornerRadius = 10;
         _bubbleView.backgroundColor = [UIColor colorWithRed:214/255.0 green:235/255.0 blue:253/255.0 alpha:1];
