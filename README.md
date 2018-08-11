@@ -117,10 +117,6 @@ NSTimer  scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:方法�
 * 手动：将`BayMaxProtector`下的所有文件拖入项目
 * `CocoaPod`:`podfile`加入 `pod 'BayMaxProtector'`
 
-![](https://user-gold-cdn.xitu.io/2018/2/2/16155f2e8465f434?w=906&h=130&f=png&s=78745)
-
-如果pod搜不到，那就采用手动拖入吧。。
-
 ## 四、使用
 #### 1、开启防护
 ```
