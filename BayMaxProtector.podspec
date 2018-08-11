@@ -9,6 +9,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/sunday1990/BayMaxProtector.git", :tag => "v2.3.2" }
   s.social_media_url   = "https://github.com/sunday1990/BayMaxProtector"
   s.source_files  = 'Class/**/*.{h,m}'
-  s.requires_arc = true
+  s.requires_arc = false
+  s.requires_arc = ['BayMaxProtector/Classes/ARC/**/*.m']
   s.framework  = "UIKit"
 end
