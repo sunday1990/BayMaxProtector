@@ -4,7 +4,7 @@
 
 #### BayMax思路来自网易团队：[大白健康系统--iOS APP运行时Crash自动修复系统](https://neyoufan.github.io/2017/01/13/ios/BayMax_HTSafetyGuard/)
 
-
+注意：需要对BayMaxContainer文件设置非arc支持（-fno-objc-arc）
 2.0主要是对[1.0](https://juejin.im/post/5a65b8056fb9a01ca87217fb)的升级与改造。
 ## 2月26日新增功能
 #### 新增容器类防护，针对NSArray/NSMutableArray/NSDictionary/NSMutableDictionary/NSString/NSMutableString进行崩溃保护。
